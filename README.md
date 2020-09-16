@@ -13,7 +13,7 @@ Cheatsheet to get postgres working (assuming you are working on Linux):
  - on Linux installing postgres adds a "postgres" superuser, the password of which may need to be
    changed to reach the interactive prompt
  - pg gem should be installed
- - `sudo service postgres start` starts server, needs to be done on computer restart
+ - `sudo service postgresql start` starts server, needs to be done on computer restart
  - `export PBE_DEVELOPMENT_DATABASE_PASSWORD= ...` sets the environment variable used by this
    database.yml, suggested to add this to the Linux bash `.profile` to avoid needing to reset this
    every restart.
