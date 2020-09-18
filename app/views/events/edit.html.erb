@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<header>
+<style>
+table, th, td {
+	border: 1px solid black;
+}
+</style>
+</header>
+
+<body>
+
+<%= form_for @event do |f| %>
+
+  <table>
+
+    <tr>
+	<th>Title</th>
+	<td><%= f.text_field :title, :value => @event.title %></td>
+    </tr>
+    <tr>
+	<th>Description</th>
+	<td><%= f.text_field :description, :value => @event.description %></td>
+    </tr>
+    <tr>
+	<th>Date</th>
+	<td><%= f.datetime_field :date, :value => @event.date %></td>
+    </tr>
+    <tr>
+	<th>Location</th>
+	<td><%= f.text_field :location, :value => @event.location %></td>
+    </tr>
+    <tr>
+	<th>Mandatory</th>
+	<td><%= f.check_box :mandatory, :value => @event.mandatory %></td>
+    </tr>
+
+  </table>
+
+  <%= f.submit("Submit") %>
+
+<% end %>
+
+</body>
+</html>

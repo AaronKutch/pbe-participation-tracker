@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<header>
+<style>
+table, th, td {
+	border: 1px solid black;
+}
+</style>
+</header>
+
+<body>
+
+  <p><%= link_to 'Add new event', new_event_path %></p>
+
+
+  <table>
+
+    <tr>
+	<th>Event</th>
+	<th>Date / Time</th>
+	<th>Action</th>
+    </tr>
+	
+    <% @events.each do |e| %>
+
+	<tr>
+	   <td><%= e.title %></td>
+	   <td><%= e.date %></td>
+	   <td><%= link_to 'Show', event_path(e.id) %>, <%= link_to 'Edit', edit_event_path(e.id) %>, <%= link_to 'Delete', delete_event_path(e.id) %></td>
+	</tr>
+
+    <% end %>
+
+  </table>
+
+</body>
+</html>
+
+

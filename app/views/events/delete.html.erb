@@ -1,0 +1,25 @@
+
+<!doctype html>
+<html>
+
+<header>
+<style>
+
+submit[name="commit"] {
+	background-color: red;
+}
+
+</style>
+</header>
+
+<body>
+
+<h1>Events#delete</h1>
+<%= form_for @event_record, :method => 'delete' do |f| %>
+<p>Are you sure you want to permanently delete event <b><%= @event_record.title %></b>?</p>
+<%= f.submit("Delete Event") %>
+<%= link_to "Cancel", events_path %>
+<% end %>
+
+</body>
+</html>
