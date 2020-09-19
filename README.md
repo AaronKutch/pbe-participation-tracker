@@ -4,6 +4,8 @@ A Texas A&M University CSCE 431 project by Scott Wilkins, Aaron Kutch, Cameron B
 and Sergio Rios
 
 # Ruby dependencies
+  - Ruby 2.7
+  - Rails 6.0
 
 # Configuration
 
@@ -12,7 +14,8 @@ and Sergio Rios
 Cheatsheet to get postgres working (assuming you are working on Linux):
  - on Linux installing postgres adds a "postgres" superuser, the password of which may need to be
    changed to reach the interactive prompt
- - pg gem should be installed
+ - `pg` gem should be installed. The library `libpq-dev` is needed if installing the `pg` gem
+   installation errors with "can't find the libpq-fe.h header" or complains about "pg_config".
  - `sudo service postgresql start` starts server, needs to be done on computer restart
  - `export PBE_DEVELOPMENT_DATABASE_PASSWORD= ...` sets the environment variable used by this
    database.yml, suggested to add this to the Linux bash `.profile` to avoid needing to reset this
@@ -44,3 +47,5 @@ The default rails test suite has been replaced by rspec under the `spec` folder.
    delete a `pbe_participation_tracker_test` database.
 
 # Deployment instructions
+
+ - when deploying to Heroku, push to the `master` branch instead of the default `main` branch.
