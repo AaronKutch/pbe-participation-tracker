@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<%= form_for Event.new, :url => events_path, :method => 'post' do |f| %>
+<%= form_for @new_event, :url => events_path, :method => 'post' do |f| %>
 
   <table>
 
@@ -16,7 +16,7 @@
     </tr>
     <tr>
 	<th>Date</th>
-	<td><%= f.datetime_field(:date) %></td>
+	<td><%= f.datetime_select(:date) %></td>
     </tr>
     <tr>
 	<th>Location</th>
