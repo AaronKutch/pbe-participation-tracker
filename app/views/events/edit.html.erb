@@ -17,19 +17,19 @@ table, th, td {
 
     <tr>
 	<th>Title</th>
-	<td><%= f.text_field :title, :value => @event.title %></td>
+	<td><%= f.text_field :title, required: true %></td>
     </tr>
     <tr>
 	<th>Description</th>
-	<td><%= f.text_field :description, :value => @event.description %></td>
+	<td><%= f.text_field :description %></td>
     </tr>
     <tr>
 	<th>Date</th>
-	<td><%= f.datetime_field :date, :value => @event.date %></td>
+	<td><%= f.datetime_select :date, required: true %></td>
     </tr>
     <tr>
 	<th>Location</th>
-	<td><%= f.text_field :location, :value => @event.location %></td>
+	<td><%= f.text_field :location, required: true %></td>
     </tr>
     <tr>
 	<th>Mandatory</th>
