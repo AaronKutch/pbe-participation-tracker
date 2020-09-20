@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_17_190532) do
+ActiveRecord::Schema.define(version: 2020_09_20_224636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,23 @@ ActiveRecord::Schema.define(version: 2020_09_17_190532) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "password_digest", null: false
+  end
+
+  create_table "customers_events", id: false, force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "event_id", null: false
+    t.index ["customer_id"], name: "index_customers_events_on_customer_id"
+    t.index ["event_id"], name: "index_customers_events_on_event_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "title", limit: 50, null: false
+    t.text "description"
+    t.datetime "date", null: false
+    t.string "location", limit: 128
+    t.boolean "mandatory"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
