@@ -14,5 +14,18 @@
  *= require_self
  */
 
- @import "bootstrap-sprockets";
- @import "bootstrap";
+.bg-color {
+  background-color: #484848;
+}
+
+.nav-text {
+  font-size: large;
+}
+
+.nav-title {
+  font-size: x-large;
+  color: gray;
+}
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
