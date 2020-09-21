@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'login/index'
+  root 'login#index'
   get 'users/index'
   get 'users/create'
   get 'users/update'
