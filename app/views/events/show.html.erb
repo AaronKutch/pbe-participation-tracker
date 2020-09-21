@@ -1,40 +1,38 @@
 <!doctype html>
 <html>
-
-<header>
+<head>
 <style>
-table, th, td {
-	border: 1px solid black;
-}
+  table, th, td {
+    border: 1px solid black;
+  }
 </style>
-</header>
-
+</head>
 <body>
   <table>
-     <tr>
-	<th>Event name</th>
-	<td><%= @event_record.title %></td>
-     </tr>
-     <tr>
-	<th>About</th>
-	<td><%= @event_record.description %></td>
-     </tr>
-     <tr>
-	<th>Date</th>
-	<td><%= @event_record.date.to_time() %></td>
-     </tr>
-     <tr>
-	<th>Date/Time</th>
-	<td><%= @event_record.date %></td>
-     </tr>
-     <tr>
-	<th>Location</th>
-	<td><%= @event_record.location %></td>
-     </tr>
-     <tr>
-	<th>Mandatory</th>
-	<td><%= @event_record.mandatory %></td>
-     </tr>
+    <tr>
+      <th>Event name</th>
+      <td><%= @event_record.title %></td>
+    </tr>
+    <tr>
+      <th>About</th>
+      <td><%= @event_record.description %></td>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <td><%= @event_record.date.to_time() %></td>
+    </tr>
+    <tr>
+      <th>Date/Time</th>
+      <td><%= @event_record.date %></td>
+    </tr>
+    <tr>
+      <th>Location</th>
+      <td><%= @event_record.location %></td>
+    </tr>
+    <tr>
+      <th>Mandatory</th>
+      <td><%= @event_record.mandatory %></td>
+    </tr>
   </table>
 </body>
 
