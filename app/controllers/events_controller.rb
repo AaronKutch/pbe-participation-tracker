@@ -13,10 +13,10 @@ class EventsController < ApplicationController
   end
 
   def show
-  	begin
-		  @event_record = Event.find(params[:id])
-	  rescue
-		  redirect_to events_path
+    begin
+      @event_record = Event.find(params[:id])
+    rescue
+      redirect_to events_path
     end
 
     @user_role = "guest"
@@ -31,7 +31,7 @@ class EventsController < ApplicationController
   end
 
   def new
-	  @new_event = Event.new
+    @new_event = Event.new
   end
 
   def create
@@ -47,11 +47,11 @@ class EventsController < ApplicationController
   end
 
   def edit
-  	begin
-  		@event = Event.find(params[:id])
-  	rescue
-  		redirect_to events_path
-  	end
+    begin
+      @event = Event.find(params[:id])
+    rescue
+      redirect_to events_path
+    end
   end
 
   def update
@@ -69,14 +69,14 @@ class EventsController < ApplicationController
 
   def delete
     begin
-    	@event_record = Event.find(params[:id])
+      @event_record = Event.find(params[:id])
     rescue
-		  redirect_to events_path
-	  end
+      redirect_to events_path
+    end
   end
 
   def destroy
-  	begin
+    begin
       @event_record = Event.find(params[:id])
       @event_record.destroy
     rescue
