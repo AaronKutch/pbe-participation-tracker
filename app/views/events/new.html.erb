@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<body>
+  <%= form_for @new_event, :url => events_path, :method => 'post' do |f| %>
+    <table>
+      <tr>
+        <th>Title</th>
+        <td><%= f.text_field :title, required: true %></td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td><%= f.text_field :description %></td>
+      </tr>
+      <tr>
+        <th>Date</th>
+        <td><%= f.datetime_select :date, required: true %></td>
+      </tr>
+      <tr>
+        <th>Location</th>
+        <td><%= f.text_field :location, required: true %></td>
+      </tr>
+      <tr>
+        <th>Mandatory</th>
+        <td><%= f.check_box :mandatory, { checked: true } %></td>
+      </tr>
+    </table>
+    <%= f.submit("Submit") %>
+  <% end %>
+</body>
+</html>

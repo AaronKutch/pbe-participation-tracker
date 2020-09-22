@@ -28,8 +28,7 @@ ActiveRecord::Schema.define(version: 2020_09_20_224636) do
   create_table "customers_events", id: false, force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "event_id", null: false
-    t.index ["customer_id"], name: "index_customers_events_on_customer_id"
-    t.index ["event_id"], name: "index_customers_events_on_event_id"
+    t.index ["customer_id", "event_id"], name: "index_customers_events_on_customer_id_and_event_id", unique: true
   end
 
   create_table "events", force: :cascade do |t|
