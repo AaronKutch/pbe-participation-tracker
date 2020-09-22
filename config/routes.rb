@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post 'access/attempt_login'
   get 'access/logout'
 
+  post 'events/mark_attendance'
+
   #get 'events/index'
   #get 'events/show'
   #get 'events/new'

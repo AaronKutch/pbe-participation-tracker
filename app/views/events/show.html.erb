@@ -34,6 +34,21 @@
       <td><%= @event_record.mandatory %></td>
     </tr>
   </table>
+  <% if @user_role == "admin" %>
+    <h2>Attendees</h2>
+    <% @attendees.each do |a| %>
+      <table>
+        <tr>
+          <th>Name</th>
+          <td><%= "#{a.first_name} #{a.last_name}"%>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td><%= a.email%>
+        </tr>
+      </table>
+    <% end %>
+  <% end %>
 </body>
 
 

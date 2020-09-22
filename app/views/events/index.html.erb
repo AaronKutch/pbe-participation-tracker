@@ -23,7 +23,9 @@
         <td><%= e.date %></td>
         <td>
           <%= link_to 'Show', event_path(e.id) %>
-          <% if @user_role == "admin" %>
+          <% if @user_role == "user" %>
+            <%= link_to 'Sign In', events_mark_attendance_path(:event => e.id), method: :post %>
+          <% elsif @user_role == "admin" %>
             <%= link_to 'Edit', edit_event_path(e.id) %> 
             <%= link_to 'Delete', delete_event_path(e.id) %>
           <% end %>
