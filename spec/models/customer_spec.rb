@@ -27,3 +27,44 @@ RSpec.describe Customer, type: :model do
     end
   end
 end
+
+# security tests: user authentication and webpage protection (customer_spec.rb)
+describe 'User authentication' do
+
+  context 'When given invalid credentials' do
+    it 'Reprompts the user.' do
+      visit('/access/login')
+      fill_in 'Email', with: 'example@something.com'
+      fill_in 'Password', with: 'wrongpassword'
+      click_button 'Log In'
+      expect(current_path).to eql('/access/attempt_login')
+      expect(page).to have_content 'Invalid email/password combination.'
+    end
+  end
+
+  context 'When viewing events without signing in' do
+    it 'Does not allow adding events.' do
+      visit('/events')
+      expect(page).not_to have_content 'Add new event'
+    end
+
+    it 'Does not allow editing events.' do
+      visit('/events')
+      expect(page).not_to have_content 'Edit'
+    end
+
+    it 'Does not allow deleting events.' do
+      visit('/events')
+      expect(page).not_to have_content 'Delete'
+    end
+  end
+
+  context 'When trying to access protected pages without signing in' do
+    it 'Redirects and reprompts the user.' do
+      visit('/events/new')
+      expect(current_path).to eql('/access/login')
+      expect(page).to have_content 'Please log in.'
+    end
+  end
+
+end
