@@ -1,15 +1,11 @@
 require 'rails_helper'
 
-# Attempt to log in to the application. Admin credentials
-# are stored in environment variables, or can be modified
-# to work with whichever credentials you used to login as
-# an admin on your local version of the project.
+admin_email = 'admin@test.com'
+admin_password = 'p'
+
 RSpec.describe 'Login to the application.' do
 
   it 'Takes the user to the login page.' do
-
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
 
     Customer.create(:first_name => 'John', :last_name => 'Smith', :email => admin_email, :password => admin_password)
 
@@ -25,9 +21,6 @@ end
 
 RSpec.describe 'Attempt login with empty fields.' do
   it 'Does not allow the user to continue until fields are completed.' do
-
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
 
     Customer.create(:first_name => 'John', :last_name => 'Smith', :email => admin_email, :password => admin_password)
 
