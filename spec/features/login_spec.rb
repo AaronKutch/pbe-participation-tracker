@@ -4,7 +4,7 @@ require 'rails_helper'
 # are stored in environment variables, or can be modified
 # to work with whichever credentials you used to login as
 # an admin on your local version of the project.
-RSpec.describe 'Login to the application.', js: true do
+RSpec.describe 'Login to the application.' do
 
   it 'Takes the user to the login page.' do
 
@@ -19,7 +19,6 @@ RSpec.describe 'Login to the application.', js: true do
     fill_in('email', :with => admin_email)
     fill_in('password', :with => admin_password)
     click_on('Log In')
-    sleep(1)
     expect(current_path).to eql('/events')
   end
 end
