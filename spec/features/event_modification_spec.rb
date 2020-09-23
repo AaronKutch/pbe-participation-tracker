@@ -1,12 +1,12 @@
 require 'rails_helper'
 
+admin_email = 'admin@example.com'
+admin_password = 'p'
+
 # Make sure that the new event page is visitable.
 RSpec.describe 'Visit the new event page' do
 
   it 'Goes to the new event page.' do
-    
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
 
     Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
     
@@ -18,14 +18,14 @@ RSpec.describe 'Visit the new event page' do
     click_on('Log In')
     expect(current_path).to eql('/events')
 
-	visit('/events')
-	click_on('Add new event')
-	expect(current_path).to eql('/events/new')
-	expect(page).to have_content('Title')
-	expect(page).to have_content('Description')
-	expect(page).to have_content('Date')
-	expect(page).to have_content('Location')
-	expect(page).to have_content('Mandatory')
+    visit('/events')
+    click_on('Add new event')
+    expect(current_path).to eql('/events/new')
+    expect(page).to have_content('Title')
+    expect(page).to have_content('Description')
+    expect(page).to have_content('Date')
+    expect(page).to have_content('Location')
+    expect(page).to have_content('Mandatory')
 
   end
 
@@ -37,9 +37,6 @@ RSpec.describe 'Create a new event.' do
   it 'Displays a new event in the index.' do
   
     # Log in
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
-
     Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
     
     visit('/')
@@ -50,15 +47,15 @@ RSpec.describe 'Create a new event.' do
     click_on('Log In')
     expect(current_path).to eql('/events')
 
-	# Create new event.
-	click_on('Add new event')
-	fill_in('event_title', :with => 'TEST EVENT ONE')
-	fill_in('event_location', :with => 'TEST LOCATION ONE')
-	click_on('Submit')
+    # Create new event.
+    click_on('Add new event')
+    fill_in('event_title', :with => 'TEST EVENT ONE')
+    fill_in('event_location', :with => 'TEST LOCATION ONE')
+    click_on('Submit')
 
-	# Look for event in the index.
-	expect(current_path).to eql('/events')
-	expect(page).to have_content('TEST EVENT ONE')
+    # Look for event in the index.
+    expect(current_path).to eql('/events')
+    expect(page).to have_content('TEST EVENT ONE')
 
   end
 
@@ -70,9 +67,6 @@ RSpec.describe 'Edit an event.' do
   it 'Changes the name of the created event.' do
   
     # Login
-     admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
-
     Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
     
     visit('/')
@@ -83,23 +77,23 @@ RSpec.describe 'Edit an event.' do
     click_on('Log In')
     expect(current_path).to eql('/events')
 
-	# Setting up event:
-	click_on('Add new event')
-	fill_in('event_title', :with => 'TEST EVENT ONE')
-	fill_in('event_location', :with => 'TEST LOCATION ONE')
-	click_on('Submit')
+    # Setting up event:
+    click_on('Add new event')
+    fill_in('event_title', :with => 'TEST EVENT ONE')
+    fill_in('event_location', :with => 'TEST LOCATION ONE')
+    click_on('Submit')
 
-	expect(current_path).to eql('/events')
-	expect(page).to have_content('TEST EVENT ONE')
+    expect(current_path).to eql('/events')
+    expect(page).to have_content('TEST EVENT ONE')
 
-	# Editing:
-	all('a', :text => 'Edit')[0].click
-	expect(page).to have_content('Title')
-	fill_in('event_title', :with => 'EDITED EVENT TITLE')
-	click_on('Submit')
+    # Editing:
+    all('a', :text => 'Edit')[0].click
+    expect(page).to have_content('Title')
+    fill_in('event_title', :with => 'EDITED EVENT TITLE')
+    click_on('Submit')
 
-	expect(current_path).to eql('/events')
-	expect(page).to have_content('EDITED EVENT TITLE')	
+    expect(current_path).to eql('/events')
+    expect(page).to have_content('EDITED EVENT TITLE')	
 
   end
 
@@ -114,9 +108,6 @@ RSpec.describe 'Attempt to make an event title null.', js: true do
   it 'Redirects user back to new event page.' do
 
     # Login
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
-
     Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
     
     visit('/')
@@ -128,10 +119,10 @@ RSpec.describe 'Attempt to make an event title null.', js: true do
     expect(current_path).to eql('/events')
 
     # Attempt to create a new event.
-	visit('/events/new')
-	click_on('Submit')
+    visit('/events/new')
+    click_on('Submit')
 
-	expect(current_path).to eql('/events/new')
+    expect(current_path).to eql('/events/new')
 
   end
 end
@@ -146,9 +137,6 @@ RSpec.describe 'Change title to null.', js: true do
   it 'Redirects the user back to the edit page.' do
   
     # Login
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
-
     Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
     
     visit('/')
@@ -161,17 +149,17 @@ RSpec.describe 'Change title to null.', js: true do
   
   
     # Edit the title to become null.
-	visit('/events/new')
-	fill_in('event_title', :with => 'TEST EVENT ONE')
-	fill_in('event_location', :with => 'TEST LOCATION ONE')
-	click_on('Submit')
+    visit('/events/new')
+    fill_in('event_title', :with => 'TEST EVENT ONE')
+    fill_in('event_location', :with => 'TEST LOCATION ONE')
+    click_on('Submit')
 
-	expect(current_path).to eql('/events')
-	all('a', :text => 'Edit')[0].click
-	fill_in('event_title', :with => '')
-	click_on('Submit')
+    expect(current_path).to eql('/events')
+    all('a', :text => 'Edit')[0].click
+    fill_in('event_title', :with => '')
+    click_on('Submit')
 
-	expect(current_path).to include('edit')
+    expect(current_path).to include('edit')
 
   end
 
@@ -183,9 +171,6 @@ RSpec.describe 'Delete an event.' do
   it 'Removes an event from the index.' do
   
     # Login
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
-
     Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
     
     visit('/')
@@ -196,23 +181,23 @@ RSpec.describe 'Delete an event.' do
     click_on('Log In')
     expect(current_path).to eql('/events')
 
-	# Create the event.
-	visit('/events/new')
-	fill_in('event_title', :with => 'TEST EVENT ONE')
-	fill_in('event_location', :with => 'TEST LOCATION ONE')
-	click_on('Submit')
+    # Create the event.
+    visit('/events/new')
+    fill_in('event_title', :with => 'TEST EVENT ONE')
+    fill_in('event_location', :with => 'TEST LOCATION ONE')
+    click_on('Submit')
 
-	expect(current_path).to eql('/events')
-	expect(page).to have_content('TEST EVENT ONE')
+    expect(current_path).to eql('/events')
+    expect(page).to have_content('TEST EVENT ONE')
 
-	# Delete the event.
-	all('a', :text => 'Delete')[0].click
-	expect(current_path).to include('delete')
-	click_on('Delete Event')
+    # Delete the event.
+    all('a', :text => 'Delete')[0].click
+    expect(current_path).to include('delete')
+    click_on('Delete Event')
 
-	# Make sure event is no longer in the index.
-	expect(current_path).to eql('/events')
-	expect(page).to have_no_content('TEST EVENT ONE')
+    # Make sure event is no longer in the index.
+    expect(current_path).to eql('/events')
+    expect(page).to have_no_content('TEST EVENT ONE')
 
 
   end
@@ -227,9 +212,6 @@ RSpec.describe 'Show an event.' do
   it 'Displays event details.' do
   
     # Login
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
-
     Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
     
     visit('/')
@@ -240,21 +222,21 @@ RSpec.describe 'Show an event.' do
     click_on('Log In')
     expect(current_path).to eql('/events')
 
-	# Create the event.
-	visit('/events/new')
-	fill_in('event_location', :with => 'TEST LOCATION ONE')
-	fill_in('event_title', :with => 'TEST EVENT ONE')
-	click_on('Submit')
-	expect(current_path).to eql('/events')
+    # Create the event.
+    visit('/events/new')
+    fill_in('event_location', :with => 'TEST LOCATION ONE')
+    fill_in('event_title', :with => 'TEST EVENT ONE')
+    click_on('Submit')
+    expect(current_path).to eql('/events')
 
-	# Show the event.
-	all('a', :text => 'Show')[0].click
+    # Show the event.
+    all('a', :text => 'Show')[0].click
 	
-	expect(page).to have_content('Event name')
-	expect(page).to have_content('TEST LOCATION ONE')
+    expect(page).to have_content('Event name')
+    expect(page).to have_content('TEST LOCATION ONE')
 
-	expect(page).to have_content('Location')
-	expect(page).to have_content('TEST LOCATION ONE')
+    expect(page).to have_content('Location')
+    expect(page).to have_content('TEST LOCATION ONE')
 
   end
 end
@@ -266,9 +248,6 @@ RSpec.describe 'Set date of an event.' do
   it 'Shows a different date.' do
   
     # Login
-    admin_email = ENV['ADMIN_EMAIL']
-    admin_password = ENV['ADMIN_PASSWORD']
-
     Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
     
     visit('/')
@@ -279,21 +258,21 @@ RSpec.describe 'Set date of an event.' do
     click_on('Log In')
     expect(current_path).to eql('/events')
 
-	# Create event.
-	visit('/events/new')
-	fill_in('event_location', :with => 'TEST LOCATION ONE')
-	fill_in('event_title', :with => 'TEST EVENT ONE')
-	select('2024', :from => 'event_date_1i')
-	select('February', :from => 'event_date_2i')
-	select('15', :from => 'event_date_3i')
-	select('17', :from => 'event_date_4i')
-	select('30', :from => 'event_date_5i')
-	click_on('Submit')	
-	expect(current_path).to eql('/events')
+    # Create event.
+    visit('/events/new')
+    fill_in('event_location', :with => 'TEST LOCATION ONE')
+    fill_in('event_title', :with => 'TEST EVENT ONE')
+    select('2024', :from => 'event_date_1i')
+    select('February', :from => 'event_date_2i')
+    select('15', :from => 'event_date_3i')
+    select('17', :from => 'event_date_4i')
+    select('30', :from => 'event_date_5i')
+    click_on('Submit')	
+    expect(current_path).to eql('/events')
 
-	# Show event.
-	all('a', :text => 'Show')[0].click
-	expect(page).to have_content('2024-02-15 17:30:00 UTC')
+    # Show event.
+    all('a', :text => 'Show')[0].click
+    expect(page).to have_content('2024-02-15 17:30:00 UTC')
 
   end
 
