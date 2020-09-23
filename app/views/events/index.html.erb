@@ -1,42 +1,31 @@
-<!doctype html>
-<html>
-<head>
-  <style>
-    table, th, td {
-      border: 1px solid black;
-    }
-  </style>
-</head>
-<body>
-  <%= render(:partial => '/global_partials/navbar') %>
-  <h1>Events#index</h1>
-  <p>Find me in app/views/events/index.html.erb</p>
-  <%= render(:partial => 'flash_notices') %>
-  <%= render(:partial => 'login_logout') %>
-  <table>
+<%= render(:partial => '/global_partials/navbar') %>
+<%= render(:partial => '/global_partials/flash_notices') %>
+<div class="container">
+
+  <%= render(:partial => '/global_partials/login_logout') %>
+
+  <br/><h1>Upcoming Events</h1><br/>
+  <table class="table">
     <tr>
       <th>Event</th>
       <th>Date / Time</th>
       <th>Action</th>
     </tr>
-	
+
     <% @events.each do |e| %>
-      <tr>
-        <td><%= e.title %></td>
-        <td><%= e.date %></td>
-        <td>
-          <%= link_to 'Show', event_path(e.id) %>
-          <% if @user_role == "user" %>
-            <%= link_to 'Sign In', events_mark_attendance_path(:event => e.id), method: :post %>
-          <% elsif @user_role == "admin" %>
-            <%= link_to 'Edit', edit_event_path(e.id) %> 
-            <%= link_to 'Delete', delete_event_path(e.id) %>
-          <% end %>
-        </td>
-      </tr>
+    <tr>
+      <td><%= e.title %></td>
+      <td><%= e.date %></td>
+      <td>
+        <%= link_to 'Show', event_path(e.id) %>
+        <% if @user_role == "user" %>
+        <%= link_to 'Sign In', events_mark_attendance_path(:event => e.id), method: :post %>
+        <% elsif @user_role == "admin" %>
+        <%= link_to 'Edit', edit_event_path(e.id) %>
+        <%= link_to 'Delete', delete_event_path(e.id) %>
+        <% end %>
+      </td>
+    </tr>
     <% end %>
   </table>
-</body>
-</html>
-
-
+</div>

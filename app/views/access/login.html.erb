@@ -1,26 +1,36 @@
+<!--Navbar and confirmation/error flash messages -->
+<%= render(:partial => 'navbar_login')%>
 <% flash.each do |type, msg| %>
-  <div>
-    <%= msg %>
-  </div>
+<div>
+  <%= msg %>
+</div>
 <% end %>
 
 <% @page_title = "Admin Login" %>
-
-<div class="login">
-  <%= form_tag(access_attempt_login_path, :method => :post) do %>
-  <table>
-    <tr>
-      <td><%= label_tag(:email) %></td>
-      <td><%= text_field_tag(:email, params[:email]) %></td>
-    </tr>
-    <tr>
-      <td><%= label_tag(:password) %></td>
-      <td><%= password_field_tag(:password) %></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><%= submit_tag("Log In") %></td>
-    </tr>
-  </table>
-  <% end %>
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-8 col-lg-6 bg-login">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto ">
+              <h3 class="login-heading mb-4 ">Welcome to the Professional Brotherhood of Engineers!</h3>
+              <%= form_tag(access_attempt_login_path, :method => :post) do %>
+              <div class="form-label-group">
+                <%= text_field_tag(:email, nil, class: "form-control", required: true) %>
+                <%= label_tag(:email, nil, for: "email") %>
+              </div>
+              <div class="form-label-group">
+                <%= password_field_tag(:password, nil, class: "form-control", required: true) %>
+                <%= label_tag(:password, nil, for: "password") %>
+              </div>
+              <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Log In</button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
