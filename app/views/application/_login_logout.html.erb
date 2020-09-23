@@ -1,0 +1,8 @@
+<% if session[:user_id] %>
+  <% if Customer.where(:id => session[:user_id]).first.role == 'admin' %>
+    <%= link_to 'Add new event', new_event_path %>
+  <% end %>
+  <%= link_to "Logout", access_logout_path %>
+<% else %>
+  <%= link_to "Login", access_login_path %>
+<% end %>

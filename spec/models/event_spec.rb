@@ -1,22 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Event, type: :model do
-  describe 'contructor' do
+  describe 'event record' do
     context 'when created with no arguments' do
-      it 'throws an error' do
-        expect{Event.create}.to raise_error(/NotNullViolation/)
+      it 'is not valid' do
+        expect(Event.new.valid?).to eq(false)
       end
     end
 
-    context 'when created with only title' do
-      it 'throws an error' do
-        expect{Event.create(:title => "Informational")}.to raise_error(/NotNullViolation/)
+    context 'when created with only a title' do
+      it 'is not valid' do
+        expect(Event.new(:title => "Informational").valid?).to eq(false)
       end
     end
 
-    context 'when created with minimum required arguments' do
-      it 'creates expected record' do
-        expect{Event.create(:title => "Informational", :date => DateTime.new(2020, 9, 20))}.to_not raise_error
+    context 'when created with title and date' do
+      it 'is valid' do
+        expect(Event.new(:title => "Informational", :date => DateTime.new(2020, 9, 20)).valid?).to eq(true)
       end
     end
   end
