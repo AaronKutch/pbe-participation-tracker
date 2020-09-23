@@ -1,18 +1,10 @@
-<!doctype html>
-<html>
-<head>
-  <style>
-    submit[name="commit"] {
-      background-color: red;
-    }
-  </style>
-</head>
-<body>
-  <h1>Events#delete</h1>
+<%= render(:partial => '/global_partials/navbar') %>
+<div class="container">
+  <br />
+  <h1>Delete Event</h1><br />
   <%= form_for @event_record, :method => 'delete' do |f| %>
-    <p>Are you sure you want to permanently delete event <b><%= @event_record.title %></b>?</p>
-    <%= f.submit("Delete Event") %>
-    <%= link_to "Cancel", events_path %>
+  <p>Are you sure you want to permanently delete event <b><%= @event_record.title %></b>?</p>
+  <%= f.submit("Delete Event") %>
+  <%= link_to "Cancel", events_path %>
   <% end %>
-</body>
-</html>
+</div>
