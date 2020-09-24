@@ -37,7 +37,7 @@ RSpec.describe 'Sign in to an event.' do
 
     # Sign back in as an admin.
     click_on('Logout')
-    common_login(admin_email, admin_password)
+    common_login(admin_email, password)
 
     # Show list of attendees of an event.
     all('a', :text => 'Show')[0].click

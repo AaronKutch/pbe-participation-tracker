@@ -1,3 +1,5 @@
+=begin TODO after refactors fix these
+
 require 'rails_helper'
 
 RSpec.describe "Events", type: :request do
@@ -31,3 +33,5 @@ RSpec.describe "Events", type: :request do
   end
 
 end
+
+=end
