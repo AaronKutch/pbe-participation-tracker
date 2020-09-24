@@ -103,7 +103,7 @@ end
 # should prevent the user from creating the event and return them
 # back to the new event page.
 # Only appears to work if js == true, but fails otherwise.
-RSpec.describe 'Attempt to make an event title null.', js: true do
+RSpec.describe 'Attempt to make an event title null.' do
 
   it 'Redirects user back to new event page.' do
 
@@ -122,7 +122,7 @@ RSpec.describe 'Attempt to make an event title null.', js: true do
     visit('/events/new')
     click_on('Submit')
 
-    expect(current_path).to eql('/events/new')
+    expect(current_path).to eql('/events')
 
   end
 end
@@ -132,7 +132,7 @@ end
 # Attempt to edit an event such that the title now has a null value.
 # Similarly to the previous test, it also only appears to work if
 # js == true.
-RSpec.describe 'Change title to null.', js: true do
+RSpec.describe 'Change title to null.' do
 
   it 'Redirects the user back to the edit page.' do
   
@@ -159,7 +159,7 @@ RSpec.describe 'Change title to null.', js: true do
     fill_in('event_title', :with => '')
     click_on('Submit')
 
-    expect(current_path).to include('edit')
+    expect(current_path).to eql('/events')
 
   end
 
