@@ -22,7 +22,7 @@ RSpec.describe Customer, type: :model do
 
     context 'when created' do
       it 'role is "user" by default' do
-        expect(Customer.new.role).to eq("user")
+        expect(Customer.new.role).to eq('user')
       end
     end
   end

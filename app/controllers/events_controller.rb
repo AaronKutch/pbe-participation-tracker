@@ -27,7 +27,7 @@ class EventsController < ApplicationController
     end
 
     @attendees = []
-    if @user_role == "admin"
+    if @user_role == 'admin'
       @attendees = @event_record.customers
     end
   end
@@ -39,7 +39,6 @@ class EventsController < ApplicationController
   def create
     begin
       @event_info = params["event"]
-      puts "Date — " + @event_info["date"].to_s
       dt = DateTime.parse(@event_info["date(1i)"].to_s + "-" + @event_info["date(2i)"].to_s + "-" + @event_info["date(3i)"].to_s + "T" + @event_info["date(4i)"].to_s + ":" + @event_info["date(5i)"].to_s + "+0" + @time_zone.to_s + ":00")
       Event.create(:title => @event_info["title"], :description => @event_info["description"], :date => dt, :location => @event_info["location"], :mandatory => @event_info["mandatory"])
       redirect_to events_path
@@ -60,9 +59,8 @@ class EventsController < ApplicationController
     begin
       @event_info = params["event"]
       @event = Event.find(params[:id])
-      puts "DATE --  " + @event_info["date"].to_s
       dt = DateTime.parse(@event_info["date(1i)"].to_s + "-" + @event_info["date(2i)"].to_s + "-" + @event_info["date(3i)"].to_s + "T" + @event_info["date(4i)"].to_s + ":" + @event_info["date(5i)"].to_s + "+0" + @time_zone.to_s + ":00")
-      @event.update_attributes(:title => @event_info["title"], :description => @event_info["description"], :date => dt, :location => @event_info["location"], :mandatory => @event_info["mandatory"])
+      @event.update(:title => @event_info["title"], :description => @event_info["description"], :date => dt, :location => @event_info["location"], :mandatory => @event_info["mandatory"])
       redirect_to events_path
     rescue
       redirect_to edit_event_path

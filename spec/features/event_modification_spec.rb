@@ -1,24 +1,13 @@
 require 'rails_helper'
-
-admin_email = 'admin@example.com'
-admin_password = 'p'
+require_relative '../common'
 
 # Make sure that the new event page is visitable.
 RSpec.describe 'Visit the new event page' do
 
   it 'Goes to the new event page.' do
 
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
-    
-    visit('/')
-    click_on('Login')
-  
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
-    click_on('Log In')
-    expect(current_path).to eql('/events')
+    admin_create_and_login()
 
-    visit('/events')
     click_on('Add new event')
     expect(current_path).to eql('/events/new')
     expect(page).to have_content('Title')
@@ -33,19 +22,10 @@ end
 
 # Fill out form contents.
 RSpec.describe 'Create a new event.' do
-  
+
   it 'Displays a new event in the index.' do
-  
-    # Log in
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
-    
-    visit('/')
-    click_on('Login')
-  
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
-    click_on('Log In')
-    expect(current_path).to eql('/events')
+
+    admin_create_and_login()
 
     # Create new event.
     click_on('Add new event')
@@ -65,17 +45,8 @@ end
 RSpec.describe 'Edit an event.' do
 
   it 'Changes the name of the created event.' do
-  
-    # Login
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
-    
-    visit('/')
-    click_on('Login')
-  
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
-    click_on('Log In')
-    expect(current_path).to eql('/events')
+
+    admin_create_and_login()
 
     # Setting up event:
     click_on('Add new event')
@@ -107,16 +78,7 @@ RSpec.describe 'Attempt to make an event title null.' do
 
   it 'Redirects user back to new event page.' do
 
-    # Login
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
-    
-    visit('/')
-    click_on('Login')
-  
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
-    click_on('Log In')
-    expect(current_path).to eql('/events')
+    admin_create_and_login()
 
     # Attempt to create a new event.
     visit('/events/new')
@@ -127,27 +89,15 @@ RSpec.describe 'Attempt to make an event title null.' do
   end
 end
 
-
-
 # Attempt to edit an event such that the title now has a null value.
 # Similarly to the previous test, it also only appears to work if
 # js == true.
 RSpec.describe 'Change title to null.' do
 
   it 'Redirects the user back to the edit page.' do
-  
-    # Login
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
-    
-    visit('/')
-    click_on('Login')
-  
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
-    click_on('Log In')
-    expect(current_path).to eql('/events')
-  
-  
+
+    admin_create_and_login()
+
     # Edit the title to become null.
     visit('/events/new')
     fill_in('event_title', :with => 'TEST EVENT ONE')
@@ -169,17 +119,8 @@ end
 RSpec.describe 'Delete an event.' do
 
   it 'Removes an event from the index.' do
-  
-    # Login
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
-    
-    visit('/')
-    click_on('Login')
-  
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
-    click_on('Log In')
-    expect(current_path).to eql('/events')
+
+    admin_create_and_login()
 
     # Create the event.
     visit('/events/new')
@@ -205,22 +146,12 @@ RSpec.describe 'Delete an event.' do
 end
 
 
-
 # Show an event.
 RSpec.describe 'Show an event.' do
 
   it 'Displays event details.' do
-  
-    # Login
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
-    
-    visit('/')
-    click_on('Login')
-  
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
-    click_on('Log In')
-    expect(current_path).to eql('/events')
+
+    admin_create_and_login()
 
     # Create the event.
     visit('/events/new')
@@ -241,22 +172,12 @@ RSpec.describe 'Show an event.' do
   end
 end
 
-
 # Set the date of an event.
 RSpec.describe 'Set date of an event.' do
 
   it 'Shows a different date.' do
-  
-    # Login
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :role => 'admin', :email => admin_email, :password => admin_password)
-    
-    visit('/')
-    click_on('Login')
-  
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
-    click_on('Log In')
-    expect(current_path).to eql('/events')
+
+    admin_create_and_login()
 
     # Create event.
     visit('/events/new')
