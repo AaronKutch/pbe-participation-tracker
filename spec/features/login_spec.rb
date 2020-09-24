@@ -1,14 +1,15 @@
 require 'rails_helper'
 require_relative '../common'
 
-admin_email = 'admin@test.com'
-admin_password = 'p'
+user_email = 'user@test.com'
+password = 'p'
 
 RSpec.describe 'Login to the application.' do
 
   it 'Takes the user to the login page.' do
 
-    common_login("user", admin_email, admin_password)
+    Customer.create(:first_name => 'Jane', :last_name => 'Doe', :role => 'user', :email => user_email, :password => password)
+    common_login(user_email, password)
 
   end
 end
@@ -16,22 +17,23 @@ end
 RSpec.describe 'Attempt login with empty fields.' do
   it 'Does not allow the user to continue until fields are completed.' do
 
-    Customer.create(:first_name => 'John', :last_name => 'Smith', :email => admin_email, :password => admin_password)
+    Customer.create(:first_name => 'Jane', :last_name => 'Doe', :role => 'user', :email => user_email, :password => password)
+    common_login(user_email, password)
 
     visit('/')
     click_on('Log In')
-    expect(current_path).to eql('/access/login')
+    expect(current_path).to eql('/access/attempt_login')
     click_on('Log In')
     expect(current_path).to eql('/access/attempt_login')
-    fill_in('email', :with => admin_email)
+    fill_in('email', :with => user_email)
     click_on('Log In')
     expect(current_path).to eql('/access/attempt_login')
     fill_in('email', :with => '')
-    fill_in('password', :with => admin_password)
+    fill_in('password', :with => password)
     click_on('Log In')
     expect(current_path).to eql('/access/attempt_login')
-    fill_in('email', :with => admin_email)
-    fill_in('password', :with => admin_password)
+    fill_in('email', :with => user_email)
+    fill_in('password', :with => password)
     click_on('Log In')
     expect(current_path).to eql('/events')
 

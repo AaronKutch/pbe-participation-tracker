@@ -27,7 +27,7 @@ class EventsController < ApplicationController
     end
 
     @attendees = []
-    if @user_role == "admin"
+    if @user_role == 'admin'
       @attendees = @event_record.customers
     end
   end

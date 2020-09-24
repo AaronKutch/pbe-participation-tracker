@@ -1,15 +1,12 @@
 require 'rails_helper'
 require_relative '../common'
 
-admin_email = 'admin@example.com'
-admin_password = 'p'
-
 # Make sure that the new event page is visitable.
 RSpec.describe 'Visit the new event page' do
 
   it 'Goes to the new event page.' do
 
-    common_login("admin", admin_email, admin_password)
+    admin_create_and_login()
 
     click_on('Add new event')
     expect(current_path).to eql('/events/new')
@@ -28,7 +25,7 @@ RSpec.describe 'Create a new event.' do
 
   it 'Displays a new event in the index.' do
 
-    common_login("admin", admin_email, admin_password)
+    admin_create_and_login()
 
     # Create new event.
     click_on('Add new event')
@@ -49,7 +46,7 @@ RSpec.describe 'Edit an event.' do
 
   it 'Changes the name of the created event.' do
 
-    common_login("admin", admin_email, admin_password)
+    admin_create_and_login()
 
     # Setting up event:
     click_on('Add new event')
@@ -81,7 +78,7 @@ RSpec.describe 'Attempt to make an event title null.' do
 
   it 'Redirects user back to new event page.' do
 
-    common_login("admin", admin_email, admin_password)
+    admin_create_and_login()
 
     # Attempt to create a new event.
     visit('/events/new')
@@ -99,7 +96,7 @@ RSpec.describe 'Change title to null.' do
 
   it 'Redirects the user back to the edit page.' do
 
-    common_login("admin", admin_email, admin_password)
+    admin_create_and_login()
 
     # Edit the title to become null.
     visit('/events/new')
@@ -123,7 +120,7 @@ RSpec.describe 'Delete an event.' do
 
   it 'Removes an event from the index.' do
 
-    common_login("admin", admin_email, admin_password)
+    admin_create_and_login()
 
     # Create the event.
     visit('/events/new')
@@ -154,7 +151,7 @@ RSpec.describe 'Show an event.' do
 
   it 'Displays event details.' do
 
-    common_login("admin", admin_email, admin_password)
+    admin_create_and_login()
 
     # Create the event.
     visit('/events/new')
@@ -180,7 +177,7 @@ RSpec.describe 'Set date of an event.' do
 
   it 'Shows a different date.' do
 
-    common_login("admin", admin_email, admin_password)
+    admin_create_and_login()
 
     # Create event.
     visit('/events/new')

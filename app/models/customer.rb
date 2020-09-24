@@ -2,7 +2,7 @@ class Customer < ApplicationRecord
   has_secure_password
   has_and_belongs_to_many :events
 
-  attribute :role, :string, default: "user"
+  attribute :role, :string, default: 'user'
 
   EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
 
