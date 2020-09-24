@@ -25,14 +25,14 @@ if Rails.env.development?
 
   c1 = Customer.new
   c1.first_name = 'test'
-  c1.last_name = 'guest'
-  c1.email = 'guest@tamu.edu'
-  c1.role = 'guest'
+  c1.last_name = 'user'
+  c1.email = 'user@tamu.edu'
+  c1.role = 'user'
   c1.password = 'p'
   if c1.save
     c1.events << e
   else
-    puts "Error: could not add guest test account"
+    puts "Error: could not add user test account"
   end
 else
   puts "Error: tried to run `seeds.rb` outside of development environment"

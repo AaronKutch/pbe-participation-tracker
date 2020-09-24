@@ -6,9 +6,10 @@ class EventsController < ApplicationController
   def index
     @events = Event.order("date")
 
-    @user_role = "guest"
     if session[:user_id]
       @user_role = Customer.where(:id => session[:user_id]).first.role
+    else
+      @user_role = "not_logged_in"
     end
   end
 
@@ -19,9 +20,10 @@ class EventsController < ApplicationController
       redirect_to events_path
     end
 
-    @user_role = "guest"
     if session[:user_id]
       @user_role = Customer.where(:id => session[:user_id]).first.role
+    else
+      @user_role = "not_logged_in"
     end
 
     @attendees = []
