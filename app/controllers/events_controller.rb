@@ -85,8 +85,13 @@ class EventsController < ApplicationController
   end
 
   def mark_attendance
-    @user = Customer.where(:id => session[:user_id]).first
-    @user.events << Event.where(:id => Integer(params[:event])).first
+    begin
+      @user = Customer.where(:id => session[:user_id]).first
+      @user.events << Event.where(:id => Integer(params[:event])).first
+    rescue
+      flash[:notice] = 'You have already registered for this event.'
+      redirect_to(events_path)
+    end
   end
 
   private 
