@@ -198,3 +198,102 @@ RSpec.describe 'Set date of an event.' do
   end
 
 end
+
+# Create an event, including a description.
+RSpec.describe 'Create an event with a description.' do
+  it 'Displays the same description specified by the user.' do
+    admin_create_and_login()
+
+    # Create an event.
+    visit('/events/new')
+    fill_in('event_title', :with => 'Description Test')
+    fill_in('event_description', :with => 'This is a description test.')
+    fill_in('event_location', :with => 'Test location.')
+    click_on('Submit')
+    expect(current_path).to eql('/events')
+
+    # Show the event, verifying that it is showing the correct description.
+    all('a', :text => 'Show')[0].click
+    expect(page).to have_content('Description Test')
+    expect(page).to have_content('This is a description test.')
+    expect(page).to have_content('Test location')
+  end
+end
+
+
+# Return to the home-page by clicking on the PBE logo.
+RSpec.describe 'Click on the PBE logo.' do
+  it 'Redirects the user back to the events page.' do
+    admin_create_and_login()
+
+    click_on('Add new event')
+    expect(current_path).to eql('/events/new')
+    page.first('.mr-auto').click
+    expect(current_path).to eql('/events')
+
+  end
+end
+
+# Register for a new event, at which point the sign-in for that
+# event will no longer be visible.
+#RSpec.describe 'Register for a new event.' do
+#  it 'Removes the sign-in button from view.' do
+#    admin_create_and_login()
+#
+#    user_email = 'user@test.com'
+#    user_password = 'p'
+#    Customer.create(:first_name => 'Jane', :last_name => 'Doe', :role => 'user', :email => user_email, :password => user_password)
+
+    # Create an event.
+#    click_on('Add new event')
+#    expect(current_path).to eql('/events/new')
+#    fill_in('event_title', :with => 'Event #1')
+#    fill_in('event_location', :with => 'Location #1')
+#    click_on('Submit')
+#    expect(current_path).to eql('/events')
+
+    # Log back in as a user.
+#    click_on('Logout')
+#    click_on('Login')
+#    common_login(user_email, user_password)
+    
+    # Sign into Event #1.
+#    all('a', :text => 'Sign In')[0].click
+#    visit('/events')
+
+#  end
+#end
+
+# Full test of modifying each field.
+RSpec.describe 'Create a new event with each field modified from defaults.' do
+  it 'Displays the contents of each field.' do
+    admin_create_and_login()
+
+    # Create an event.
+    click_on('Add new event')
+    expect(current_path).to eql('/events/new')
+    fill_in('event_title', :with => 'Full test A')
+    fill_in('event_description', :with => 'Event description A')
+    select('2021', :from => 'event_date_1i')
+    select('July', :from => 'event_date_2i')
+    select('9', :from => 'event_date_3i')
+    select('19', :from => 'event_date_4i')
+    select('00', :from => 'event_date_5i')
+    fill_in('event_location', :with => 'Event location A')
+    uncheck('event_mandatory')
+    click_on('Submit')
+    expect(current_path).to eql('/events')
+
+    # Show event, verifying that all information displayed is correct.
+    all('a', :text => 'Show')[0].click
+    expect(page).to have_content('Full test A') # Title
+    expect(page).to have_content('Event description A') # Description
+    expect(page).to have_content('2021-07-09 19:00:00 UTC') # Time
+    expect(page).to have_content('Event location A') # Location
+    expect(page).to have_content('false') # Mandatory
+  end
+end
+
+
+
+
