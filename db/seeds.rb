@@ -7,9 +7,7 @@ if Rails.env.development?
   e.date = 'January 2021'
   e.location = 'Texas A&M College Station'
   e.mandatory = false
-  unless e.save
-    puts "Error: could not add test event"
-  end
+  puts 'Error: could not add test event' unless e.save
 
   c0 = Customer.new
   c0.first_name = 'test'
@@ -20,7 +18,7 @@ if Rails.env.development?
   if c0.save
     c0.events << e
   else
-    puts "Error: could not add admin test account"
+    puts 'Error: could not add admin test account'
   end
 
   c1 = Customer.new
@@ -32,8 +30,8 @@ if Rails.env.development?
   if c1.save
     c1.events << e
   else
-    puts "Error: could not add user test account"
+    puts 'Error: could not add user test account'
   end
 else
-  puts "Error: tried to run `seeds.rb` outside of development environment"
+  puts 'Error: tried to run `seeds.rb` outside of development environment'
 end

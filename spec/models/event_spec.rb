@@ -10,13 +10,13 @@ RSpec.describe Event, type: :model do
 
     context 'when created with only a title' do
       it 'is not valid' do
-        expect(Event.new(:title => "Informational").valid?).to eq(false)
+        expect(Event.new(title: 'Informational').valid?).to eq(false)
       end
     end
 
     context 'when created with title and date' do
       it 'is valid' do
-        expect(Event.new(:title => "Informational", :date => DateTime.new(2020, 9, 20)).valid?).to eq(true)
+        expect(Event.new(title: 'Informational', date: DateTime.new(2020, 9, 20)).valid?).to eq(true)
       end
     end
   end

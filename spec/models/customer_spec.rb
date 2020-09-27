@@ -10,13 +10,13 @@ RSpec.describe Customer, type: :model do
 
     context 'when created with only a name' do
       it 'is not valid' do
-        expect(Customer.new(:first_name => "John", :last_name => "Doe").valid?).to eq(false)
+        expect(Customer.new(first_name: 'John', last_name: 'Doe').valid?).to eq(false)
       end
     end
 
     context 'when created with name, email, and password' do
       it 'is valid' do
-        expect(Customer.new(:first_name => "John", :last_name => "Doe", :email => "johndoe@mail.com", :password => "password").valid?).to eq(true)
+        expect(Customer.new(first_name: 'John', last_name: 'Doe', email: 'johndoe@mail.com', password: 'password').valid?).to eq(true)
       end
     end
 
@@ -30,7 +30,6 @@ end
 
 # security tests: user authentication and webpage protection (customer_spec.rb)
 describe 'User authentication' do
-
   context 'When given invalid credentials' do
     it 'Reprompts the user.' do
       visit('/access/login')
@@ -66,5 +65,4 @@ describe 'User authentication' do
       expect(page).to have_content 'Please log in.'
     end
   end
-
 end

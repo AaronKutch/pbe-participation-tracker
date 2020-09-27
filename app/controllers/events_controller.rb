@@ -1,35 +1,33 @@
 class EventsController < ApplicationController
-  before_action :confirm_logged_in, except: [:index, :show]
-  before_action :confirm_permissions, except: [:index, :show, :mark_attendance]
-	@time_zone = 6
+  before_action :confirm_logged_in, except: %i[index show]
+  before_action :confirm_permissions, except: %i[index show mark_attendance]
+  @time_zone = 6
 
   def index
-    @events = Event.order("date")
+    @events = Event.order('date')
 
-    if session[:user_id]
-      @user_role = Customer.where(:id => session[:user_id]).first.role
-    else
-      @user_role = "not_logged_in"
-    end
+    @user_role = if session[:user_id]
+                   Customer.where(id: session[:user_id]).first.role
+                 else
+                   'not_logged_in'
+                 end
   end
 
   def show
     begin
       @event_record = Event.find(params[:id])
-    rescue
+    rescue StandardError
       redirect_to events_path
     end
 
-    if session[:user_id]
-      @user_role = Customer.where(:id => session[:user_id]).first.role
-    else
-      @user_role = "not_logged_in"
-    end
+    @user_role = if session[:user_id]
+                   Customer.where(id: session[:user_id]).first.role
+                 else
+                   'not_logged_in'
+                 end
 
     @attendees = []
-    if @user_role == 'admin'
-      @attendees = @event_record.customers
-    end
+    @attendees = @event_record.customers if @user_role == 'admin'
   end
 
   def new
@@ -37,68 +35,59 @@ class EventsController < ApplicationController
   end
 
   def create
-    begin
-      @event_info = params["event"]
-      dt = DateTime.parse(@event_info["date(1i)"].to_s + "-" + @event_info["date(2i)"].to_s + "-" + @event_info["date(3i)"].to_s + "T" + @event_info["date(4i)"].to_s + ":" + @event_info["date(5i)"].to_s + "+0" + @time_zone.to_s + ":00")
-      Event.create(:title => @event_info["title"], :description => @event_info["description"], :date => dt, :location => @event_info["location"], :mandatory => @event_info["mandatory"])
-      redirect_to events_path
-    rescue
-      redirect_to new_event_path
-    end
+    @event_info = params['event']
+    dt = DateTime.parse(@event_info['date(1i)'].to_s + '-' + @event_info['date(2i)'].to_s + '-' + @event_info['date(3i)'].to_s + 'T' + @event_info['date(4i)'].to_s + ':' + @event_info['date(5i)'].to_s + '+0' + @time_zone.to_s + ':00')
+    Event.create(title: @event_info['title'], description: @event_info['description'], date: dt, location: @event_info['location'], mandatory: @event_info['mandatory'])
+    redirect_to events_path
+  rescue StandardError
+    redirect_to new_event_path
   end
 
   def edit
-    begin
-      @event = Event.find(params[:id])
-    rescue
-      redirect_to events_path
-    end
+    @event = Event.find(params[:id])
+  rescue StandardError
+    redirect_to events_path
   end
 
   def update
-    begin
-      @event_info = params["event"]
-      @event = Event.find(params[:id])
-      dt = DateTime.parse(@event_info["date(1i)"].to_s + "-" + @event_info["date(2i)"].to_s + "-" + @event_info["date(3i)"].to_s + "T" + @event_info["date(4i)"].to_s + ":" + @event_info["date(5i)"].to_s + "+0" + @time_zone.to_s + ":00")
-      @event.update(:title => @event_info["title"], :description => @event_info["description"], :date => dt, :location => @event_info["location"], :mandatory => @event_info["mandatory"])
-      redirect_to events_path
-    rescue
-      redirect_to edit_event_path
-    end
+    @event_info = params['event']
+    @event = Event.find(params[:id])
+    dt = DateTime.parse(@event_info['date(1i)'].to_s + '-' + @event_info['date(2i)'].to_s + '-' + @event_info['date(3i)'].to_s + 'T' + @event_info['date(4i)'].to_s + ':' + @event_info['date(5i)'].to_s + '+0' + @time_zone.to_s + ':00')
+    @event.update(title: @event_info['title'], description: @event_info['description'], date: dt, location: @event_info['location'], mandatory: @event_info['mandatory'])
+    redirect_to events_path
+  rescue StandardError
+    redirect_to edit_event_path
   end
 
   def delete
-    begin
-      @event_record = Event.find(params[:id])
-    rescue
-      redirect_to events_path
-    end
+    @event_record = Event.find(params[:id])
+  rescue StandardError
+    redirect_to events_path
   end
 
   def destroy
     begin
       @event_record = Event.find(params[:id])
       @event_record.destroy
-    rescue
+    rescue StandardError
     end
     redirect_to events_path
   end
 
   def mark_attendance
-    begin
-      @user = Customer.where(:id => session[:user_id]).first
-      @user.events << Event.where(:id => Integer(params[:event])).first
-    rescue
-      flash[:notice] = 'You have already registered for this event.'
+    @user = Customer.where(id: session[:user_id]).first
+    @user.events << Event.where(id: Integer(params[:event])).first
+  rescue StandardError
+    flash[:notice] = 'You have already registered for this event.'
+    redirect_to(events_path)
+  end
+
+  private
+
+  def confirm_permissions
+    if Customer.where(id: session[:user_id]).first.role != 'admin'
+      flash[:notice] = "You don't have permission to do that"
       redirect_to(events_path)
     end
   end
-
-  private 
-    def confirm_permissions
-      if Customer.where(:id => session[:user_id]).first.role != 'admin'
-        flash[:notice] = "You don't have permission to do that"
-        redirect_to(events_path)
-      end
-    end
 end
