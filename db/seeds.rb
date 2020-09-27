@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # NOTE this seeding is only for manual testing purposes for development.
 # Can be reproduced with `rake db:reset db:migrate db:seed`.
 if Rails.env.development?

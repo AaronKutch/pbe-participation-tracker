@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # common function for logging in with email and password
 def common_login(email, password)
   visit('/')

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccessController < ApplicationController
   before_action :confirm_logged_in, except: %i[login attempt_login logout]
 

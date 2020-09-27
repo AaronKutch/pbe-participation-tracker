@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # TODO: after refactors fix these
 #
 # require 'rails_helper'
