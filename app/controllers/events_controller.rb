@@ -38,8 +38,13 @@ class EventsController < ApplicationController
 
   def create
     @event_info = params['event']
-    dt = DateTime.parse(@event_info['date(1i)'].to_s + '-' + @event_info['date(2i)'].to_s + '-' + @event_info['date(3i)'].to_s + 'T' + @event_info['date(4i)'].to_s + ':' + @event_info['date(5i)'].to_s + '+0' + @time_zone.to_s + ':00')
-    Event.create(title: @event_info['title'], description: @event_info['description'], date: dt, location: @event_info['location'], mandatory: @event_info['mandatory'])
+    Event.create(
+      title: @event_info['title'],
+      description: @event_info['description'],
+      date: construct_date_time,
+      location: @event_info['location'],
+      mandatory: @event_info['mandatory']
+    )
     redirect_to events_path
   rescue StandardError
     redirect_to new_event_path
@@ -54,8 +59,13 @@ class EventsController < ApplicationController
   def update
     @event_info = params['event']
     @event = Event.find(params[:id])
-    dt = DateTime.parse(@event_info['date(1i)'].to_s + '-' + @event_info['date(2i)'].to_s + '-' + @event_info['date(3i)'].to_s + 'T' + @event_info['date(4i)'].to_s + ':' + @event_info['date(5i)'].to_s + '+0' + @time_zone.to_s + ':00')
-    @event.update(title: @event_info['title'], description: @event_info['description'], date: dt, location: @event_info['location'], mandatory: @event_info['mandatory'])
+    @event.update(
+      title: @event_info['title'],
+      description: @event_info['description'],
+      date: construct_date_time,
+      location: @event_info['location'],
+      mandatory: @event_info['mandatory']
+    )
     redirect_to events_path
   rescue StandardError
     redirect_to edit_event_path
@@ -72,6 +82,7 @@ class EventsController < ApplicationController
       @event_record = Event.find(params[:id])
       @event_record.destroy
     rescue StandardError
+      # TODO: recover from failure to destroy
     end
     redirect_to events_path
   end
@@ -87,9 +98,17 @@ class EventsController < ApplicationController
   private
 
   def confirm_permissions
-    if Customer.where(id: session[:user_id]).first.role != 'admin'
+    if Customer.where(id: session[:user_id]).first.role == 'admin'
+      nil
+    else
       flash[:notice] = "You don't have permission to do that"
       redirect_to(events_path)
     end
+  end
+
+  def construct_date_time
+    s = "#{@event_info['date(1i)']}-#{@event_info['date(2i)']}-#{@event_info['date(3i)']}"
+    s += "T#{@event_info['date(4i)']}:#{@event_info['date(5i)']}+0#{@time_zone}:00"
+    DateTime.parse(s)
   end
 end

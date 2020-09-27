@@ -210,7 +210,13 @@ end
 #
 #    user_email = 'user@test.com'
 #    user_password = 'p'
-#    Customer.create(:first_name => 'Jane', :last_name => 'Doe', :role => 'user', :email => user_email, :password => user_password)
+#    Customer.create(
+#      :first_name => 'Jane',
+#      :last_name => 'Doe',
+#      :role => 'user',
+#      :email => user_email,
+#      :password => user_password
+#    )
 
 # Create an event.
 #    click_on('Add new event')

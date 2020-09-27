@@ -67,7 +67,7 @@ RSpec.describe 'View list of users registered when no users have registered yet.
     # expect(page).to have_no_content
     expect(page).to have_no_content('@')
     Customer.all.each do |c|
-      expect(page).to have_no_content(c.first_name.to_s + ' ' + c.last_name.to_s)
+      expect(page).to have_no_content("#{c.first_name} #{c.last_name}")
     end
   end
 end

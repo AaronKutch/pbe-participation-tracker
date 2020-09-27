@@ -1,0 +1,15 @@
+AllCops:
+  NewCops: enable
+
+# The Rubocop default limits are ridiculously small for these settings, and should be
+# regulated manually
+Metrics/MethodLength:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false

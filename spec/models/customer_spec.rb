@@ -18,7 +18,13 @@ RSpec.describe Customer, type: :model do
 
     context 'when created with name, email, and password' do
       it 'is valid' do
-        expect(Customer.new(first_name: 'John', last_name: 'Doe', email: 'johndoe@mail.com', password: 'password').valid?).to eq(true)
+        customer = Customer.new(
+          first_name: 'John',
+          last_name: 'Doe',
+          email: 'johndoe@mail.com',
+          password: 'password'
+        )
+        expect(customer.valid?).to eq(true)
       end
     end
 
