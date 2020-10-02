@@ -1,3 +1,51 @@
-<%= render(:partial => '/global_partials/navbar') %>
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<!doctype html>
+<html>
+
+<header>
+   <style>
+     table, th, td {
+       border: 1px solid black;
+     }
+   </style>
+</header>
+
+<body>
+
+<!--
+
+Current customer attributes:
+- first_name
+- last_name
+- Email
+- role
+
+Actions:
+- Show
+- Delete
+- Update role (e.g. make user an admin)
+
+-->
+
+
+
+<h1>Current Members</h1>
+<table>
+	<tr>
+    	<th>Name</th>
+    	<th>Email</th>
+    	<th>Role</th>
+    	<th>Actions</th>
+	</tr>
+	<% @users.each do |u| %>
+	<tr>
+    	<td><%= u.first_name + ' ' + u.last_name %></td>
+    	<td><%= u.email %></td>
+    	<td><%= u.role %></td>
+    	<td><%= link_to 'Show', user_path(u.id) %>, Update Role, Delete</td>
+	</tr>
+	<% end %>
+</table>
+
+</body>
+
+</html>
