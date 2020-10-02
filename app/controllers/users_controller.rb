@@ -11,9 +11,14 @@ class UsersController < ApplicationController
   end
   
   def edit
+    @user = Customer.find(params[:id])
   end
   
   def update
+    @user_info = params['customer']
+    @user = Customer.find(params[:id])
+    @user.update_attribute(:role, @user_info['role'])
+    redirect_to users_path
   end
 
   def create; end
