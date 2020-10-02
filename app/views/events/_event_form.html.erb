@@ -1,0 +1,22 @@
+<table class="table">
+  <tr>
+    <th>Title</th>
+    <td><%= f.text_field :title, required: true %></td>
+  </tr>
+  <tr>
+    <th>Description</th>
+    <td><%= f.text_field :description %></td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td><%= f.datetime_select :date, start_year: Date.today.year, end_year: Date.today.year + 1, order: [:month, :day, :year], required: true %></td>
+  </tr>
+  <tr>
+    <th>Location</th>
+    <td><%= f.text_field :location, required: true %></td>
+  </tr>
+  <tr>
+    <th>Mandatory</th>
+    <td><%= f.check_box :mandatory, { checked: true } %></td>
+  </tr>
+</table>
