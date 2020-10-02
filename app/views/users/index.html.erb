@@ -26,7 +26,7 @@ Actions:
 
 -->
 
-
+<%= render(:partial => '/global_partials/navbar') %>
 
 <h1>Current Members</h1>
 <table>
@@ -41,7 +41,7 @@ Actions:
     	<td><%= u.first_name + ' ' + u.last_name %></td>
     	<td><%= u.email %></td>
     	<td><%= u.role %></td>
-    	<td><%= link_to 'Show', user_path(u.id) %>, Update Role, Delete</td>
+    	<td><%= link_to 'Show', user_path(u.id) %>, Update Role, <%= link_to 'Delete', delete_user_path(u.id) %></td>
 	</tr>
 	<% end %>
 </table>
