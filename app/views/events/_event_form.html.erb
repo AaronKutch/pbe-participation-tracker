@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <th>Date</th>
-    <td><%= f.datetime_select :date, start_year: Date.today.year, end_year: Date.today.year + 1, order: [:month, :day, :year], required: true %></td>
+    <td><%= f.datetime_select :date, start_year: Date.today.year, end_year: Date.today.year + 1, order: [:month, :day, :year], ampm: true, required: true %></td>
   </tr>
   <tr>
     <th>Location</th>

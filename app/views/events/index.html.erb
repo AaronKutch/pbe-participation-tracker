@@ -4,32 +4,33 @@
   <h1>Upcoming Events</h1>
   <br>
   <% if session[:user_id] && Customer.where(:id => session[:user_id]).first.role == 'admin' %>
-    <%= link_to 'Add new event', new_event_path %>
+    <%= link_to 'Add new event', new_event_path, class: "btn btn-primary" %>
   <% end %>
   <table class="table">
-    <tr>
+    <thead>
       <th>Event</th>
       <th>Date / Time</th>
       <th>Mandatory</th>
       <th>Action</th>
-    </tr>
+    </thead>
+    <tbody>
+      <% @events.each do |e| %>
+        <tr>
+          <td><%= e.title %></td>
+          <td><%= e.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
+          <td><%= e.mandatory %></td>
 
-    <% @events.each do |e| %>
-    <tr>
-      <td><%= e.title %></td>
-      <td><%= e.date %></td>
-      <td><%= e.mandatory %></td>
-
-      <td>
-        <%= link_to 'Show', event_path(e.id) %>
-        <% if @user_role == 'user' %>
-        <%= link_to 'Sign In', events_mark_attendance_path(:event => e.id), method: :post %>
-        <% elsif @user_role == 'admin' %>
-        <%= link_to 'Edit', edit_event_path(e.id) %>
-        <%= link_to 'Delete', delete_event_path(e.id) %>
-        <% end %>
-      </td>
-    </tr>
-    <% end %>
+          <td>
+            <%= link_to 'Show', event_path(e.id), class: "btn btn-secondary" %>
+            <% if @user_role == 'user' %>
+              <%= link_to 'Sign In', events_mark_attendance_path(event: e.id), method: :post, class: "btn btn-secondary" %>
+            <% elsif @user_role == 'admin' %>
+              <%= link_to 'Edit', edit_event_path(e.id), class: "btn btn-secondary" %>
+              <%= link_to 'Delete', delete_event_path(e.id), class: "btn btn-secondary" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 </div>
