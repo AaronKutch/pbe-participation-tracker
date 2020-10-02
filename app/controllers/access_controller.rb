@@ -19,7 +19,6 @@ class AccessController < ApplicationController
 
     if authorized_user
       session[:user_id] = authorized_user.id
-      flash[:notice] = 'You are now logged in.'
       redirect_to(events_path)
     else
       flash.now[:notice] = 'Invalid email/password combination.'
@@ -29,7 +28,6 @@ class AccessController < ApplicationController
 
   def logout
     session[:user_id] = nil
-    flash[:notice] = 'Logged out'
     redirect_to(events_path)
   end
 end
