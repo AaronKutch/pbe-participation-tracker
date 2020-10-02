@@ -42,6 +42,7 @@ class EventsController < ApplicationController
       title: @event_info['title'],
       description: @event_info['description'],
       date: construct_date_time,
+      end_time: construct_end_time,
       location: @event_info['location'],
       mandatory: @event_info['mandatory']
     )
@@ -63,6 +64,7 @@ class EventsController < ApplicationController
       title: @event_info['title'],
       description: @event_info['description'],
       date: construct_date_time,
+      end_time: construct_end_time,
       location: @event_info['location'],
       mandatory: @event_info['mandatory']
     )
@@ -109,6 +111,12 @@ class EventsController < ApplicationController
   def construct_date_time
     s = "#{@event_info['date(1i)']}-#{@event_info['date(2i)']}-#{@event_info['date(3i)']}"
     s += "T#{@event_info['date(4i)']}:#{@event_info['date(5i)']}+0#{@time_zone}:00"
+    DateTime.parse(s)
+  end
+
+  def construct_end_time
+    s = "#{@event_info['end_time(1i)']}-#{@event_info['end_time(2i)']}-#{@event_info['end_time(3i)']}"
+    s += "T#{@event_info['end_time(4i)']}:#{@event_info['end_time(5i)']}+0#{@time_zone}:00"
     DateTime.parse(s)
   end
 end
