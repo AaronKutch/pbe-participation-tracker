@@ -1,10 +1,6 @@
 <!--Navbar and confirmation/error flash messages -->
-<%= render(:partial => 'navbar_login')%>
-<% flash.each do |type, msg| %>
-<div>
-  <%= msg %>
-</div>
-<% end %>
+<%= render(partial: 'navbar_login')%>
+<%= render(partial: 'global_partials/flash_notices')%>
 
 <% @page_title = "Admin Login" %>
 <div class="container-fluid">

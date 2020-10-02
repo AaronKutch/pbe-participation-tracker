@@ -10,15 +10,22 @@
   <!-- Path to be replaced with actual model paths for resourceful routes!!! -->
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-      <a class="nav-link nav-text" href="/events">Events</a>
+      <%= link_to "Events", events_path, class: "nav-link nav-text" %>
     </li>
     <li class="nav-item">
       <!-- FIXME: Update with proper user routes once made -->
-      <a class="nav-link nav-text" href="/events">Members</a>
+      <%= link_to "Members", events_path, class: "nav-link nav-text" %>
     </li>
     <li class="nav-item">
       <!-- FIXME: Update with proper user routes once made -->
-      <a class="nav-link nav-text" href="/events">My Profile</a>
+      <%= link_to "My Profile", events_path, class: "nav-link nav-text" %>
+    </li>
+    <li class="nav-item">
+      <% if session[:user_id] %>
+        <%= link_to "Logout", access_logout_path, class: "nav-link nav-text" %>
+      <% else %>
+        <%= link_to "Login", access_login_path, class: "nav-link nav-text" %>
+      <% end %>
     </li>
   </ul>
 
