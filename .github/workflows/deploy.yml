@@ -28,13 +28,13 @@ jobs:
     - name: Build and test with Rake
       env:
         PGHOST: 127.0.0.1
+        PGPORT: ${{ job.services.postgres.ports[5432] }}
         PGUSER: postgres
         POSTGRES_PASSWORD: postgres
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
       run: |
         sudo apt-get -yqq install libpq-dev
-        sudo service postgresql start
         sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
         gem install bundler
         bundle install --jobs 4 --retry 3
