@@ -7,6 +7,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      POSTGRES_PASSWORD: postgres
+      PGHOST: 127.0.0.1
+      PGUSER: postgres
+      RAILS_ENV: test
+
     services:
       db:
         image: postgres:11.7
@@ -24,10 +30,6 @@ jobs:
       with:
         ruby-version: 2.7
     - name: Build and test with Rake
-      env:
-        PGHOST: 127.0.0.1
-        PGUSER: postgres
-        RAILS_ENV: test
       run: |
         sudo apt-get -yqq install libpq-dev
         gem install bundler
