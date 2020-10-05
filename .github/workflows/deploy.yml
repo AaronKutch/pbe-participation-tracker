@@ -36,6 +36,9 @@ jobs:
         RAILS_ENV: test
       run: |
         docker exec -d postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
+        docker exec -d postgres psql --command="CREATE DATABASE pbe_participation_tracker_development;"
+        docker exec -d postgres psql --command="GRANT ALL PRIVILEGES ON DATABASE pbe_participation_tracker_development TO pbe_participation_tracker;"
+
         sudo apt-get -yqq install libpq-dev
         gem install bundler
         bundle install --jobs 4 --retry 3
