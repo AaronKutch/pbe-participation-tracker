@@ -27,6 +27,7 @@ jobs:
         # needed for `pg` gem
         sudo apt-get -yqq install libpq-dev
         gem install bundler
+        bundle exec rails webpacker:install
         bundle install --jobs 4 --retry 3
         bundle exec rails db:create
         bundle exec rails db:migrate
