@@ -21,7 +21,7 @@ jobs:
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
       run: |
-        sudo apt install postgresql-11.7
+        sudo apt install postgresql
         sudo service postgresql start
         sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
         # needed for `pg` gem
