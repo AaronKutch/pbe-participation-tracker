@@ -29,11 +29,17 @@ jobs:
       env:
         PGHOST: 127.0.0.1
         PGUSER: postgres
+        POSTGRES_PASSWORD: postgres
+        PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
       run: |
         sudo apt-get -yqq install libpq-dev
+        sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
         gem install bundler
         bundle install --jobs 4 --retry 3
         bundle exec rails db:create
         bundle exec rails db:migrate
+        # run Spec tests
         bundle exec rake spec
+        # make sure that the seed file works
+        bundle exec rake db:reset db:migrate db:seed
