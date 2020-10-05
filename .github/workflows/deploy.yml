@@ -7,19 +7,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:11.7
-        env:
-          POSTGRES_PASSWORD: postgres
-        ports: ['5432:5432']
-        options: >-
-          --name=postgres
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby 2.7
@@ -29,13 +16,15 @@ jobs:
     - name: Build and test with Rake
       env:
         PGHOST: 127.0.0.1
-        PGPORT: ${{ job.services.postgres.ports[5432] }}
         PGUSER: postgres
         POSTGRES_PASSWORD: postgres
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
       run: |
-        #docker exec -d postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
+        sudo apt install postgresql-11.7
+        sudo service postgresql start
+        sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
+        # needed for `pg` gem
         sudo apt-get -yqq install libpq-dev
         gem install bundler
         bundle install --jobs 4 --retry 3
