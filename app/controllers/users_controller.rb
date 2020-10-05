@@ -9,19 +9,43 @@ class UsersController < ApplicationController
   end
   
   def show
-    @user = Customer.find(params[:id])
-    @user_events = @user.events.order('date')
+    begin
+      @user = Customer.find(params[:id])
+      if (@user == nil)
+        raise 'error'
+      end
+      @user_events = @user.events.order('date')
+    rescue
+      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+      redirect_to(users_path)
+    end
   end
   
   def edit
-    @user = Customer.find(params[:id])
+    begin
+      @user = Customer.find(params[:id])
+      if (@user == nil)
+        raise 'error'
+      end
+    rescue
+      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+      redirect_to(users_path)
+    end
   end
   
   def update
-    @user_info = params['customer']
-    @user = Customer.find(params[:id])
-    @user.update_attribute(:role, @user_info['role'])
-    redirect_to users_path
+    begin
+      @user_info = params['customer']
+      @user = Customer.find(params[:id])
+      if (@user == nil)
+        raise 'error'
+      end
+      @user.update_attribute(:role, @user_info['role'])
+      redirect_to(users_path)
+    rescue
+      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+      redirect_to(users_path)
+    end
   end
 
   def create; end
@@ -29,13 +53,29 @@ class UsersController < ApplicationController
   def dashboard; end
   
   def delete
-    @user = Customer.find(params[:id])
+    begin
+      @user = Customer.find(params[:id])
+      if (@user == nil)
+        raise 'error'
+      end
+    rescue
+      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+      redirect_to(users_path)
+    end
   end
   
   def destroy
-    @user = Customer.find(params[:id])
-    @user.destroy
-    redirect_to users_path
+    begin
+      @user = Customer.find(params[:id])
+      if (@user == nil)
+        raise 'error'
+      end
+      @user.destroy
+      redirect_to(users_path)
+    rescue
+      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+      redirect_to(users_path)
+    end
   end
 
   def check_admin
