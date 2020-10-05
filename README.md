@@ -6,6 +6,7 @@ and Sergio Rios
 # Ruby dependencies
   - Ruby 2.7
   - Rails 6.0
+  - PostgreSQL 11
 
 # Configuration
 
