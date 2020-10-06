@@ -35,9 +35,8 @@ jobs:
         sudo apt-get -yqq install libpq-dev
     - name: Setup Bundle
       run: |
+        sudo install yarn
         gem install bundler
-        # restart spring
-        spring stop
         bundle install --jobs 4 --retry 3
         bundle exec rails webpacker:install
     - name: Rake Spec
