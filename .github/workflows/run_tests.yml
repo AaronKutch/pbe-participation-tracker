@@ -1,6 +1,6 @@
 name: Rake and Rubocop tests
 
-on: pull_request
+on: [pull, pull_request]
 
 jobs:
   build:
@@ -9,11 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.rbenv/
-        key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile.lock') }}
     - name: Set up Ruby 2.7
       uses: actions/setup-ruby@v1
       with:
@@ -27,11 +22,9 @@ jobs:
         sudo apt-get -yqq install libpq-dev
     - name: Setup Bundle
       run: |
-        yarn install --check-files
         gem install bundler
         bundle install --jobs 4 --retry 3
         rails webpacker:install
-        bundle info webpacker
     - name: Rake Spec
       env:
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
