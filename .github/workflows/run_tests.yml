@@ -21,12 +21,6 @@ jobs:
       with:
         ruby-version: 2.7
     - name: Setup Postgresql
-      env:
-        PGHOST: 127.0.0.1
-        PGUSER: postgres
-        POSTGRES_PASSWORD: postgres
-        PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
-        RAILS_ENV: test
       run: |
         sudo apt install postgresql
         sudo service postgresql start
@@ -40,6 +34,9 @@ jobs:
         bundle install --jobs 4 --retry 3
         bundle exec rails webpacker:install
     - name: Rake Spec
+      env:
+        PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
+        RAILS_ENV: test
       run: |
         bundle exec rails db:reset db:create db:migrate
         bundle exec rake spec
