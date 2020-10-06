@@ -36,7 +36,6 @@ jobs:
     - name: Setup Bundle
       run: |
         gem install bundler
-        bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
         bundle exec rails webpacker:install
     - name: Rake Spec
