@@ -14,8 +14,6 @@ jobs:
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
     - name: Set up Ruby 2.7
       uses: actions/setup-ruby@v1
       with:
