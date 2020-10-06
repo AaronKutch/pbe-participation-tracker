@@ -182,6 +182,8 @@ RSpec.describe 'Delete a user that does not exist.' do
   end
 end
 
+
+
 # Attempt to delete a user that has already been deleted.
 RSpec.describe 'Delete a user that has already been deleted.' do
   it 'Redirects back to /users path.' do
@@ -204,6 +206,53 @@ RSpec.describe 'Delete a user that has already been deleted.' do
     visit('/users/2/delete')
     expect(page).to have_no_content('Delete User')
 
+  end
+end
+
+# Attempt to destroy a user that has already been deleted.
+RSpec.describe 'Destroy a user that has already been deleted.' do
+  it 'Redirects back to /users path.' do
+
+    # Create admin and user customers.
+    create_admin
+    create_user
+
+    @c = Customer.second
+
+    # Log in as admin.
+    visit('/')
+    common_login($admin_email, $admin_password)
+    visit('/users')
+
+    # Attempt to delete user.
+    all('a', text: 'Delete')[0].click
+
+    @c.destroy
+    click_on('Delete User')
+
+  end
+end
+
+# Attempt to update a user that has already been deleted.
+RSpec.describe 'Update a user that has already been deleted.' do
+  it 'Redirects back to /users path.' do
+    # Create admin and user customers.
+    create_admin
+    create_user
+
+    @c = Customer.second
+
+    # Log in as admin.
+    visit('/')
+    common_login($admin_email, $admin_password)
+    visit('/users')
+
+    # Attempt to update user.
+    all('a', text: 'Update Role')[0].click
+
+    @c.destroy
+    click_on('Submit')    
+    
   end
 end
 
