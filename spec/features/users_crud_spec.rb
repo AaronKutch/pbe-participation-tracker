@@ -78,8 +78,19 @@ RSpec.describe 'Display list of events that a user has attended.' do
     all('a', text: 'Show')[0].click
     expect(page).to have_content('Event 1')
 
+    # Show list of events that user has attended.
+    visit('/users')
+    all('a', text: 'Show')[0].click
+    @curr_path = current_path.to_s
+    expect(page).to have_content('User Information')
+
+    # Visit user page directly.
+    visit(@curr_path)
+    expect(page).to have_content('Events Attended')
+
   end
 end
+
 
 # Promote a user to admin.
 RSpec.describe 'Promote a user to admin.' do
@@ -167,6 +178,55 @@ RSpec.describe 'Delete a user that does not exist.' do
     # Attempt to edit a user with an invalid ID.
     visit('/users/500/delete')
     expect(page).to have_no_content('Delete User')
+
+  end
+end
+
+# Attempt to delete a user that has already been deleted.
+RSpec.describe 'Delete a user that has already been deleted.' do
+  it 'Redirects back to /users path.' do
+
+    # Create admin and user customers.
+    create_admin
+    create_user
+
+    # Log in as admin.
+    visit('/')
+    common_login($admin_email, $admin_password)
+    visit('/users')
+
+    # Delete a user.
+    all('a', text: 'Delete')[0].click
+    click_on('Delete User')
+    visit('/users')
+
+    # Attempt to delete the user again.
+    visit('/users/2/delete')
+    expect(page).to have_no_content('Delete User')
+
+  end
+end
+
+RSpec.describe 'Show a user that has already been deleted.' do
+  it 'Redirects back to /users path.' do
+
+    # Create admin and user customers.
+    create_admin
+    create_user
+
+    # Log in as admin.
+    visit('/')
+    common_login($admin_email, $admin_password)
+    visit('/users')
+
+    # Delete a user.
+    all('a', text: 'Delete')[0].click
+    click_on('Delete User')
+    visit('/users')
+
+    # Attempt to show the user's information.
+    visit('/users/2')
+    expect(page).to have_no_content('User Information')
 
   end
 end
