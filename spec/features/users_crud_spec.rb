@@ -172,7 +172,7 @@ RSpec.describe 'Delete a user that does not exist.' do
 end
 
 # Delete a user.
-UsersController.describe 'Delete a user.' do
+RSpec.describe 'Delete a user.' do
   it 'Removes that user from the users page.' do
 
     # Create admin and user customers.
