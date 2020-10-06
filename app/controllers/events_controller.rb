@@ -116,7 +116,7 @@ class EventsController < ApplicationController
 
   def construct_end_time
     s = "#{@event_info['end_time(1i)']}-#{@event_info['end_time(2i)']}-#{@event_info['end_time(3i)']}"
-    s += "T#{@event_info['end_time(4i)']}:#{@event_info['end_time(5i)']}+0#{@time_zone}:00"
+    s += "T#{@event_info['end_time(4i)']}:#{@event_info['end_time(5i)']}+#{@time_zone}"
     DateTime.parse(s)
   end
 end
