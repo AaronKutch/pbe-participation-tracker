@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get 'access/login'
   post 'access/attempt_login'
   get 'access/logout'
+  get 'access/new_account'
+  post 'access/create_account'
 
   post 'events/mark_attendance'
   resources :events do
