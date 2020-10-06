@@ -9,11 +9,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Cache
+      uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
     - name: Set up Ruby 2.7
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.7
-    - name: Build and test with Rake
+    - name: Setup Postgresql
       env:
         PGHOST: 127.0.0.1
         PGUSER: postgres
@@ -26,12 +33,13 @@ jobs:
         sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
         # needed for `pg` gem
         sudo apt-get -yqq install libpq-dev
+    - name: Setup Bundle
+      run: |
         gem install bundler
+        bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
         bundle exec rails webpacker:install
-        bundle exec rails db:create
-        bundle exec rails db:migrate
-        # run Spec tests
+    - name: Rake Spec
+      run: |
+        bundle exec rails db:reset db:create db:migrate
         bundle exec rake spec
-        # make sure that the seed file works
-        bundle exec rake db:reset db:migrate db:seed
