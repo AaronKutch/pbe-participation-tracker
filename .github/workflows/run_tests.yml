@@ -12,8 +12,8 @@ jobs:
     - name: Cache
       uses: actions/cache@v2
       with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        path: ~/.rbenv/
+        key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile.lock') }}
     - name: Set up Ruby 2.7
       uses: actions/setup-ruby@v1
       with:
