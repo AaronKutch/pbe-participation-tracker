@@ -30,11 +30,13 @@ jobs:
         yarn install --check-files
         gem install bundler
         bundle install --jobs 4 --retry 3
-        bundle exec rails webpacker:install
+        rails webpacker:install
     - name: Rake Spec
       env:
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
       run: |
-        bundle exec rails db:reset db:create db:migrate
-        bundle exec rake spec
+        rails db:create db:schema:load
+        rake spec
+        # test that the database can be reset with seeds.rb
+        rails db:reset
