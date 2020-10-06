@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<body>
+  <%= form_for @new_customer, :url => access_create_account_path, :method => 'post' do |f| %>
+    <%= render(partial: 'global_partials/error_messages', locals: {object: f.object})%>
+    <table>
+      <tr>
+        <th>First Name</th>
+        <td><%= f.text_field :first_name, required: true %></td>
+      </tr>
+      <tr>
+        <th>Last Name</th>
+        <td><%= f.text_field :last_name, required: true %></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td><%= f.email_field :email, required: true %></td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td><%= f.password_field :password, required: true %></td>
+      </tr>
+    </table>
+  <%= f.submit("Submit") %>
+  <% end %>
+</body>
+</html>
