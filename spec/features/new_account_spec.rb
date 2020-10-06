@@ -59,7 +59,6 @@ RSpec.describe 'New account' do
       fill_in('customer_password', with: 'password')
       click_on('Create Account')
       expect(page).to have_content('Email has already been taken')
-
     end
   end
 end
