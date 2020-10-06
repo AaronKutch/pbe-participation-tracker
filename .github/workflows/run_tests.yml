@@ -22,6 +22,7 @@ jobs:
         sudo apt-get -yqq install libpq-dev
     - name: Setup Bundle
       run: |
+        yarn install --check-files
         gem install bundler
         bundle install --jobs 4 --retry 3
         rails webpacker:install
