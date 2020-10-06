@@ -111,8 +111,68 @@ RSpec.describe 'Promote a user to admin.' do
   end
 end
 
+# Attempt to show a user that does not exist.
+RSpec.describe 'Show information for a user that does not exist.' do
+  it 'Redirects back to /users path.' do
+  
+    # Create admin and user customers.
+    create_admin
+    create_user
+
+    # Log in as admin.
+    visit('/')
+    common_login($admin_email, $admin_password)
+    visit('/users')
+
+    # Attempt to show a user with an invalid ID.
+    visit('/users/500')
+    expect(page).to have_no_content('User Information')
+
+  end
+end
+
+# Attempt to promote a user that does not exist.
+RSpec.describe 'Promote a user that does not exist.' do
+  it 'Redirects back to /users path.' do
+    
+    # Create admin and user customers.
+    create_admin
+    create_user
+
+    # Log in as admin.
+    visit('/')
+    common_login($admin_email, $admin_password)
+    visit('/users')
+
+    # Attempt to edit a user with an invalid ID.
+    visit('/users/500/edit')
+    expect(page).to have_no_content('Update User Role')
+
+  end
+end
+
+# Attempt to delete a user that does not exist.
+RSpec.describe 'Delete a user that does not exist.' do
+  it 'Redirects back to /users path.' do
+    
+    # Create admin and user customers.
+    create_admin
+    create_user
+
+    # Log in as admin.
+    visit('/')
+    common_login($admin_email, $admin_password)
+    visit('/users')
+
+    # Attempt to edit a user with an invalid ID.
+    visit('/users/500/delete')
+    expect(page).to have_no_content('Delete User')
+
+  end
+end
+
 # Delete a user.
-RSpec.describe 'Delete a user.' do
+UsersController.describe 'Delete a user.' do
   it 'Removes that user from the users page.' do
 
     # Create admin and user customers.
@@ -142,6 +202,23 @@ RSpec.describe 'Delete a user.' do
   end
 end
 
+# Attempt to view the /users page as a non-admin.
+RSpec.describe 'Attempt to view /users page as a non-admin.' do
+  it 'Redirects user back to /events page.' do
 
+    # Create admin and user customers.
+    create_admin
+    create_user
+
+    # Log in as user.
+    visit('/')
+    common_login($user_email, $user_password)
+
+    # Attempt to view the /users page.
+    visit('/users')
+    expect(page).to have_no_content('Current Members')
+
+  end
+end
 
 
