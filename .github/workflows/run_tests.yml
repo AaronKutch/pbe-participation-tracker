@@ -1,0 +1,37 @@
+name: Rake and Rubocop tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Setup Postgresql
+      run: |
+        sudo apt install postgresql
+        sudo service postgresql start
+        sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
+        # needed for `pg` gem
+        sudo apt-get -yqq install libpq-dev
+    - name: Setup Bundle
+      run: |
+        yarn install --check-files
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        rails webpacker:install
+    - name: Rake Spec
+      env:
+        PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
+        RAILS_ENV: test
+      run: |
+        rails db:create db:schema:load
+        rake spec
+        # test that the database can be reset with seeds.rb
+        rails db:reset
