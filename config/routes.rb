@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'access/logout'
 
   post 'events/mark_attendance'
+  post 'events/revoke_attendence'
   resources :events do
     member do
       get :delete
