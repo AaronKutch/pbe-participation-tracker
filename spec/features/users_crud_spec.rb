@@ -158,6 +158,7 @@ RSpec.describe 'Promote a user that does not exist.' do
     # Attempt to edit a user with an invalid ID.
     visit('/users/500/edit')
     expect(page).to have_no_content('Update User Role')
+    expect(current_path).to eql('/users')
 
   end
 end
@@ -199,12 +200,14 @@ RSpec.describe 'Delete a user that has already been deleted.' do
 
     # Delete a user.
     all('a', text: 'Delete')[0].click
+    @curr_path = current_path
     click_on('Delete User')
     visit('/users')
 
     # Attempt to delete the user again.
-    visit('/users/2/delete')
+    visit(@curr_path)
     expect(page).to have_no_content('Delete User')
+    expect(current_path).to eql('/users')
 
   end
 end
@@ -229,6 +232,7 @@ RSpec.describe 'Destroy a user that has already been deleted.' do
 
     @c.destroy
     click_on('Delete User')
+    expect(current_path).to eql('/users')
 
   end
 end
@@ -263,6 +267,8 @@ RSpec.describe 'Show a user that has already been deleted.' do
     create_admin
     create_user
 
+    @c = Customer.second
+
     # Log in as admin.
     visit('/')
     common_login($admin_email, $admin_password)
@@ -274,8 +280,9 @@ RSpec.describe 'Show a user that has already been deleted.' do
     visit('/users')
 
     # Attempt to show the user's information.
-    visit('/users/2')
+    visit('/users/' + @c.id.to_s)
     expect(page).to have_no_content('User Information')
+    expect(current_path).to eql('/users')
 
   end
 end
