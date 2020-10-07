@@ -13,15 +13,14 @@
       </tr>
     </thead>
     <tbody>
-      <% @events.each do |e| %>
+      <% @events.each do |event| %>
         <tr>
-          <td><%= e.title %></td>
-          <td><%= e.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
-          <td><%= e.mandatory %></td>
+          <td><%= event.title %></td>
+          <td><%= event.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
+          <td><%= event.mandatory %></td>
           <td>
-            <%= link_to 'Details', event_path(e.id),  class: "btn btn-secondary" %>
-            <%= link_to 'Sign In', events_mark_attendance_path(event: e.id), method: :post, class: "btn btn-secondary" %>
-          </td>
+            <%= link_to 'Details', event_path(event.id),  class: "btn btn-secondary" %>
+            <%= link_to 'Sign In', events_mark_attendance_path(event: event.id), method: :post, class: "btn btn-secondary" %>
         </tr>
       <% end %>
     </tbody>

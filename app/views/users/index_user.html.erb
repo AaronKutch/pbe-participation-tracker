@@ -1,29 +1,28 @@
 <%= render(:partial => '/global_partials/navbar') %>
 <%= render(:partial => '/global_partials/flash_notices') %>
 <div class="container">
-
-  <%= render(:partial => '/global_partials/login_logout') %>
-
   <br />
   <h1>PBE Members</h1><br />
   <table class="table">
-    <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
-      <th>Actions</th>
-    </tr>
-
-    <% @customers.each do |e| %>
-    <tr>
-      <td><%= e.first_name %></td>
-      <td><%= e.last_name %></td>
-      <td><%= e.email %></td>
-
-      <td>
-        <%= link_to 'Details', event_path(e.id) %>
-      </td>
-    </tr>
-    <% end %>
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |user| %>
+        <tr>
+          <td><%= user.first_name %></td>
+          <td><%= user.last_name %></td>
+          <td><%= user.email %></td>
+          <td>
+            <%= link_to 'Details', user_path(user.id),  class: "btn btn-secondary" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 </div>
