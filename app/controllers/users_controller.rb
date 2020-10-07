@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   
   def show
     begin
-      @user = Customer.find(params[:id])
+      @user = Customer.find_by(id: params[:id])
       if (@user == nil)
         raise 'error'
       end
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   
   def edit
     begin
-      @user = Customer.find(params[:id])
+      @user = Customer.find_by(id: params[:id])
       if (@user == nil)
         raise 'error'
       end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   def update
     begin
       @user_info = params['customer']
-      @user = Customer.find(params[:id])
+      @user = Customer.find_by(id: params[:id])
       if (@user == nil)
         raise 'error'
       end
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   
   def delete
     begin
-      @user = Customer.find(params[:id])
+      @user = Customer.find_by(id: params[:id])
       if (@user == nil)
         raise 'error'
       end
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   
   def destroy
     begin
-      @user = Customer.find(params[:id])
+      @user = Customer.find_by(id: params[:id])
       if (@user == nil)
         raise 'error'
       end
