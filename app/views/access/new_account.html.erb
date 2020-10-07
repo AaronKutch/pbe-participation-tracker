@@ -1,0 +1,39 @@
+<%= render(partial: 'navbar_login')%>
+
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-8 col-lg-6 bg-login">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto ">
+              <h3 class="login-heading mb-4 ">Welcome to the Professional Brotherhood of Engineers!</h3>
+              <%= render(partial: 'global_partials/flash_notices')%>
+              <%= form_for @new_customer, url: access_create_account_path, method: 'post' do |f| %>
+                <%= render(partial: 'global_partials/error_messages', locals: {object: f.object})%>
+                <div class="form-label-group">
+                  <%= f.text_field :first_name, required: true, class: "form-control" %>
+                  <%= f.label :first_name %>
+                </div>
+                <div class="form-label-group">
+                  <%= f.text_field :last_name, required: true, class: "form-control" %>
+                  <%= f.label :last_name %>
+                </div>
+                <div class="form-label-group">
+                  <%= f.email_field :email, required: true, class: "form-control" %>
+                  <%= f.label :email %>
+                </div>
+                <div class="form-label-group">
+                  <%= f.password_field :password, required: true, class: "form-control" %>
+                  <%= f.label :password %>
+                </div>
+                <%= f.submit "Create Account", class: "btn btn-lg btn-primary btn-block text-uppercase font-weight-bold mb-2" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

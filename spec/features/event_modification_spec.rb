@@ -155,17 +155,17 @@ RSpec.describe 'Set date of an event.' do
     visit('/events/new')
     fill_in('event_location', with: 'TEST LOCATION ONE')
     fill_in('event_title', with: 'TEST EVENT ONE')
-    select('2024', from: 'event_date_1i')
+    select(Date.today.year, from: 'event_date_1i')
     select('February', from: 'event_date_2i')
-    select('15', from: 'event_date_3i')
-    select('17', from: 'event_date_4i')
+    select('1', from: 'event_date_3i')
+    select('01 PM', from: 'event_date_4i')
     select('30', from: 'event_date_5i')
     click_on('Submit')
     expect(current_path).to eql('/events')
 
-    # Show event.
+    # Show event
     all('a', text: 'Show')[0].click
-    expect(page).to have_content('2024-02-15 17:30:00 UTC')
+    expect(page).to have_content("Feb 1, #{Date.today.year}, 1:30 pm")
   end
 end
 
@@ -248,10 +248,10 @@ RSpec.describe 'Create a new event with each field modified from defaults.' do
     expect(current_path).to eql('/events/new')
     fill_in('event_title', with: 'Full test A')
     fill_in('event_description', with: 'Event description A')
-    select('2021', from: 'event_date_1i')
+    select(Date.today.year, from: 'event_date_1i')
     select('July', from: 'event_date_2i')
     select('9', from: 'event_date_3i')
-    select('19', from: 'event_date_4i')
+    select('7 PM', from: 'event_date_4i')
     select('00', from: 'event_date_5i')
     fill_in('event_location', with: 'Event location A')
     uncheck('event_mandatory')
@@ -262,7 +262,7 @@ RSpec.describe 'Create a new event with each field modified from defaults.' do
     all('a', text: 'Show')[0].click
     expect(page).to have_content('Full test A') # Title
     expect(page).to have_content('Event description A') # Description
-    expect(page).to have_content('2021-07-09 19:00:00 UTC') # Time
+    expect(page).to have_content("Jul 9, #{Date.today.year}, 7:00 pm") # Time
     expect(page).to have_content('Event location A') # Location
     expect(page).to have_content('false') # Mandatory
   end

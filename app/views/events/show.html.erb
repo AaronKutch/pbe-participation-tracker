@@ -13,12 +13,8 @@
         <td><%= @event_record.description %></td>
       </tr>
       <tr>
-        <th>Date</th>
-        <td><%= @event_record.date.to_time() %></td>
-      </tr>
-      <tr>
         <th>Date/Time</th>
-        <td><%= @event_record.date %></td>
+        <td><%= @event_record.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
       </tr>
       <tr>
         <th>Location</th>
@@ -30,17 +26,17 @@
       </tr>
     </table>
     <% if @user_role == 'admin' %>
-    <br />
-    <h2>Attendees</h2><br />
-    <table class="table">
-      <% @attendees.each do |a| %>
-      <tr>
-        <th>Name</th>
-        <td><%= "#{a.first_name} #{a.last_name}"%>
-        <th>Email</th>
-        <td><%= a.email%>
-      </tr>
-      <% end %>
-    </table>
+      <br />
+      <h2>Attendees</h2><br />
+      <table class="table">
+        <% @attendees.each do |a| %>
+          <tr>
+            <th>Name</th>
+            <td><%= "#{a.first_name} #{a.last_name}"%>
+            <th>Email</th>
+            <td><%= a.email%>
+          </tr>
+        <% end %>
+      </table>
     <% end %>
   </div>
