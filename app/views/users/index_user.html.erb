@@ -6,22 +6,22 @@
   <table class="table">
     <thead>
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>Name</th>
         <th>Email</th>
+        <th>Role</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <% @customers.each do |user| %>
-        <tr>
-          <td><%= user.first_name %></td>
-          <td><%= user.last_name %></td>
-          <td><%= user.email %></td>
-          <td>
-            <%= link_to 'Details', user_path(user.id),  class: "btn btn-secondary" %>
-          </td>
-        </tr>
+      <% @users.each do |user| %>
+      <tr>
+        <td><%= user.first_name + ' ' + user.last_name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.role %></td>
+        <td>
+          <%= link_to 'Details', user_path(user.id),  class: "btn btn-secondary" %>
+        </td>
+      </tr>
       <% end %>
     </tbody>
   </table>

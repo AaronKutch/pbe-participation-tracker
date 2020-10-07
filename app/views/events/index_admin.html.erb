@@ -3,9 +3,9 @@
 <div class="container">
   <h1>Upcoming Events</h1>
   <br />
-  <% if session[:user_id] && Customer.where(:id => session[:user_id]).first.role == 'admin' %>
+  <div class="float-right">
     <%= link_to 'Add new event', new_event_path, class: "btn btn-primary" %>
-  <% end %>
+  </div>
   <table class="table">
     <thead>
       <tr>

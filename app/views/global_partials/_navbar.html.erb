@@ -5,19 +5,17 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <!-- Path to be replaced with actual model paths for resourceful routes!!! -->
   <div class="collapse navbar-collapse" id="navbar-collapse-content">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <%= link_to "Events", events_path, class: "nav-link nav-text" %>
       </li>
       <li class="nav-item">
-        <!-- FIXME: Update with proper user routes once made -->
-        <%= link_to "Members", events_path, class: "nav-link nav-text" %>
+        <%= link_to "Members", users_path, class: "nav-link nav-text" %>
       </li>
       <li class="nav-item">
         <!-- FIXME: Update with proper user routes once made -->
-        <%= link_to "My Profile", events_path, class: "nav-link nav-text" %>
+        <%= link_to "My Profile", user_path(session[:user_id]), class: "nav-link nav-text" %>
       </li>
       <li class="nav-item">
         <% if session[:user_id] %>
