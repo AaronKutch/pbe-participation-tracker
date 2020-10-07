@@ -1,0 +1,14 @@
+<%= render(:partial => '/global_partials/navbar') %>
+<div class="container">
+  <br/><h1>Update User Role</h1><br/>
+  <%= form_for @user, url: user_path(@user) do |f| %>
+  <table class="table">
+    <tr>
+      <th>Role</th>
+      <td><%= f.select :role, options_for_select(['user', 'admin']), default: @user.role %></td>
+    </tr>
+  </table>
+
+  <%= f.submit("Submit") %>
+  <% end %>
+</div>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+<header>
+   <style>
+     table, th, td {
+       border: 1px solid black;
+     }
+   </style>
+</header>
+
+<body>
+
+<%= render(:partial => '/global_partials/navbar') %>
+
+<h2>User Information</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <td><%= @user.first_name + ' ' + @user.last_name %></td>
+  </tr>
+  <tr>
+    <th>Email</th>
+    <td><%= @user.email %></td>
+  </tr>
+  <tr>
+    <th>Role</th>
+    <td><%= @user.role %></td>
+  </tr>
+</table>
+
+
+<h2>Events Attended</h2>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Date</th>
+    <th>Mandatory</th>
+  </tr>
+  
+  <% @user_events.each do |e| %>
+  <tr>
+    <td><%= e.title %></td>
+    <td><%= e.date %></td>
+    <td><%= e.mandatory %></td>
+  </tr>
+  <% end %>
+
+</table>
+
+</body>
+</html>
