@@ -22,7 +22,7 @@
 
       <td>
         <%= link_to 'Show', event_path(e.id) %>
-        <% if @user_role == 'user' && e.end_time.to_time.utc.to_i > Time.now.utc.to_i && e.date.to_time.utc.to_i < Time.now.utc.to_i%>
+        <% if @user_role == 'user' && e.end_time.to_time.utc.to_i >= Time.now.utc.to_i && e.date.to_time.utc.to_i <= Time.now.utc.to_i%>
         <%= link_to 'Sign In', events_mark_attendance_path(:event => e.id), method: :post %>
         <% elsif @user_role == 'admin' %>
         <%= link_to 'Edit', edit_event_path(e.id) %>

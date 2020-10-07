@@ -17,6 +17,11 @@ RSpec.describe 'Sign in to an event.' do
     click_on('Add new event')
     fill_in('event_title', with: 'TEST EVENT')
     fill_in('event_location', with: 'TEST LOCATION')
+    select "00", :from => "event_date_4i"
+    select "00", :from => "event_date_5i"
+    select "23", :from => "event_end_time_4i"
+    select "59", :from=> "event_end_time_5i"
+
     click_on('Submit')
     expect(current_path).to eql('/events')
     expect(page).to have_content('TEST EVENT')
@@ -58,6 +63,10 @@ RSpec.describe 'View list of users registered when no users have registered yet.
     click_on('Add new event')
     fill_in('event_title', with: 'TEST EVENT')
     fill_in('event_location', with: 'TEST LOCATION')
+    select "00", :from => "event_date_4i"
+    select "00", :from => "event_date_5i"
+    select "23", :from => "event_end_time_4i"
+    select "59", :from=> "event_end_time_5i"
     click_on('Submit')
     expect(current_path).to eql('/events')
 
