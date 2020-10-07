@@ -13,6 +13,14 @@ class EventsController < ApplicationController
                  else
                    'not_logged_in'
                  end
+
+    #conditionally renders admin or user index view
+    if @user_role == 'admin'
+      render('index_admin')
+    elsif @user_role == 'user'
+      render('index_user')
+    end
+
   end
 
   def show
@@ -30,6 +38,7 @@ class EventsController < ApplicationController
 
     @attendees = []
     @attendees = @event_record.customers if @user_role == 'admin'
+
   end
 
   def new
