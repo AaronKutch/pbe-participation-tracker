@@ -41,7 +41,7 @@ RSpec.describe 'Sign in to an event.' do
     common_login(admin_email, password)
 
     # Show list of attendees of an event.
-    all('a', text: 'Show')[0].click
+    all('a', text: 'Details')[0].click
     expect(page).to have_content('Jane Doe')
     expect(page).to have_content(user_email)
   end
@@ -62,7 +62,7 @@ RSpec.describe 'View list of users registered when no users have registered yet.
     expect(current_path).to eql('/events')
 
     # View list of attendees.
-    all('a', text: 'Show')[0].click
+    all('a', text: 'Details')[0].click
 
     # expect(page).to have_no_content
     expect(page).to have_no_content('@')

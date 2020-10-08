@@ -9,7 +9,6 @@
         <th>Name</th>
         <th>Email</th>
         <th>Role</th>
-        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -18,9 +17,6 @@
         <td><%= user.first_name + ' ' + user.last_name %></td>
         <td><%= user.email %></td>
         <td><%= user.role %></td>
-        <td>
-          <%= link_to 'Details', user_path(user.id),  class: "btn btn-secondary" %>
-        </td>
       </tr>
       <% end %>
     </tbody>

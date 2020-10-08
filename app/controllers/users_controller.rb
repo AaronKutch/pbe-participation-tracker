@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 class UsersController < ApplicationController
 
-  before_action :check_admin
+  # before_action :check_admin
 
   def index
     @users = Customer.order('last_name')
@@ -19,6 +17,7 @@ class UsersController < ApplicationController
     elsif @user_role == 'user'
       render('index_user')
     end
+
   end
   
   def show
@@ -91,11 +90,11 @@ class UsersController < ApplicationController
     end
   end
 
-  def check_admin
-    unless Customer.find(session[:user_id]).role == 'admin'
-      flash[:notice] = 'Non-admins are not authorized to view this page.'
-      redirect_to(events_path)
-    end
-  end
+  # def check_admin
+  #   unless Customer.find(session[:user_id]).role == 'admin'
+  #     flash[:notice] = 'Non-admins are not authorized to view this page.'
+  #     redirect_to(events_path)
+  #   end
+  # end
   
 end

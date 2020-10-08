@@ -75,14 +75,14 @@ RSpec.describe 'Display list of events that a user has attended.' do
     common_login($admin_email, $admin_password)
 
     # Verify that event appears in list of events attended.
-    all('a', text: 'Show')[0].click
+    all('a', text: 'Details')[0].click
     expect(page).to have_content('Event 1')
 
     # Show list of events that user has attended.
     visit('/users')
-    all('a', text: 'Show')[0].click
+    all('a', text: 'Details')[0].click
     @curr_path = current_path.to_s
-    expect(page).to have_content('User Information')
+    expect(page).to have_content('Member Info')
 
     # Visit user page directly.
     visit(@curr_path)

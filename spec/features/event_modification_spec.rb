@@ -123,8 +123,8 @@ RSpec.describe 'Delete an event.' do
   end
 end
 
-# Show an event.
-RSpec.describe 'Show an event.' do
+# Details an event.
+RSpec.describe 'Details an event.' do
   it 'Displays event details.' do
     admin_create_and_login
 
@@ -135,8 +135,8 @@ RSpec.describe 'Show an event.' do
     click_on('Submit')
     expect(current_path).to eql('/events')
 
-    # Show the event.
-    all('a', text: 'Show')[0].click
+    # Details the event.
+    all('a', text: 'Details')[0].click
 
     expect(page).to have_content('Event name')
     expect(page).to have_content('TEST LOCATION ONE')
@@ -163,8 +163,8 @@ RSpec.describe 'Set date of an event.' do
     click_on('Submit')
     expect(current_path).to eql('/events')
 
-    # Show event
-    all('a', text: 'Show')[0].click
+    # Details event
+    all('a', text: 'Details')[0].click
     expect(page).to have_content("Feb 1, #{Date.today.year}, 1:30 pm")
   end
 end
@@ -183,7 +183,7 @@ RSpec.describe 'Create an event with a description.' do
     expect(current_path).to eql('/events')
 
     # Show the event, verifying that it is showing the correct description.
-    all('a', text: 'Show')[0].click
+    all('a', text: 'Details')[0].click
     expect(page).to have_content('Description Test')
     expect(page).to have_content('This is a description test.')
     expect(page).to have_content('Test location')
@@ -259,7 +259,7 @@ RSpec.describe 'Create a new event with each field modified from defaults.' do
     expect(current_path).to eql('/events')
 
     # Show event, verifying that all information displayed is correct.
-    all('a', text: 'Show')[0].click
+    all('a', text: 'Details')[0].click
     expect(page).to have_content('Full test A') # Title
     expect(page).to have_content('Event description A') # Description
     expect(page).to have_content("Jul 9, #{Date.today.year}, 7:00 pm") # Time
