@@ -104,6 +104,15 @@ class EventsController < ApplicationController
     redirect_to(events_path)
   end
 
+  def revoke_attendence
+    @user = Customer.find(params[:customer])
+    @event = Event.find(params[:event])
+    @event.customers.delete(@user)
+    redirect_to("/events/#{params[:event]}")
+  rescue StandardError
+    flash[:notice] = 'Student has no signed in.'
+  end
+
   private
 
   def confirm_permissions

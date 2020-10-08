@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post 'access/attempt_login'
 
   post 'events/mark_attendance'
+  post 'events/revoke_attendence'
   resources :events do
     member do
       get :delete

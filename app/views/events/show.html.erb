@@ -26,16 +26,17 @@
       </tr>
     </table>
     <% if @user_role == 'admin' %>
-      <br />
-      <h2>Attendees</h2><br />
+    <br />
+    <h2>Attendees</h2><br />
       <table class="table">
         <% @attendees.each do |a| %>
-          <tr>
-            <th>Name</th>
-            <td><%= "#{a.first_name} #{a.last_name}"%>
-            <th>Email</th>
-            <td><%= a.email%>
-          </tr>
+        <tr>
+          <th>Name</th>
+          <td><%= "#{a.first_name} #{a.last_name}"%></td>
+          <th>Email</th>
+          <td><%= a.email%></td>
+          <%= link_to 'Revoke Sign In', events_revoke_attendence_path({:customer => a.id, :event => @event_record.id}), method: :post %>
+        </tr>
         <% end %>
       </table>
     <% end %>
