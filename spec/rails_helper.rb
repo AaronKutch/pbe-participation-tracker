@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'simplecov'
 SimpleCov.start
 
@@ -69,5 +70,4 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   config.include ActiveSupport::Testing::TimeHelpers
-
 end

@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   # before_action :check_admin
 
   def index
@@ -11,83 +10,65 @@ class UsersController < ApplicationController
                    'not_logged_in'
                  end
 
-    #conditionally renders admin or user index view
+    # conditionally renders admin or user index view
     if @user_role == 'admin'
       render('index_admin')
     elsif @user_role == 'user'
       render('index_user')
     end
+  end
 
-  end
-  
   def show
-    begin
-      @user = Customer.find_by(id: params[:id])
-      if (@user == nil)
-        raise 'error'
-      end
-      @user_events = @user.events.order('date')
-    rescue
-      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
-      redirect_to(users_path)
-    end
+    @user = Customer.find_by(id: params[:id])
+    raise 'error' if @user.nil?
+
+    @user_events = @user.events.order('date')
+  rescue StandardError
+    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    redirect_to(users_path)
   end
-  
+
   def edit
-    begin
-      @user = Customer.find_by(id: params[:id])
-      if (@user == nil)
-        raise 'error'
-      end
-    rescue
-      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
-      redirect_to(users_path)
-    end
+    @user = Customer.find_by(id: params[:id])
+    raise 'error' if @user.nil?
+  rescue StandardError
+    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    redirect_to(users_path)
   end
-  
+
   def update
-    begin
-      @user_info = params['customer']
-      @user = Customer.find_by(id: params[:id])
-      if (@user == nil)
-        raise 'error'
-      end
-      @user.update_attribute(:role, @user_info['role'])
-      redirect_to(users_path)
-    rescue
-      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
-      redirect_to(users_path)
-    end
+    @user_info = params['customer']
+    @user = Customer.find_by(id: params[:id])
+    raise 'error' if @user.nil?
+
+    @user.update_attribute(:role, @user_info['role'])
+    redirect_to(users_path)
+  rescue StandardError
+    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    redirect_to(users_path)
   end
 
   def create; end
 
   def dashboard; end
-  
+
   def delete
-    begin
-      @user = Customer.find_by(id: params[:id])
-      if (@user == nil)
-        raise 'error'
-      end
-    rescue
-      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
-      redirect_to(users_path)
-    end
+    @user = Customer.find_by(id: params[:id])
+    raise 'error' if @user.nil?
+  rescue StandardError
+    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    redirect_to(users_path)
   end
-  
+
   def destroy
-    begin
-      @user = Customer.find_by(id: params[:id])
-      if (@user == nil)
-        raise 'error'
-      end
-      @user.destroy
-      redirect_to(users_path)
-    rescue
-      flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
-      redirect_to(users_path)
-    end
+    @user = Customer.find_by(id: params[:id])
+    raise 'error' if @user.nil?
+
+    @user.destroy
+    redirect_to(users_path)
+  rescue StandardError
+    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    redirect_to(users_path)
   end
 
   # def check_admin
@@ -96,5 +77,4 @@ class UsersController < ApplicationController
   #     redirect_to(events_path)
   #   end
   # end
-  
 end
