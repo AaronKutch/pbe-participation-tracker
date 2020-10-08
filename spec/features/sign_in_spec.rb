@@ -17,9 +17,9 @@ RSpec.describe 'Sign in to an event.' do
     click_on('Add new event')
     fill_in('event_title', with: 'TEST EVENT')
     fill_in('event_location', with: 'TEST LOCATION')
-    select '00', from: 'event_date_4i'
+    select '12 AM', from: 'event_date_4i'
     select '00', from: 'event_date_5i'
-    select '23', from: 'event_end_time_4i'
+    select '11 PM', from: 'event_end_time_4i'
     select '59', from: 'event_end_time_5i'
 
     click_on('Submit')
@@ -63,9 +63,9 @@ RSpec.describe 'View list of users registered when no users have registered yet.
     click_on('Add new event')
     fill_in('event_title', with: 'TEST EVENT')
     fill_in('event_location', with: 'TEST LOCATION')
-    select '00', from: 'event_date_4i'
+    select '12 AM', from: 'event_date_4i'
     select '00', from: 'event_date_5i'
-    select '23', from: 'event_end_time_4i'
+    select '11 PM', from: 'event_end_time_4i'
     select '59', from: 'event_end_time_5i'
     click_on('Submit')
     expect(current_path).to eql('/events')
@@ -96,14 +96,14 @@ RSpec.describe 'Ensures users are not able to sign in after end_time or before d
     select '2020', from: 'event_date_1i'
     select 'October', from: 'event_date_2i'
     select '7', from: 'event_date_3i'
-    select '20', from: 'event_date_4i'
+    select '8 PM', from: 'event_date_4i'
     select '12', from: 'event_date_5i'
 
     # fill in end_time
     select '2020', from: 'event_end_time_1i'
     select 'October', from: 'event_end_time_2i'
     select '7', from: 'event_end_time_3i'
-    select '20', from: 'event_end_time_4i'
+    select '8 PM', from: 'event_end_time_4i'
     select '13', from: 'event_end_time_5i'
     click_on('Submit')
     expect(current_path).to eql('/events')
@@ -142,14 +142,14 @@ RSpec.describe 'Ensures users are able to sign in within date to end_time time f
     select '2020', from: 'event_date_1i'
     select 'October', from: 'event_date_2i'
     select '7', from: 'event_date_3i'
-    select '20', from: 'event_date_4i'
+    select '8 PM', from: 'event_date_4i'
     select '12', from: 'event_date_5i'
 
     # fill in end_time
     select '2020', from: 'event_end_time_1i'
     select 'October', from: 'event_end_time_2i'
     select '7', from: 'event_end_time_3i'
-    select '20', from: 'event_end_time_4i'
+    select '8 PM', from: 'event_end_time_4i'
     select '15', from: 'event_end_time_5i'
     click_on('Submit')
     expect(current_path).to eql('/events')
