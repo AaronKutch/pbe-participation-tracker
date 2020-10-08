@@ -131,7 +131,7 @@ RSpec.describe 'User CRUD features' do
   describe 'when a users is deleted twice' do
     it 'redirects back to /users path' do
       visit(users_path)
-      
+
       # Delete a user.
       all('a', text: 'Delete')[0].click
       @curr_path = current_path

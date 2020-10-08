@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for Events CRU
 class EventsController < ApplicationController
   before_action :confirm_logged_in, except: %i[index show]
   before_action :confirm_permissions, except: %i[index show mark_attendance]
@@ -7,17 +8,13 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.order('date')
-
-    @user_role = if session[:user_id]
-                   Customer.where(id: session[:user_id]).first.role
-                 else
-                   'not_logged_in'
-                 end
+    @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
 
     # conditionally renders admin or user index view
-    if @user_role == 'admin'
+    case @user_role
+    when 'admin'
       render('index_admin')
-    elsif @user_role == 'user'
+    when 'user'
       render('index_user')
     else
       redirect_to(access_login_path)
@@ -31,11 +28,7 @@ class EventsController < ApplicationController
       redirect_to events_path
     end
 
-    @user_role = if session[:user_id]
-                   Customer.where(id: session[:user_id]).first.role
-                 else
-                   'not_logged_in'
-                 end
+    @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
 
     @attendees = []
     @attendees = @event_record.customers if @user_role == 'admin'
@@ -89,12 +82,8 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    begin
-      @event_record = Event.find(params[:id])
-      @event_record.destroy
-    rescue StandardError
-      # TODO: recover from failure to destroy
-    end
+    @event_record = Event.find(params[:id])
+    @event_record.destroy
     redirect_to events_path
   end
 
@@ -116,15 +105,6 @@ class EventsController < ApplicationController
   end
 
   private
-
-  def confirm_permissions
-    if Customer.where(id: session[:user_id]).first.role == 'admin'
-      nil
-    else
-      flash[:notice] = "You don't have permission to do that"
-      redirect_to(events_path)
-    end
-  end
 
   def construct_date_time
     s = "#{@event_info['date(1i)']}-#{@event_info['date(2i)']}-#{@event_info['date(3i)']}"

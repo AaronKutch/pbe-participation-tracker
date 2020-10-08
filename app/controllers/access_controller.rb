@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for user accounts and authentication
 class AccessController < ApplicationController
   before_action :confirm_logged_in, except: %i[login attempt_login logout new_account create_account]
 

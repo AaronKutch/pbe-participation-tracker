@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Users CRUD controller
 class UsersController < ApplicationController
   # before_action :check_admin
 
@@ -11,9 +14,10 @@ class UsersController < ApplicationController
                  end
 
     # conditionally renders admin or user index view
-    if @user_role == 'admin'
+    case @user_role
+    when 'admin'
       render('index_admin')
-    elsif @user_role == 'user'
+    when 'user'
       render('index_user')
     end
   end
@@ -24,7 +28,7 @@ class UsersController < ApplicationController
 
     @user_events = @user.events.order('date')
   rescue StandardError
-    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)
   end
 
@@ -32,7 +36,7 @@ class UsersController < ApplicationController
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
   rescue StandardError
-    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)
   end
 
@@ -44,19 +48,21 @@ class UsersController < ApplicationController
     @user.update_attribute(:role, @user_info['role'])
     redirect_to(users_path)
   rescue StandardError
-    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)
   end
 
-  def create; end
+  def create
+  end
 
-  def dashboard; end
+  def dashboard
+  end
 
   def delete
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
   rescue StandardError
-    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)
   end
 
@@ -67,7 +73,7 @@ class UsersController < ApplicationController
     @user.destroy
     redirect_to(users_path)
   rescue StandardError
-    flash[:notice] = 'No customer found with ID ' + params[:id].to_s + '.'
+    flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)
   end
 
