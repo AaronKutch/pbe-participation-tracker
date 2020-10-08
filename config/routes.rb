@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   root 'access#login'
-  # Routes will be used in sprint 2
+
   get 'access/login'
   get 'access/logout'
   get 'access/new_account'
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users do
+  resources :users, except: :create do
     member do
       get :delete
     end

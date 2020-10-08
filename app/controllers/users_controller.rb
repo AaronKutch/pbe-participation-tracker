@@ -2,8 +2,6 @@
 
 # Users CRUD controller
 class UsersController < ApplicationController
-  # before_action :check_admin
-
   def index
     @users = Customer.order('last_name')
 
@@ -52,12 +50,6 @@ class UsersController < ApplicationController
     redirect_to(users_path)
   end
 
-  def create
-  end
-
-  def dashboard
-  end
-
   def delete
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
@@ -76,11 +68,4 @@ class UsersController < ApplicationController
     flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)
   end
-
-  # def check_admin
-  #   unless Customer.find(session[:user_id]).role == 'admin'
-  #     flash[:notice] = 'Non-admins are not authorized to view this page.'
-  #     redirect_to(events_path)
-  #   end
-  # end
 end
