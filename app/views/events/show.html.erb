@@ -17,6 +17,10 @@
         <td><%= @event_record.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
       </tr>
       <tr>
+        <th>End Time</th>
+        <td><%= @event_record.end_time.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
+      </tr>
+      <tr>
         <th>Location</th>
         <td><%= @event_record.location %></td>
       </tr>

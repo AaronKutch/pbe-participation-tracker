@@ -18,7 +18,7 @@ RSpec.describe Event, type: :model do
 
     context 'when created with title and date' do
       it 'is valid' do
-        expect(Event.new(title: 'Informational', date: DateTime.new(2020, 9, 20)).valid?).to eq(true)
+        expect(Event.new(title: 'Informational', date: DateTime.new(2020, 9, 20), end_time: DateTime.new(2020, 11,20), location: 'zoom').valid?).to eq(true)
       end
     end
   end

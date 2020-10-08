@@ -11,6 +11,7 @@ e = Event.new
 e.title = 'test event'
 e.description = 'this is a test event for development purposes'
 e.date = 'January 2021'
+e.end_time = 'February 2021'
 e.location = 'Texas A&M College Station'
 e.mandatory = false
 raise 'Error: could not add test event' unless e.save
