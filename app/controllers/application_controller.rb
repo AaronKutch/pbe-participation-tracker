@@ -7,19 +7,15 @@ class ApplicationController < ActionController::Base
   # Restricts access to users that are logged in:
   # add 'before_action: confirm_logged_in' to the top of every login-restricted controller
   def confirm_logged_in
-    if session[:user_id]
-      nil
-    else
+    unless session[:user_id]
       flash[:notice] = 'Please log in.'
       redirect_to(access_login_path)
     end
   end
 
   def confirm_permissions
-    if Customer.where(id: session[:user_id]).first.role == 'admin'
-      nil
-    else
-      flash[:notice] = "You don't have permission to do that"
+    unless Customer.find(id: session[:user_id]).role == 'admin'
+      flash[:notice] = 'You are not authorized to view this page.'
       redirect_to(events_path)
     end
   end
