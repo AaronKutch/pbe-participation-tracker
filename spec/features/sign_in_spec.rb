@@ -17,9 +17,11 @@ RSpec.describe 'Sign in to an event.' do
     click_on('Add new event')
     fill_in('event_title', with: 'TEST EVENT')
     fill_in('event_location', with: 'TEST LOCATION')
+    select 'January', from: 'event_date_2i'
     select Date.today.day, from: 'event_date_3i'
     select '12 AM', from: 'event_date_4i'
     select '00', from: 'event_date_5i'
+    select Date.today.year + 1, from: 'event_end_time_1i'
     select '11 PM', from: 'event_end_time_4i'
     select '59', from: 'event_end_time_5i'
 
