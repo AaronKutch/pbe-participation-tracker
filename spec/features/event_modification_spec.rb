@@ -107,6 +107,7 @@ RSpec.describe 'Edit a page without admin permissions.' do
     @c = Customer.create(first_name: 'Jane', last_name: 'Doe', email: 'js@email.com', role: 'user', password: 'p')
     common_login('js@email.com', 'p')
     visit('/users/' + @c.id.to_s + '/edit')
+    expect(current_path).to eql('/users')
     expect(page).to have_content('You do not have admin permissions.')
     
   end
@@ -140,7 +141,7 @@ RSpec.describe 'Delete a page without admin permissions.' do
     common_login('js@email.com', 'p')
     visit('/users/' + @c.id.to_s + '/delete')
     expect(page).to have_content('You do not have admin permissions.')
-    
+    expect(current_path).to eql('/users')
   end
 end
 
