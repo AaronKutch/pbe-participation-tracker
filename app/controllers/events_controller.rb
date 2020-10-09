@@ -50,7 +50,7 @@ class EventsController < ApplicationController
                  end
     unless (@user_role == 'admin')
       flash[:notice] = 'You do not have admin permissions.'
-      return redirect_to(users_path)
+      return redirect_to(events_path)
     end
     @new_event = Event.new
   end
@@ -72,7 +72,7 @@ class EventsController < ApplicationController
                  end
     unless (@user_role == 'admin')
       flash[:notice] = 'You do not have admin permissions.'
-      return redirect_to(users_path)
+      return redirect_to(events_path)
     end
     @event = Event.find_by(id: params[:id])
     if (@event == nil)
@@ -100,7 +100,7 @@ class EventsController < ApplicationController
                  end
     unless (@user_role == 'admin')
       flash[:notice] = 'You do not have admin permissions.'
-      return redirect_to(users_path)
+      return redirect_to(events_path)
     end
     @event_record = Event.find_by(id: params[:id])
     if (@event_record == nil)
