@@ -1,10 +1,28 @@
 # frozen_string_literal: true
 
+# Controller for user accounts and authentication
 class AccessController < ApplicationController
-  before_action :confirm_logged_in, except: %i[login attempt_login logout]
+  before_action :confirm_logged_in, except: %i[login attempt_login logout new_account create_account]
 
-  def menu
-    # displays text and links
+  def new_account
+    # displays new account form
+    @new_customer = Customer.new
+  end
+
+  def create_account
+    # creates account in database
+    @info = params[:customer]
+    @new_customer = Customer.new
+    @new_customer.first_name = @info[:first_name]
+    @new_customer.last_name = @info[:last_name]
+    @new_customer.email = @info[:email]
+    @new_customer.password = @info[:password]
+
+    if @new_customer.save
+      redirect_to(access_login_path, notice: 'Account created successfully!')
+    else
+      render('new_account')
+    end
   end
 
   def login
@@ -19,7 +37,6 @@ class AccessController < ApplicationController
 
     if authorized_user
       session[:user_id] = authorized_user.id
-      flash[:notice] = 'You are now logged in.'
       redirect_to(events_path)
     else
       flash.now[:notice] = 'Invalid email/password combination.'
@@ -29,7 +46,6 @@ class AccessController < ApplicationController
 
   def logout
     session[:user_id] = nil
-    flash[:notice] = 'Logged out'
-    redirect_to(events_path)
+    render('login')
   end
 end

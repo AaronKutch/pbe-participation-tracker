@@ -1,0 +1,10 @@
+<%= render(:partial => '/global_partials/navbar') %>
+<div class="container">
+  <br />
+  <h1>Delete User</h1><br />
+  <%= form_for @user, url: user_path(@user), method: 'delete' do |f| %>
+    <p>Are you sure you want to permanently delete user <b><%= @user.first_name + ' ' + @user.last_name %></b>?</p>
+    <%= f.submit("Delete User") %>
+    <%= link_to "Cancel", users_path %>
+  <% end %>
+</div>

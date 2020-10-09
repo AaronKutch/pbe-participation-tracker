@@ -1,25 +1,30 @@
 <!-- Using PBE Logo for home-link -->
-<nav class="navbar navbar-expand-lg navbar-static-top bg-color navbar-dark">
-  <a class=" mr-auto" href="/events">
-    <img src="https://static.wixstatic.com/media/2036a5_cf2ba159e2ac449cb80cf2082b57c8fb~mv2.png/v1/fill/w_240,h_240,al_c,q_95,usm_0.66_1.00_0.01/2036a5_cf2ba159e2ac449cb80cf2082b57c8fb~mv2.webp" width="100" height="100" alt="" loading="lazy">
-  </a>
-  <p class="navbar-nav nav-title center-justified">
-    Professional Brotherhood of Engineers
-  </p>
+<nav class="navbar navbar-expand-md navbar-static-top bg-color navbar-dark">
+  <%= link_to image_tag("logo.png", width: 100, alt: "Professional Brotherhood of Engineers logo"), events_path, class: "navbar-brand mr-auto"%>
+  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-content">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-  <!-- Path to be replaced with actual model paths for resourceful routes!!! -->
-  <ul class="navbar-nav ml-auto">
-    <li class="nav-item">
-      <a class="nav-link nav-text" href="/events">Events</a>
-    </li>
-    <li class="nav-item">
-      <!-- FIXME: Update with proper user routes once made -->
-      <a class="nav-link nav-text" href="/events">Members</a>
-    </li>
-    <li class="nav-item">
-      <!-- FIXME: Update with proper user routes once made -->
-      <a class="nav-link nav-text" href="/events">My Profile</a>
-    </li>
-  </ul>
+  <div class="collapse navbar-collapse" id="navbar-collapse-content">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <%= link_to "Events", events_path, class: "nav-link nav-text" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Members", users_path, class: "nav-link nav-text" %>
+      </li>
+      <li class="nav-item">
+        <!-- FIXME: Update with proper user routes once made -->
+        <%= link_to "My Profile", user_path(session[:user_id]), class: "nav-link nav-text" %>
+      </li>
+      <li class="nav-item">
+        <% if session[:user_id] %>
+          <%= link_to "Logout", access_logout_path, class: "nav-link nav-text" %>
+        <% else %>
+          <%= link_to "Login", access_login_path, class: "nav-link nav-text" %>
+        <% end %>
+      </li>
+    </ul>
+  </div>
 
 </nav>
