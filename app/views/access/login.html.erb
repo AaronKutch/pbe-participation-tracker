@@ -1,12 +1,5 @@
-<!--Navbar and confirmation/error flash messages -->
-<%= render(:partial => 'navbar_login')%>
-<% flash.each do |type, msg| %>
-<div>
-  <%= msg %>
-</div>
-<% end %>
+<%= render(partial: 'navbar_login')%>
 
-<% @page_title = "Admin Login" %>
 <div class="container-fluid">
   <div class="row no-gutter">
     <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
@@ -16,17 +9,19 @@
           <div class="row">
             <div class="col-md-9 col-lg-8 mx-auto ">
               <h3 class="login-heading mb-4 ">Welcome to the Professional Brotherhood of Engineers!</h3>
+              <%= render(partial: 'global_partials/flash_notices')%>
               <%= form_tag(access_attempt_login_path, :method => :post) do %>
-              <div class="form-label-group">
-                <%= text_field_tag(:email, nil, class: "form-control", required: true) %>
-                <%= label_tag(:email, nil, for: "email") %>
-              </div>
-              <div class="form-label-group">
-                <%= password_field_tag(:password, nil, class: "form-control", required: true) %>
-                <%= label_tag(:password, nil, for: "password") %>
-              </div>
-              <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Log In</button>
+                <div class="form-label-group">
+                  <%= text_field_tag(:email, nil, class: "form-control", required: true) %>
+                  <%= label_tag(:email, nil, for: "email") %>
+                </div>
+                <div class="form-label-group">
+                  <%= password_field_tag(:password, nil, class: "form-control", required: true) %>
+                  <%= label_tag(:password, nil, for: "password") %>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Log In</button>
               <% end %>
+              <%= link_to 'Create Account', access_new_account_path, class: "btn btn-lg btn-primary btn-block text-uppercase font-weight-bold mb-2" %>
             </div>
           </div>
         </div>

@@ -16,10 +16,9 @@
 
 .bg-image {
   //FIX-ME Change this image to PBE's Logo
-  background-image: url('https://source.unsplash.com/600x1200/?nature,water');
+  background-image: url('logo-full.jpg');
   background-size: cover;
   background-position: center;
-  filter: grayscale(.8);
 }
 
 .bg-login {
@@ -27,6 +26,7 @@
 }
 
 .login-heading {
+  color: white;
   font-weight: 300;
 }
 
