@@ -4,7 +4,7 @@ require 'rails_helper'
 require_relative '../common'
 
 # Attempt to access events index without logging in.
-RSpec.describe 'Attempt to access events index without logging in.', js: true do
+RSpec.describe 'Attempt to access events index without logging in.' do
   it 'Redirects the user back to login page.' do
     visit('/')
     visit('/events/1/edit')
@@ -108,6 +108,27 @@ RSpec.describe 'Edit a page without admin permissions.' do
     common_login('js@email.com', 'p')
     visit('/users/' + @c.id.to_s + '/edit')
     expect(page).to have_content('You do not have admin permissions.')
+    
+  end
+end
+
+# Attempt to perform edit, delete operations without admin permissions.
+RSpec.describe 'Edit/delete a page without admin permissions.' do
+  it 'Redirects user back to /users path.' do
+    @c = Customer.create(first_name: 'Jane', last_name: 'Doe', email: 'js@email.com', role: 'user', password: 'p')
+    common_login('js@email.com', 'p')
+    
+    visit('/events/' + @c.id.to_s + '/edit')
+    expect(current_path).to eql('/events')
+    expect(page).to have_content('You don\'t have permission to do that')
+    
+    visit('/events/' + @c.id.to_s + '/delete')
+    expect(current_path).to eql('/events')
+    expect(page).to have_content('You don\'t have permission to do that')
+    
+    visit('/events/new')
+    expect(current_path).to eql('/events')
+    expect(page).to have_content('You don\'t have permission to do that')
     
   end
 end
