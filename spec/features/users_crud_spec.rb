@@ -43,6 +43,7 @@ RSpec.describe 'User CRUD features' do
       expect(current_path).to eql(new_event_path)
       fill_in('event_title', with: 'Event 1')
       fill_in('event_location', with: 'Location 1')
+      select(Date.today.day, from: 'event_date_3i')
       select('12 AM', from: 'event_date_4i')
       select('00', from: 'event_date_5i')
       select('11 PM', from: 'event_end_time_4i')
