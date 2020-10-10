@@ -26,9 +26,9 @@ class EventsController < ApplicationController
   def show
     begin
       @event_record = Event.find_by(id: params[:id])
-      if (@event_record == nil)
+      if @event_record.nil?
         flash[:notice] = 'This event does not exist.'
-        raise StandardError.new 'error'
+        raise StandardError, 'error'
       end
     rescue StandardError
       return redirect_to(events_path)
@@ -39,7 +39,6 @@ class EventsController < ApplicationController
     end
 
     @attendees = @user_role == 'admin' ? @event_record.customers : []
-
   end
 
   def new
@@ -51,15 +50,13 @@ class EventsController < ApplicationController
     Event.create(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
                  end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
-  rescue
+  rescue StandardError
     redirect_to new_event_path
   end
 
   def edit
     @event = Event.find_by(id: params[:id])
-    if (@event == nil)
-      raise StandardError.new 'error'
-    end
+    raise StandardError, 'error' if @event.nil?
   rescue StandardError
     redirect_to(events_path)
   end
@@ -76,24 +73,19 @@ class EventsController < ApplicationController
 
   def delete
     @event_record = Event.find_by(id: params[:id])
-    if (@event_record == nil)
-      raise StandardError.new 'error'
-    end
+    raise StandardError, 'error' if @event_record.nil?
   rescue StandardError
     redirect_to events_path
   end
 
   def destroy
-    begin
-      @event_record = Event.find_by(id: params[:id])
-      if (@event_record == nil)
-        raise StandardError.new 'error'
-      end
-      @event_record.destroy
-      redirect_to(events_path)
-    rescue StandardError
-      redirect_to(events_path)
-    end
+    @event_record = Event.find_by(id: params[:id])
+    raise StandardError, 'error' if @event_record.nil?
+
+    @event_record.destroy
+    redirect_to(events_path)
+  rescue StandardError
+    redirect_to(events_path)
   end
 
   def mark_attendance

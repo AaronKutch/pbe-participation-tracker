@@ -36,7 +36,7 @@ class UsersController < ApplicationController
                  else
                    'not_logged_in'
                  end
-    unless (@user_role == 'admin')
+    unless @user_role == 'admin'
       flash[:notice] = 'You do not have admin permissions.'
       return redirect_to(users_path)
     end
@@ -63,9 +63,9 @@ class UsersController < ApplicationController
     @user_role = if session[:user_id]
                    Customer.where(id: session[:user_id]).first.role
                  else
-                    'not_logged_in'
+                   'not_logged_in'
                  end
-    unless (@user_role == 'admin')
+    unless @user_role == 'admin'
       flash[:notice] = 'You do not have admin permissions.'
       return redirect_to(users_path)
     end
