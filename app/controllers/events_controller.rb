@@ -25,11 +25,14 @@ class EventsController < ApplicationController
 
   def show
     begin
-      @event_record = Event.find(params[:id])
+      @event_record = Event.find_by(id: params[:id])
+      if @event_record.nil?
+        flash[:notice] = 'This event does not exist.'
+        raise StandardError, 'error'
+      end
     rescue StandardError
-      redirect_to events_path
+      return redirect_to(events_path)
     end
-
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
     Time.use_zone('Central Time (US & Canada)') do
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
@@ -52,9 +55,10 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = Event.find(params[:id])
+    @event = Event.find_by(id: params[:id])
+    raise StandardError, 'error' if @event.nil?
   rescue StandardError
-    redirect_to events_path
+    redirect_to(events_path)
   end
 
   def update
@@ -68,15 +72,20 @@ class EventsController < ApplicationController
   end
 
   def delete
-    @event_record = Event.find(params[:id])
+    @event_record = Event.find_by(id: params[:id])
+    raise StandardError, 'error' if @event_record.nil?
   rescue StandardError
     redirect_to events_path
   end
 
   def destroy
-    @event_record = Event.find(params[:id])
+    @event_record = Event.find_by(id: params[:id])
+    raise StandardError, 'error' if @event_record.nil?
+
     @event_record.destroy
-    redirect_to events_path
+    redirect_to(events_path)
+  rescue StandardError
+    redirect_to(events_path)
   end
 
   def mark_attendance
