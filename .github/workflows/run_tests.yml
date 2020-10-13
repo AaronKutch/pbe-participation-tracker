@@ -13,6 +13,14 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.7
+    - name: Run Rubocop
+      run: |
+        gem install rubocop
+        rubocop --parallel
+    - name: Run Breakman
+      run: |
+        gem install brakeman
+        brakeman
     - name: Setup Postgresql
       run: |
         sudo apt install postgresql
@@ -26,7 +34,7 @@ jobs:
         gem install bundler
         bundle install --jobs 4 --retry 3
         rails webpacker:install
-    - name: Rake Spec
+    - name: Run Rake Spec
       env:
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
