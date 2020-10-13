@@ -2,6 +2,9 @@
 
 # Users CRUD controller
 class UsersController < ApplicationController
+
+  before_action :confirm_logged_in
+
   def index
     @users = Customer.order('last_name')
 
