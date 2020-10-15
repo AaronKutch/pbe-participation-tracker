@@ -77,9 +77,12 @@ RSpec.describe 'View list of users registered when no users have registered yet.
     all('a', text: 'Details')[0].click
 
     # expect(page).to have_no_content
-    expect(page).to have_no_content('@')
+    manual_add_list = find(:css, '#manual_add_list')
+    expect(manual_add_list).to have_content('@')
+
+    attendees = find(:css, '#attendees')
     Customer.all.each do |c|
-      expect(page).to have_no_content("#{c.first_name} #{c.last_name}")
+      expect(attendees).to have_no_content("#{c.first_name} #{c.last_name}")
     end
   end
 end
