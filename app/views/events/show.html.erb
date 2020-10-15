@@ -28,6 +28,16 @@
         <th>Mandatory</th>
         <td><%= @event_record.mandatory %></td>
       </tr>
+      <tr>
+          <th>Sign In</th>
+          <td>
+            <% if @event_record.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= @event_record.end_time.utc+@utc_offset %>
+              <%= link_to 'Sign In', events_mark_attendance_path(event: @event_record.id), method: :post, class: "btn btn-secondary" %>
+            <% else %>
+              Unavailable
+            <%end%>
+          <td>
+      </tr>
     </table>
     <% if @user_role == 'admin' %>
     <br />
