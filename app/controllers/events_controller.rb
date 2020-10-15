@@ -5,6 +5,12 @@ class EventsController < ApplicationController
   before_action :confirm_logged_in, except: %i[index show]
   before_action :confirm_permissions, except: %i[index show mark_attendance]
 
+  def manual_add
+    @user = Customer.where(id: params['user_id']).first
+    @user.events << Event.where(id: params['event_id']).first
+    redirect_to(event_path(params['event_id']))
+  end
+
   def index
     @events = Event.order('date')
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'

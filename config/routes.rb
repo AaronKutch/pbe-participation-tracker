@@ -23,5 +23,7 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'events/:event_id/manual_add/:user_id' => 'events#manual_add', as: 'events_manual_add'
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
