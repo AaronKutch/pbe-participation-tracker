@@ -32,23 +32,25 @@
     <% if @user_role == 'admin' %>
     <br />
 
-    <h2>Manual Add</h2><br/>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Action</th>
-      </tr>
-      <% Customer.order('last_name').each do |c| %>
-        <% unless @event_record.customers.include?(c) %>
+    <button class="btn btn-secondary" data-toggle="collapse" data-target="#manual_add_list">Manually Add Attendees</button>
+    <div id="manual_add_list" class="collapse">
+      <table>
         <tr>
-          <td><%= "#{c.first_name} #{c.last_name}" %></td>
-          <td><%= c.email %></td>
-          <td><%= link_to 'Add Sign In', events_manual_add_path({user_id: c.id, event_id: @event_record.id}), method: :post %></td>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Action</th>
         </tr>
+        <% Customer.order('last_name').each do |c| %>
+          <% unless @event_record.customers.include?(c) %>
+          <tr>
+            <td><%= "#{c.first_name} #{c.last_name}" %></td>
+            <td><%= c.email %></td>
+            <td><%= link_to 'Add Sign In', events_manual_add_path({user_id: c.id, event_id: @event_record.id}), method: :post %></td>
+          </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </table>
+      </table>
+    </div>
 
     <h2>Attendees</h2><br />
       <table class="table">
