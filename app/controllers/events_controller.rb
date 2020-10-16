@@ -6,8 +6,22 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
   before_action :confirm_permissions, except: %i[index show mark_attendance]
 
   def manual_add
-    @user = Customer.where(id: params['user_id']).first
-    @user.events << Event.where(id: params['event_id']).first
+    # Check that event exists.
+    @event = Event.find_by(id: params['event_id'])
+    if (@event == nil)
+      flash[:notice] = 'Could not find given event.'
+      return redirect_to(events_path)
+    end
+
+    # Check that user exists.
+    @user = Customer.find_by(id: params['user_id'])
+    if (@user == nil)
+      flash[:notice] = 'Could not find given user.'
+      return redirect_to(event_path(params['event_id']))
+    end
+
+    # Add event to list of users.
+    @user.events << @event
     redirect_to(event_path(params['event_id']))
   end
 
