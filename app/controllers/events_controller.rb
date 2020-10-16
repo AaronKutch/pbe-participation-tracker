@@ -8,14 +8,14 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
   def manual_add
     # Check that event exists.
     @event = Event.find_by(id: params['event_id'])
-    if (@event == nil)
+    if nil?(@event)
       flash[:notice] = 'Could not find given event.'
       return redirect_to(events_path)
     end
 
     # Check that user exists.
     @user = Customer.find_by(id: params['user_id'])
-    if (@user == nil)
+    if nil?(@user)
       flash[:notice] = 'Could not find given user.'
       return redirect_to(event_path(params['event_id']))
     end

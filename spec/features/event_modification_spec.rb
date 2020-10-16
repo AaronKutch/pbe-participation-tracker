@@ -557,7 +557,6 @@ end
 RSpec.describe 'Manually add attendance.' do
   it 'Adds event to attendance list and redirects user.' do
     admin_create_and_login
-    
     # Create a customer with role 'user.'
     Customer.create(
       first_name: 'Jane',
@@ -566,7 +565,7 @@ RSpec.describe 'Manually add attendance.' do
       role: 'user',
       password: 'p'
     )
-    
+
     # Create an event.
     Event.create(
       title: 'TEST EVENT',
@@ -574,24 +573,23 @@ RSpec.describe 'Manually add attendance.' do
       date: '2020-01-01 00:00:00',
       location: 'TEST LOCATION',
       mandatory: true,
-      end_time: '2021-02-01 00:00:00',
+      end_time: '2021-02-01 00:00:00'
     )
-    
+
     # Access event details page.
     visit('/events')
     expect(page).to have_content('TEST EVENT')
     all('a', text: 'Details')[0].click
-    expect(current_path).to eql('/events/' + Event.first.id.to_s)
-    
+    expect(current_path).to eql("/events/#{Event.first.id}")
+
     # Check for user Jane Doe in manual addition list.
     manual_add_list = find(:css, '#manual_add_list')
     expect(manual_add_list).to have_content('Jane Doe')
     all('a', text: 'Add Sign In')[0].click
-    
-    visit('/events/' + Event.first.id.to_s)
+
+    visit("/events/#{Event.first.id}")
     manual_add_list = find(:css, '#manual_add_list')
     expect(manual_add_list).to have_no_content('Jane Doe')
-    
   end
 end
 
@@ -599,7 +597,7 @@ end
 RSpec.describe 'Manually add attendance to a non-existant event.' do
   it 'Alerts the user and redirects to /events path.' do
     admin_create_and_login
-    
+
     # Create a customer with role 'user.'
     Customer.create(
       first_name: 'Jane',
@@ -608,7 +606,7 @@ RSpec.describe 'Manually add attendance to a non-existant event.' do
       role: 'user',
       password: 'p'
     )
-    
+
     # Create an event.
     Event.create(
       title: 'TEST EVENT',
@@ -616,22 +614,21 @@ RSpec.describe 'Manually add attendance to a non-existant event.' do
       date: '2020-01-01 00:00:00',
       location: 'TEST LOCATION',
       mandatory: true,
-      end_time: '2021-02-01 00:00:00',
+      end_time: '2021-02-01 00:00:00'
     )
-    
+
     # Access event details page.
     visit('/events')
     expect(page).to have_content('TEST EVENT')
     all('a', text: 'Details')[0].click
-    expect(current_path).to eql('/events/' + Event.first.id.to_s)
-    
+    expect(current_path).to eql("/events/#{Event.first.id}")
+
     # Delete the event from the database.
     Event.first.destroy
-    
+
     # Attempt to add the user to the event.
     all('a', text: 'Add Sign In')[0].click
     expect(current_path).to eql('/events')
-    
   end
 end
 
@@ -639,7 +636,7 @@ end
 RSpec.describe 'Manually add attendance for a non-existant user.' do
   it 'Alerts the user and redirects to /event/<id> path.' do
     admin_create_and_login
-    
+
     # Create a customer with role 'user.'
     Customer.create(
       first_name: 'Jane',
@@ -648,7 +645,7 @@ RSpec.describe 'Manually add attendance for a non-existant user.' do
       role: 'user',
       password: 'p'
     )
-    
+
     # Create an event.
     Event.create(
       title: 'TEST EVENT',
@@ -656,20 +653,20 @@ RSpec.describe 'Manually add attendance for a non-existant user.' do
       date: '2020-01-01 00:00:00',
       location: 'TEST LOCATION',
       mandatory: true,
-      end_time: '2021-02-01 00:00:00',
+      end_time: '2021-02-01 00:00:00'
     )
-    
+
     # Access event details page.
     visit('/events')
     expect(page).to have_content('TEST EVENT')
     all('a', text: 'Details')[0].click
-    expect(current_path).to eql('/events/' + Event.first.id.to_s)
-    
+    expect(current_path).to eql("/events/#{Event.first.id}")
+
     # Delete the user from the database.
     Customer.second.destroy
-    
+
     # Attempt to add the user to the event.
     all('a', text: 'Add Sign In')[0].click
-    expect(current_path).to eql('/events/' + Event.first.id.to_s)
+    expect(current_path).to eql("/events/#{Event.first.id}")
   end
 end
