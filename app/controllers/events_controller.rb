@@ -102,7 +102,7 @@ class EventsController < ApplicationController
     @event.customers.delete(@user)
     redirect_to("/events/#{params[:event]}")
   rescue StandardError
-    flash[:notice] = 'Student has no signed in.'
+    flash[:notice] = 'Student has not signed in yet.'
   end
 
   private
