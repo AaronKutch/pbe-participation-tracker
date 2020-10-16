@@ -1,0 +1,12 @@
+<%= render(:partial => '/global_partials/navbar') %>
+
+<div class="container">
+  <h2>Event QR Code</h2><br />
+  <table class="table">
+    <tr>
+      <th>Event name</th>
+      <td><%= @event_title %></td>
+    </tr>
+  </table>
+  <%= raw @qr.as_svg %>
+</div>

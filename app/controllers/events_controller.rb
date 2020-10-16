@@ -105,6 +105,15 @@ class EventsController < ApplicationController
     flash[:notice] = 'Student has no signed in.'
   end
 
+  def generate_qr_code
+    @event_title = params[:event]
+    @qr = RQRCode::QRCode.new(params[:url])
+    render('qr')
+  rescue StandardError
+    flash[:notice] = "Unable to create QR Code for this event"
+    redirect_to(events_path)
+  end
+
   private
 
   def construct_date_time

@@ -11,9 +11,11 @@ Rails.application.routes.draw do
 
   post 'events/mark_attendance'
   post 'events/revoke_attendence'
+  post 'events/generate_qr_code'
   resources :events do
     member do
       get :delete
+      
     end
   end
 
