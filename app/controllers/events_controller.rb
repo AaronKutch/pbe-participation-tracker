@@ -27,7 +27,6 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
 
     # Add event to list of users.
     @user.events << @event
-    redirect_to(event_path(params['event_id']))
   end
 
   def index

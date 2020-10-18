@@ -589,6 +589,7 @@ RSpec.describe 'Manually add attendance.' do
     # Add Jane Doe to the event list manually.
     all('a', text: 'Manually Add Attendees')[0].click
     all('a', text: 'Add Sign In')[0].click
+    visit("/events/#{Event.first.id}")
     expect(page).to have_content('Jane Doe')
   end
 end
@@ -664,12 +665,12 @@ RSpec.describe 'Manually add attendance for a non-existant user.' do
     expect(page).to have_content('TEST EVENT')
     all('a', text: 'Details')[0].click
     expect(current_path).to eql("/events/#{Event.first.id}")
+    all('a', text: 'Manually Add Attendees')[0].click
 
     # Delete the user from the database.
     Customer.second.destroy
 
     # Attempt to add the user to the event.
-    all('a', text: 'Manually Add Attendees')[0].click
     all('a', text: 'Add Sign In')[0].click
     expect(current_path).to eql("/events/#{Event.first.id}")
   end
