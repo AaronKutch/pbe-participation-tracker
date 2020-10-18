@@ -582,14 +582,14 @@ RSpec.describe 'Manually add attendance.' do
     all('a', text: 'Details')[0].click
     expect(current_path).to eql("/events/#{Event.first.id}")
 
-    # Check for user Jane Doe in manual addition list.
-    manual_add_list = find(:css, '#manual_add_list')
-    expect(manual_add_list).to have_content('Jane Doe')
-    all('a', text: 'Add Sign In')[0].click
-
+    # Check for user Jane Doe in page.
     visit("/events/#{Event.first.id}")
-    manual_add_list = find(:css, '#manual_add_list')
-    expect(manual_add_list).to have_no_content('Jane Doe')
+    expect(page).to have_no_content('Jane Doe')
+
+    # Add Jane Doe to the event list manually.
+    all('a', text: 'Manually Add Attendees')[0].click
+    all('a', text: 'Add Sign In')[0].click
+    expect(page).to have_content('Jane Doe')
   end
 end
 
@@ -616,12 +616,15 @@ RSpec.describe 'Manually add attendance to a non-existant event.' do
       mandatory: true,
       end_time: '2021-02-01 00:00:00'
     )
+    @event_id = Event.first.id
 
-    # Access event details page.
+    # Access event add_user page.
     visit('/events')
     expect(page).to have_content('TEST EVENT')
     all('a', text: 'Details')[0].click
-    expect(current_path).to eql("/events/#{Event.first.id}")
+    expect(current_path).to eql("/events/#{@event_id}")
+    all('a', text: 'Manually Add Attendees')[0].click
+    expect(current_path).to eql("/events/#{@event_id}/add_user")
 
     # Delete the event from the database.
     Event.first.destroy
@@ -666,6 +669,7 @@ RSpec.describe 'Manually add attendance for a non-existant user.' do
     Customer.second.destroy
 
     # Attempt to add the user to the event.
+    all('a', text: 'Manually Add Attendees')[0].click
     all('a', text: 'Add Sign In')[0].click
     expect(current_path).to eql("/events/#{Event.first.id}")
   end

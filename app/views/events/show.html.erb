@@ -32,22 +32,7 @@
     <% if @user_role == 'admin' %>
     <br />
 
-    <button class="btn btn-secondary" data-toggle="collapse" data-target="#manual_add_list" style="color: white;">Manually Add Attendees</button>
-    <div id="manual_add_list" class="collapse">
-      <table class="table" style="background-color: #ededed;">
-        <% Customer.order('last_name').each do |c| %>
-          <% unless @event_record.customers.include?(c) %>
-          <tr>
-            <th>Name</th>
-            <td><%= "#{c.first_name} #{c.last_name}" %></td>
-            <th>Email</th>
-            <td><%= c.email %></td>
-            <td><%= link_to 'Add Sign In', events_manual_add_path({user_id: c.id, event_id: @event_record.id}), method: :post, class: "btn btn-secondary" %></td>
-          </tr>  
-        <% end %>
-        <% end %>
-      </table>
-    </div>
+    <%= link_to 'Manually Add Attendees', events_add_user_path({id: @event_record.id}), method: :get, class: "btn btn-secondary" %>
     <br/><br/>
 
     <h2>Attendees</h2><br />

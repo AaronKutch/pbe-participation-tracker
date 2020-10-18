@@ -5,6 +5,11 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
   before_action :confirm_logged_in, except: %i[index show]
   before_action :confirm_permissions, except: %i[index show mark_attendance]
 
+  def add_user
+    @event_record = Event.find_by(id: params['id'])
+    redirect_to(events_path) if @event_record.nil?
+  end
+
   def manual_add
     # Check that event exists.
     @event = Event.find_by(id: params['event_id'])
