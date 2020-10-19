@@ -12,6 +12,10 @@ function btn_click(id) {
 <div class="container">
   <br />
   <h1>Add users to event <b><%= @event_record.title %></b></h1><br />
+
+  <%= link_to 'Back to event details', event_path(@event_record.id), class: "btn btn-secondary" %>
+  <br/><br/>
+
   <table class="table">
     <% Customer.order('last_name').each do |c| %>
         <% unless @event_record.customers.include?(c) %>
