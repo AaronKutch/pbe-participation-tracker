@@ -1,0 +1,20 @@
+  <%= render(:partial => '/global_partials/navbar') %>
+
+  <div class="container">
+    <br />
+    <%= render(:partial => 'event_details')%>
+    <%= link_to 'Generate QR Code', events_generate_qr_code_path(url: request.url, event: @event_record.title), method: :post, class: "btn btn-secondary" %>
+    <br /><br /><br />
+    <h2>Attendees</h2><br />
+    <table class="table">
+      <% @attendees.each do |a| %>
+      <tr>
+        <th>Name</th>
+        <td><%= "#{a.first_name} #{a.last_name}"%></td>
+        <th>Email</th>
+        <td><%= a.email%></td>
+        <td><%= link_to 'Revoke Sign In', events_revoke_attendence_path({customer: a.id, event: @event_record.id}), method: :post, class: "btn btn-secondary" %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>

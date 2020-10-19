@@ -39,6 +39,17 @@ class EventsController < ApplicationController
     end
 
     @attendees = @user_role == 'admin' ? @event_record.customers : []
+
+    # conditionally renders admin or user index view
+    case @user_role
+    when 'admin'
+      render('show_admin')
+    when 'user'
+      render('show_user')
+    else
+      redirect_to(access_login_path)
+    end
+
   end
 
   def new
