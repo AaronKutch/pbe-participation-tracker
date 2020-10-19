@@ -29,14 +29,12 @@
         <td><%= @event_record.mandatory %></td>
       </tr>
       <tr>
-          <th>Sign In</th>
-          <td>
-            <% if @event_record.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= @event_record.end_time.utc+@utc_offset %>
-              <%= link_to 'Sign In', events_mark_attendance_path(event: @event_record.id), method: :post, class: "btn btn-secondary" %>
-            <% else %>
-              Unavailable
-            <%end%>
-          <td>
+        <th>Sign In</th>
+          <% if @event_record.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= @event_record.end_time.utc+@utc_offset %>
+            <td><%= link_to 'Sign In', events_mark_attendance_path(event: @event_record.id), method: :post, class: "btn btn-secondary" %></td>
+          <% else %>
+            <td>Unavailable</td>
+          <%end%>
       </tr>
     </table>
     <% if @user_role == 'admin' %>
