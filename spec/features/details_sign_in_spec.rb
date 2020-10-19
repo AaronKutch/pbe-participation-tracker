@@ -37,7 +37,7 @@ RSpec.describe 'Sign in via details page.' do
     # Go to details page and use sign-in button.
     all('a', text: 'Details')[0].click
     click_on('Sign In')
-    
+
     # refresh page
     visit(current_path)
 
