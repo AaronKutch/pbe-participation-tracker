@@ -102,12 +102,12 @@ end
 
 # Attempt to edit an event without admin permissions.
 RSpec.describe 'Edit a page without admin permissions.' do
-  it 'Redirects user back to /users path.' do
+  it 'Redirects user back to events path.' do
     @c = Customer.create(first_name: 'Jane', last_name: 'Doe', email: 'js@email.com', role: 'user', password: 'p')
     common_login('js@email.com', 'p')
     visit("/users/#{@c.id}/edit")
-    expect(current_path).to eql('/users')
-    expect(page).to have_content('You do not have admin permissions.')
+    expect(current_path).to eql(events_path)
+    expect(page).to have_content('You don\'t have permission to do that')
   end
 end
 
@@ -133,12 +133,12 @@ end
 
 # Attempt to delete an event without admin permissions.
 RSpec.describe 'Delete a page without admin permissions.' do
-  it 'Redirects user back to /users path.' do
+  it 'Redirects user back to login path.' do
     @c = Customer.create(first_name: 'Jane', last_name: 'Doe', email: 'js@email.com', role: 'user', password: 'p')
     common_login('js@email.com', 'p')
     visit("/users/#{@c.id}/delete")
-    expect(page).to have_content('You do not have admin permissions.')
-    expect(current_path).to eql('/users')
+    expect(page).to have_content('You don\'t have permission to do that')
+    expect(current_path).to eql(events_path)
   end
 end
 

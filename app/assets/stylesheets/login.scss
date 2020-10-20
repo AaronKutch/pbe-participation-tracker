@@ -14,13 +14,6 @@
   min-height: 100vh;
 }
 
-.bg-image {
-  //FIX-ME Change this image to PBE's Logo
-  background-image: url('logo-full.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
 .bg-login {
   background-color: fade-out($color: #484848, $amount: .3);
 }
