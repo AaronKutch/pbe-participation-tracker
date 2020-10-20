@@ -2,8 +2,6 @@
 
 # Controller for user accounts and authentication
 class AccessController < ApplicationController
-  before_action :confirm_logged_in, except: %i[login attempt_login logout new_account create_account]
-
   def new_account
     # displays new account form
     @new_customer = Customer.new

@@ -1,9 +1,33 @@
 # frozen_string_literal: true
 
 # Controller for Events CRU
-class EventsController < ApplicationController
-  before_action :confirm_logged_in, except: %i[index show]
+class EventsController < ApplicationController # rubocop:disable Metrics/ClassLength
+  before_action :confirm_logged_in
   before_action :confirm_permissions, except: %i[index show mark_attendance]
+
+  def add_user
+    @event_record = Event.find_by(id: params['id'])
+    redirect_to(events_path) if @event_record.nil?
+  end
+
+  def manual_add
+    # Check that event exists.
+    @event = Event.find_by(id: params['event_id'])
+    if @event.nil?
+      flash[:notice] = 'Could not find given event.'
+      return redirect_to(events_path)
+    end
+
+    # Check that user exists.
+    @user = Customer.find_by(id: params['user_id'])
+    if @user.nil?
+      flash[:notice] = 'Could not find given user.'
+      return redirect_to(event_path(params['event_id']))
+    end
+
+    # Add event to list of users.
+    @user.events << @event
+  end
 
   def index
     @events = Event.order('date')
@@ -113,7 +137,7 @@ class EventsController < ApplicationController
     @event.customers.delete(@user)
     redirect_to("/events/#{params[:event]}")
   rescue StandardError
-    flash[:notice] = 'Student has no signed in.'
+    flash[:notice] = 'Student has not signed in yet.'
   end
 
   def generate_qr_code

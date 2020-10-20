@@ -28,10 +28,26 @@
         <th>Mandatory</th>
         <td><%= @event_record.mandatory %></td>
       </tr>
+      <tr>
+        <th>Sign In</th>
+          <% if @event_record.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= @event_record.end_time.utc+@utc_offset %>
+            <td><%= link_to 'Sign In', events_mark_attendance_path(event: @event_record.id), method: :post, class: "btn btn-secondary" %></td>
+          <% else %>
+            <td>Unavailable</td>
+          <%end%>
+      </tr>
     </table>
     <%= link_to 'Generate QR Code', events_generate_qr_code_path(url: request.url, event: @event_record.title), method: :post, class: "btn btn-secondary" %>
     <% if @user_role == 'admin' %>
+<<<<<<< HEAD
     <br /><br /><br />
+=======
+    <br />
+  
+    <%= link_to 'Manually Add Attendees', events_add_user_path({id: @event_record.id}), method: :get, class: "btn btn-secondary" %>
+    <br/><br/>
+
+>>>>>>> f33b6101176cf3e4105b71b68b3bd03162afc8bd
     <h2>Attendees</h2><br />
     <table class="table">
       <% @attendees.each do |a| %>
