@@ -141,7 +141,8 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
   end
 
   def generate_qr_code
-    @event_title = params[:event]
+    @event_title = params[:event_title]
+    @event_id = params[:event_id]
     @qr = RQRCode::QRCode.new(params[:url])
     render('qr')
   rescue StandardError

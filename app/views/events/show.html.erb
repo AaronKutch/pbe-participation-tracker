@@ -39,15 +39,11 @@
     </table>
     <%= link_to 'Generate QR Code', events_generate_qr_code_path(url: request.url, event: @event_record.title), method: :post, class: "btn btn-secondary" %>
     <% if @user_role == 'admin' %>
-<<<<<<< HEAD
-    <br /><br /><br />
-=======
     <br />
   
     <%= link_to 'Manually Add Attendees', events_add_user_path({id: @event_record.id}), method: :get, class: "btn btn-secondary" %>
     <br/><br/>
 
->>>>>>> f33b6101176cf3e4105b71b68b3bd03162afc8bd
     <h2>Attendees</h2><br />
     <table class="table">
       <% @attendees.each do |a| %>

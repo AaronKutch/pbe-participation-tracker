@@ -9,4 +9,6 @@
     </tr>
   </table>
   <%= raw @qr.as_svg %>
+  <br /><br />
+  <%= link_to 'Back to event details', event_path(@event_id), class: "btn btn-secondary" %>
 </div>
