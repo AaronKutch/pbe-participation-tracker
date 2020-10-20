@@ -2,7 +2,7 @@
 
 # Controller for Events CRU
 class EventsController < ApplicationController
-  before_action :confirm_logged_in, except: %i[index show]
+  before_action :confirm_logged_in
   before_action :confirm_permissions, except: %i[index show mark_attendance]
 
   def index
