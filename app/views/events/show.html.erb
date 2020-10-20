@@ -31,12 +31,12 @@
     </table>
     <% if @user_role == 'admin' %>
     <br />
-
-    <%= link_to 'Manually Add Attendees', events_add_user_path({id: @event_record.id}), method: :get, class: "btn btn-secondary" %>
+  
+    <link_to 'Manually Add Attendees', events_add_user_path({id: @event_record.id}), method: :get, class: "btn btn-secondary" %>
     <br/><br/>
 
     <h2>Attendees</h2><br />
-      <table id="attendees" class="table">
+      <table class="table">
         <% @attendees.each do |a| %>
         <tr>
           <th>Name</th>
