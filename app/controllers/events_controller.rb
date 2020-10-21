@@ -63,6 +63,16 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
     end
 
     @attendees = @user_role == 'admin' ? @event_record.customers : []
+
+    # conditionally renders admin or user index view
+    case @user_role
+    when 'admin'
+      render('show_admin')
+    when 'user'
+      render('show_user')
+    else
+      redirect_to(access_login_path)
+    end
   end
 
   def new
@@ -127,6 +137,16 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
     redirect_to("/events/#{params[:event]}")
   rescue StandardError
     flash[:notice] = 'Student has not signed in yet.'
+  end
+
+  def generate_qr_code
+    @event_title = params[:event_title]
+    @event_id = params[:event_id]
+    @qr = RQRCode::QRCode.new(params[:url])
+    render('qr')
+  rescue StandardError
+    flash[:notice] = 'Unable to create QR Code for this event'
+    redirect_to(events_path)
   end
 
   private

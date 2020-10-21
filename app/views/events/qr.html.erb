@@ -1,0 +1,16 @@
+<%= render(:partial => '/global_partials/navbar') %>
+
+<div class="container">
+  <h2>Event QR Code</h2><br />
+  <table class="table">
+    <tr>
+      <th>Event name</th>
+      <td><%= @event_title %></td>
+    </tr>
+  </table>
+  <%= image_tag @qr.as_png(size: 250).to_data_url %>
+  <br /><br />
+  <%= link_to 'Download QR code', @qr.as_png(size: 500).to_data_url, download: "qrcode.png", class: "btn btn-secondary" %>
+  <br><br>
+  <%= link_to 'Back to event details', event_path(@event_id), class: "btn btn-secondary" %>
+</div>
