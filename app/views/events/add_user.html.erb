@@ -1,0 +1,35 @@
+<%= render(:partial => '/global_partials/navbar') %>
+<%= render(:partial => '/global_partials/flash_notices') %>
+
+<script>
+
+function btn_click(id, name) {
+  document.getElementById(id).remove();
+  var event_title = document.getElementById("event_title").innerHTML;
+  alert('User ' + name + ' has been added to event ' + event_title + '.');
+}
+
+</script>
+
+<div class="container">
+  <br />
+  <h1>Add users to event <b id="event_title"><%= @event_record.title %></b></h1><br />
+
+  <%= link_to 'Back to event details', event_path(@event_record.id), class: "btn btn-secondary" %>
+  <br/><br/>
+
+  <table class="table">
+    <% Customer.order('last_name').each do |c| %>
+        <% unless @event_record.customers.include?(c) %>
+        	<tr id=<%= "row#{c.id}" %>>
+        	<th>Name</th>
+        	<td><%= "#{c.first_name} #{c.last_name}" %></td>
+        	<th>Email</th>
+        	<td><%= c.email %></td>
+        	<td><%= link_to 'Add Sign In', events_manual_add_path({user_id: c.id, event_id: @event_record.id}), method: :post, class: "btn btn-secondary", onclick: "btn_click('row#{c.id}', '#{c.first_name} #{c.last_name}')" %></td>
+        	</tr>  
+    	<% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>

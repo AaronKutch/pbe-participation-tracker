@@ -5,6 +5,7 @@ require 'csv'
 # Users CRUD controller
 class UsersController < ApplicationController
   before_action :confirm_logged_in
+  before_action :confirm_permissions, except: %i[index show]
 
   def index
     @users = Customer.order('last_name')
