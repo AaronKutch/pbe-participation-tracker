@@ -2,12 +2,13 @@
 
 Rails.application.routes.draw do
   root 'access#login'
-
   get 'access/login'
   get 'access/logout'
   get 'access/new_account'
   post 'access/create_account'
   post 'access/attempt_login'
+
+  get 'users/export_attendance_csv'
 
   post 'events/mark_attendance'
   post 'events/revoke_attendence'
