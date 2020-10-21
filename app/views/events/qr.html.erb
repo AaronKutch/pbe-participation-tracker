@@ -8,7 +8,7 @@
       <td><%= @event_title %></td>
     </tr>
   </table>
-  <%= raw @qr.as_svg %>
+  <%= image_tag @qr.as_png(size: 250).to_data_url %>
   <br /><br />
   <%= link_to 'Download QR code', @qr.as_png(size: 500).to_data_url, download: "qrcode.png", class: "btn btn-secondary" %>
   <br><br>
