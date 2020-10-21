@@ -73,7 +73,6 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
     else
       redirect_to(access_login_path)
     end
-
   end
 
   def new
@@ -146,7 +145,7 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
     @qr = RQRCode::QRCode.new(params[:url])
     render('qr')
   rescue StandardError
-    flash[:notice] = "Unable to create QR Code for this event"
+    flash[:notice] = 'Unable to create QR Code for this event'
     redirect_to(events_path)
   end
 

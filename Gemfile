@@ -56,8 +56,8 @@ group :test do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 4.0.1'
   gem 'rqrcode'
+  gem 'rspec-rails', '~> 4.0.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
