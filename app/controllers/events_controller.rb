@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Controller for Events CRU
-class EventsController < ApplicationController # rubocop:disable Metrics/ClassLength
+class EventsController < ApplicationController
   before_action :confirm_logged_in
   before_action :confirm_permissions, except: %i[index show mark_attendance]
 

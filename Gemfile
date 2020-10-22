@@ -66,3 +66,5 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'simplecov', require: false, group: :test
+
+gem 'csv', '~> 3.1.7'
