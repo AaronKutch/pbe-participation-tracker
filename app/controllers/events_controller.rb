@@ -42,8 +42,6 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
       render('index_admin')
     when 'user'
       render('index_user')
-    else
-      redirect_to(access_login_path)
     end
   end
 
@@ -70,8 +68,6 @@ class EventsController < ApplicationController # rubocop:disable Metrics/ClassLe
       render('show_admin')
     when 'user'
       render('show_user')
-    else
-      redirect_to(access_login_path)
     end
   end
 
