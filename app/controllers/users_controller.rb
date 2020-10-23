@@ -70,16 +70,6 @@ class UsersController < ApplicationController
   end
 
   def export_attendance_csv
-    @user_role = if session[:user_id]
-                   Customer.where(id: session[:user_id]).first.role
-                 else
-                   'not_logged_in'
-                 end
-    unless @user_role == 'admin'
-      flash[:notice] = 'You do not have admin permissions.'
-      return redirect_to(users_path)
-    end
-
     # NOTE csv files are a bad idea for big data larger than this anyway, if the scale of this
     # program is ever increased beyond this point, there needs to be some kind of filtering
     users = Customer.order('last_name').take(10_000)
