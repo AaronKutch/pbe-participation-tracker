@@ -25,13 +25,13 @@ jobs:
         GEM_HOME: vendor/cache
       run: |
         gem install rubocop
-        rubocop --parallel
+        bundle exec rubocop --parallel
     - name: Run Brakeman
       env:
         GEM_HOME: vendor/cache
       run: |
         gem install brakeman
-        brakeman
+        bundle exec brakeman
     - name: Setup Postgresql
       run: |
         sudo apt install postgresql
@@ -47,17 +47,16 @@ jobs:
         bundle install --jobs 4 --retry 3
         yarn install --check-files
         gem install rails
-        rails webpacker:install
-        gem env
-        bundle env
+        bundle exec rails webpacker:install
     - name: Rails tests
       env:
+        GEM_HOME: vendor/cache
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
       run: |
         # test plain database loading
-        rails db:create db:schema:load
+        bundle exec rails db:create db:schema:load
         # note: do not run `seeds.rb` before this
-        rake spec
+        bundle exec rake spec
         # test that the database can be reset with seeds.rb
-        rails db:reset
+        bundle exec rails db:reset
