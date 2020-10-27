@@ -36,11 +36,15 @@ jobs:
         sudo apt-get -yqq install libpq-dev
     - name: Setup Rails and miscellanious
       run: |
+        yarn install --check-files
+        gem install bundler
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
-        yarn install --check-files
         gem install rails
         rails webpacker:install
+        # make sure changes are actually settled so that caching works
+        yarn install --check-files
+        bundle install --jobs 4 --retry 3
     - name: Rails tests
       env:
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
