@@ -13,11 +13,14 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.7
+    - name: Gem Env
+      run: |
+        gem env
     - name: Run Rubocop
       run: |
         gem install rubocop
         rubocop --parallel
-    - name: Run Breakman
+    - name: Run Brakeman
       run: |
         gem install brakeman
         brakeman
