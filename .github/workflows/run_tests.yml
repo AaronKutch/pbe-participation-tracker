@@ -12,6 +12,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path:
+          /opt/hostedtoolcache/Ruby
           ~/.gem/
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
@@ -41,6 +42,8 @@ jobs:
         yarn install --check-files
         gem install rails
         rails webpacker:install
+        gem env
+        bundle env
     - name: Rails tests
       env:
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
