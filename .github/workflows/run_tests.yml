@@ -42,7 +42,7 @@ jobs:
       env:
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
-      run:
+      run: |
         gem install rails
         # test plain database loading
         rails db:create db:schema:load
