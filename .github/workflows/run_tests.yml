@@ -52,6 +52,7 @@ jobs:
       run: |
         # test plain database loading
         rails db:create db:schema:load
+        # note: do not run `seeds.rb` before this
+        rake spec
         # test that the database can be reset with seeds.rb
         rails db:reset
-        rake spec
