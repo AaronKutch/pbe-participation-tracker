@@ -23,18 +23,6 @@ jobs:
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gems-
-    - name: Set up Ruby 2.7
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.7
-    - name: Run Rubocop
-      run: |
-        bundle install rubocop
-        bundle exec rubocop --parallel
-    - name: Run Brakeman
-      run: |
-        bundle install brakeman
-        bundle exec brakeman
     - name: Setup Postgresql
       run: |
         sudo apt install postgresql
@@ -42,13 +30,19 @@ jobs:
         sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
         # needed for `pg` gem
         sudo apt-get -yqq install libpq-dev
-    - name: Setup Rails and miscellanious
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
       run: |
         bundle install --jobs 4 --retry 3
-        # for some reason, this needs to be done before rails installation
-        yarn install --check-files
-        bundle install rails
         bundle exec rails webpacker:install
+    - name: Run Rubocop
+      run: |
+        bundle exec rubocop --parallel
+    - name: Run Brakeman
+      run: |
+        bundle exec brakeman
     - name: Rails tests
       run: |
         # test plain database loading
