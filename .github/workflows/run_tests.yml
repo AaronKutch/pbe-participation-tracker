@@ -9,8 +9,8 @@ jobs:
 
     env:
       # fixes problems with the defaults making it hard to cache
-      GEM_HOME: vendor/cache
-      BUNDLE_PATH: vendor/bundle
+      GEM_HOME: vendor/
+      BUNDLE_PATH: vendor/
       PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
       RAILS_ENV: test
 
