@@ -29,11 +29,11 @@ jobs:
         ruby-version: 2.7
     - name: Run Rubocop
       run: |
-        gem install rubocop
+        bundle install rubocop
         bundle exec rubocop --parallel
     - name: Run Brakeman
       run: |
-        gem install brakeman
+        bundle install brakeman
         bundle exec brakeman
     - name: Setup Postgresql
       run: |
@@ -44,10 +44,10 @@ jobs:
         sudo apt-get -yqq install libpq-dev
     - name: Setup Rails and miscellanious
       run: |
-        bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
+        # for some reason, this needs to be done before rails installation
         yarn install --check-files
-        gem install rails
+        bundle install rails
         bundle exec rails webpacker:install
     - name: Rails tests
       run: |
