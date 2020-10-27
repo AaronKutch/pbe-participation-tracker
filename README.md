@@ -51,6 +51,7 @@ The default rails test suite has been replaced by rspec under the `spec` folder.
  - use `rails db:seed` or `rails db:reset` if you want to manually test with premade accounts (see `db/seeds.rb`)
  - `rake spec` runs most of the tests
  - check for formatting with the `rubocop` gem
+ - `gem install brakeman` and run `brakeman` to check for security issues
 
 # Deployment instructions
 
