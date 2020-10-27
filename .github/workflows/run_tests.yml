@@ -34,8 +34,10 @@ jobs:
         sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
         # needed for `pg` gem
         sudo apt-get -yqq install libpq-dev
-    - name: Setup Bundle
+    - name: Setup Rails and miscellanious
       run: |
+        gem install rails
+        rails webpacker:install
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
     - name: Rails tests
@@ -43,7 +45,6 @@ jobs:
         PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
         RAILS_ENV: test
       run: |
-        gem install rails
         # test plain database loading
         rails db:create db:schema:load
         # test that the database can be reset with seeds.rb
