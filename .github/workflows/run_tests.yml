@@ -14,10 +14,10 @@ jobs:
       with:
         ruby-version: 2.7
     - name: Cache Gems
-      - uses: actions/cache@v2
-        with:
-          path: ~/.gem/ruby
-          key: ${{ runner.os }}-gems
+      uses: actions/cache@v2
+      with:
+        path: ~/.gem/ruby
+        key: ${{ runner.os }}-gems
     - name: Run Rubocop
       run: |
         gem install rubocop
