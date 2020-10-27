@@ -13,9 +13,10 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.7
-    - name: Gem Env
-      run: |
-        gem env
+    - name: Cache Gems
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gem/ruby
     - name: Run Rubocop
       run: |
         gem install rubocop
