@@ -7,6 +7,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      # fixes problems with the defaults making it hard to cache
+      GEM_HOME: vendor/cache
+      BUNDLE_PATH: vendor/cache
+      PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
+      RAILS_ENV: test
+
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -21,14 +28,10 @@ jobs:
       with:
         ruby-version: 2.7
     - name: Run Rubocop
-      env:
-        GEM_HOME: vendor/cache
       run: |
         gem install rubocop
         bundle exec rubocop --parallel
     - name: Run Brakeman
-      env:
-        GEM_HOME: vendor/cache
       run: |
         gem install brakeman
         bundle exec brakeman
@@ -40,8 +43,6 @@ jobs:
         # needed for `pg` gem
         sudo apt-get -yqq install libpq-dev
     - name: Setup Rails and miscellanious
-      env:
-        GEM_HOME: vendor/cache
       run: |
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
@@ -49,10 +50,6 @@ jobs:
         gem install rails
         bundle exec rails webpacker:install
     - name: Rails tests
-      env:
-        GEM_HOME: vendor/cache
-        PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
-        RAILS_ENV: test
       run: |
         # test plain database loading
         bundle exec rails db:create db:schema:load
