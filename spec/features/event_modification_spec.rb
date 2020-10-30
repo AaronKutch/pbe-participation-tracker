@@ -3,6 +3,27 @@
 require 'rails_helper'
 require_relative '../common'
 
+def create_event
+  Event.create(
+    title: 'TEST EVENT',
+    description: 'This is an example event.',
+    date: '2020-01-01 00:00:00',
+    location: 'TEST LOCATION',
+    mandatory: true,
+    end_time: '2021-02-01 00:00:00'
+  )
+end
+
+def create_user
+  Customer.create(
+    first_name: 'Jane',
+    last_name: 'Doe',
+    email: 'jd@tamu.edu',
+    role: 'user',
+    password: 'p'
+  )
+end
+
 # Attempt to access events index without logging in.
 RSpec.describe 'Attempt to access events index without logging in.' do
   it 'Redirects the user back to login page.' do
@@ -59,7 +80,7 @@ RSpec.describe 'Create a new event with a title that is too long.' do
     fill_in('event_title', with: @x)
     fill_in('event_location', with: @x)
     click_on('Submit')
-    expect(current_path).to eql('/events')
+    expect(current_path).to eql('/events/new')
     expect(page).to have_no_content(@x)
   end
 end
@@ -673,5 +694,34 @@ RSpec.describe 'Manually add attendance for a non-existant user.' do
     # Attempt to add the user to the event.
     all('a', text: 'Add Sign In')[0].click
     expect(current_path).to eql("/events/#{Event.first.id}")
+  end
+end
+
+# Attempt to update an event that has already been deleted.
+RSpec.describe 'Update an event that has already been deleted.' do
+  it 'Redirects the user back to edit_event_path.' do
+    admin_create_and_login
+    create_event
+    @event_id = Event.first.id
+    visit("/events/#{@event_id}/edit")
+    fill_in('event_title', with: 'EDITED EVENT TITLE')
+    Event.first.destroy
+    click_on('Submit')
+    expect(current_path).to eql('/events')
+  end
+end
+
+# Attempt to revoke attendance for a user that has already been deleted.
+RSpec.describe 'Attempt to revoke attendance for a user that has already been deleted.' do
+  it 'Redirects user back to /events path.' do
+    admin_create_and_login
+    create_user
+    create_event
+    Event.first.customers << Customer.second
+    @event_id = Event.first.id
+    visit("/events/#{@event_id}")
+    Customer.second.destroy
+    all('a', text: 'Revoke Sign In')[0].click
+    expect(current_path).to eql('/events')
   end
 end
