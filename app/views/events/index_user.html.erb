@@ -1,31 +1,41 @@
 <%= render(:partial => '/global_partials/navbar') %>
 <%= render(:partial => '/global_partials/flash_notices') %>
-<div class="container">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
+<div class="container" style="height:100%;overflow:auto;">
   <h1>Upcoming Events</h1>
   <br />
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Event</th>
-        <th>Date</th>
-        <th>Mandatory</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @events.each do |event| %>
+  <div style="height:75%;overflow:auto;">
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= event.title %></td>
-          <td><%= event.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
-          <td><%= event.mandatory %></td>
-          <td>
-            <%= link_to 'Details', event_path(event.id),  class: "btn btn-secondary" %>
-            <% if event.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= event.end_time.utc+@utc_offset %>
-              <%= link_to 'Sign In', events_mark_attendance_path(event: event.id), method: :post, class: "btn btn-secondary" %>
-            <% end %>
-          </td>
+          <th>Event</th>
+          <th>Date</th>
+          <th>Mandatory</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @events.each do |event| %>
+          <tr>
+            <td><%= event.title %></td>
+            <td><%= event.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
+            <td><%= event.mandatory %></td>
+            <td>
+              <%= link_to 'Details', event_path(event.id),  class: "btn btn-secondary" %>
+              <% if event.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= event.end_time.utc+@utc_offset %>
+                <%= link_to 'Sign In', events_mark_attendance_path(event: event.id), method: :post, class: "btn btn-secondary" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

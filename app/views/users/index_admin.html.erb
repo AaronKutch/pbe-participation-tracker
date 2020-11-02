@@ -1,33 +1,43 @@
 <%= render(:partial => '/global_partials/navbar') %>
 <%= render(:partial => '/global_partials/flash_notices') %>
-<div class="container">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
+<div class="container" style="height:100%">
   <br />
   <h1>PBE Members</h1><br />
   <%= link_to 'Export Attendance CSV', users_export_attendance_csv_path, class: "btn btn-secondary" %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
-      <tr>
-        <td><%= user.first_name + ' ' + user.last_name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.role %></td>
-        <td>
-          <%= link_to 'Details', user_path(user.id),  class: "btn btn-secondary" %>
-          <%= link_to 'Update Role', edit_user_path(user.id), class: "btn btn-secondary" %>
-          <% if user.id != session[:user_id] %>
-            <%= link_to 'Delete', delete_user_path(user.id), class: "btn btn-secondary" %>
-          <% end %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div style="height:75%;overflow:auto;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+        <tr>
+          <td><%= user.first_name + ' ' + user.last_name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.role %></td>
+          <td>
+            <%= link_to 'Details', user_path(user.id),  class: "btn btn-secondary" %>
+            <%= link_to 'Update Role', edit_user_path(user.id), class: "btn btn-secondary" %>
+            <% if user.id != session[:user_id] %>
+              <%= link_to 'Delete', delete_user_path(user.id), class: "btn btn-secondary" %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

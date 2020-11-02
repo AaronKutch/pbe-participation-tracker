@@ -1,5 +1,13 @@
 <%= render(:partial => '/global_partials/navbar') %>
-<div class="container">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
+<div class="container" style="height:100%">
   <h1>Member Info</h2>
   <table class="table">
     <tr>
@@ -18,24 +26,25 @@
 
 
   <h2>Events Attended</h2>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Mandatory</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @user_events.each do |event| %>
+  <div style="height:50%;overflow:auto;">
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= event.title %></td>
-          <td><%= event.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
-          <td><%= event.mandatory %></td>
+          <th>Title</th>
+          <th>Date</th>
+          <th>Mandatory</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @user_events.each do |event| %>
+          <tr>
+            <td><%= event.title %></td>
+            <td><%= event.date.strftime('%a, %b %-d, %Y, %l:%M %P') %></td>
+            <td><%= event.mandatory %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
