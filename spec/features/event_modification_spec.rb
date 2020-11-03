@@ -385,8 +385,8 @@ RSpec.describe 'Register for an event again.' do
     common_login(user_email, user_password)
 
     # Sign into Event #1.
-    all('a', text: 'Sign In')[0].click
     visit('/events')
+    Event.first.customers << Customer.second
 
     # Sign in again.
     all('a', text: 'Sign In')[0].click
@@ -448,8 +448,8 @@ RSpec.describe 'Revoke attendance for a user.' do
     common_login(user_email, user_password)
 
     # Sign into Event #1.
-    all('a', text: 'Sign In')[0].click
     visit('/events')
+    Event.first.customers << Customer.second
 
     # Log back out and login as admin.
     click_on('Logout')
