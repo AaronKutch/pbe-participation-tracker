@@ -4,10 +4,10 @@ A Texas A&M University CSCE 431 project by Scott Wilkins, Aaron Kutch, Cameron B
 and Sergio Rios
 
 # Ruby dependencies
-  - Ruby 2.7
-  - Rails 6.0
+  - Ruby 2.7.1
+  - Rails 6.0.3.4
   - PostgreSQL 11.7 or later
-  - Rubocop 0.x
+  - Rubocop 1.0
 
 # Configuration
 
