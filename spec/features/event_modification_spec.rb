@@ -52,7 +52,7 @@ RSpec.describe 'Create a new event with a title that is too long.' do
     fill_in('event_title', with: @x)
     fill_in('event_location', with: @x)
     click_on('Submit')
-    expect(current_path).to eql('/events')
+    expect(current_path).to eql('/events/new')
     expect(page).to have_no_content(@x)
   end
 end
@@ -612,7 +612,7 @@ RSpec.describe 'Attempt to revoke attendance for a user that has already been de
   it 'Redirects user back to /events path.' do
     admin_create_and_login
     create_test_user
-    create_event
+    create_test_event
     Event.first.customers << Customer.second
     @event_id = Event.first.id
     visit("/events/#{@event_id}")

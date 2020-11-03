@@ -33,7 +33,7 @@ RSpec.describe 'Attempt to generate a QR code for an event that has already been
     admin_create_and_login
 
     # Create an event.
-    create_event
+    create_test_event
 
     # Attempt to generate a QR code for event.
     visit('/events')
