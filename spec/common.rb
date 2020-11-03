@@ -20,7 +20,7 @@ def admin_create_and_login
 end
 
 # creates event (via create page) that is ready to be signed into.
-def create_available_event(title="title", location="location")
+def create_available_event(title = 'title', location = 'location')
   click_on('Add new event')
   fill_in('event_title', with: title)
   fill_in('event_location', with: location)
@@ -38,7 +38,8 @@ def create_available_event(title="title", location="location")
 end
 
 # creates event (via create page) based on specific parameters
-def create_custom_event(title, location, start_time, end_time, mandatory = false, description="")
+def create_custom_event(title, location, start_time, end_time, description = '')
+  mandatory = false
   click_on('Add new event')
   expect(current_path).to eql('/events/new')
   fill_in('event_title', with: title)
@@ -50,7 +51,7 @@ def create_custom_event(title, location, start_time, end_time, mandatory = false
   select start_time[1], from: 'event_date_2i'
   select start_time[2], from: 'event_date_3i'
   select start_time[3], from: 'event_date_4i'
-  select start_time[4], from: 'event_date_5i' 
+  select start_time[4], from: 'event_date_5i'
 
   # fill in end_time
   select end_time[0], from: 'event_end_time_1i'
@@ -60,9 +61,7 @@ def create_custom_event(title, location, start_time, end_time, mandatory = false
   select end_time[4], from: 'event_end_time_5i'
 
   # mark as not mandatory
-  if mandatory == false
-    uncheck('event_mandatory')
-  end
+  uncheck('event_mandatory') if mandatory == false
 
   # create event and check for correct routing
   click_on('Submit')

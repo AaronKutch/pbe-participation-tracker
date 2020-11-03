@@ -11,7 +11,6 @@ password = 'p'
 
 RSpec.describe 'Sign in via details page.' do
   it 'Registers the user for an event and displays it on the event page.' do
-
     admin_create_and_login
 
     # Create button and test redirection and button display
@@ -67,7 +66,7 @@ RSpec.describe 'Ensures users are not able to sign in after end_time or before d
     admin_create_and_login
 
     # create event at specific time
-    start_time = ['2020', 'October', '7', '8 PM', '12'] 
+    start_time = ['2020', 'October', '7', '8 PM', '12']
     end_time = ['2020', 'October', '7', '8 PM', '13']
     create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
 
@@ -98,7 +97,7 @@ RSpec.describe 'Ensures users are able to sign in within date to end_time time f
     travel_to Time.zone.local(2020, 10, 7, 20, 14)
 
     # Create an event.
-    start_time = ['2020', 'October', '7', '12 AM', '00'] 
+    start_time = ['2020', 'October', '7', '12 AM', '00']
     end_time = [Date.current.year + 1, 'December', '31', '11 PM', '59']
     create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
 

@@ -346,7 +346,7 @@ RSpec.describe 'Register for a new event.' do
     )
 
     # Create an event.
-    start_time = ['2020', 'January', '1', '12 AM', '00'] 
+    start_time = ['2020', 'January', '1', '12 AM', '00']
     end_time = ['2020', 'December', '31', '11 PM', '59']
     create_custom_event('Event #1', 'Location #1', start_time, end_time)
 
@@ -376,7 +376,7 @@ RSpec.describe 'Register for an event again.' do
     )
 
     # Create an event.
-    start_time = ['2020', 'January', '1', '12 AM', '00'] 
+    start_time = ['2020', 'January', '1', '12 AM', '00']
     end_time = ['2020', 'December', '31', '11 PM', '59']
     create_custom_event('Event #1', 'Location #1', start_time, end_time)
 
@@ -439,7 +439,7 @@ RSpec.describe 'Revoke attendance for a user.' do
     )
 
     # Create an event.
-    start_time = ['2020', 'January', '1', '12 AM', '00'] 
+    start_time = ['2020', 'January', '1', '12 AM', '00']
     end_time = ['2020', 'December', '31', '11 PM', '59']
     create_custom_event('Event #1', 'Location #1', start_time, end_time)
 

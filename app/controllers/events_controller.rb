@@ -79,6 +79,7 @@ class EventsController < ApplicationController
   def create
     @event_info = params['event']
     raise 'error' if @event_info['title'].length > 50
+
     Event.create(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
                  end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
@@ -97,6 +98,7 @@ class EventsController < ApplicationController
     @event_info = params['event']
     @event = Event.find_by(id: params[:id])
     raise 'error' if @event.nil?
+
     @event.update(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
                   end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
@@ -132,7 +134,8 @@ class EventsController < ApplicationController
   def revoke_attendence
     @user = Customer.find(params[:customer])
     @event = Event.find(params[:event])
-    raise 'error' if @user.nil? or @event.nil?
+    raise 'error' if @user.nil? || @event.nil?
+
     @event.customers.delete(@user)
     redirect_to("/events/#{params[:event]}")
   rescue StandardError
@@ -144,6 +147,7 @@ class EventsController < ApplicationController
     @event_title = params[:event_title]
     @event_id = params[:event_id]
     raise 'error' if Event.find_by(id: params[:event_id]).nil?
+
     @qr = RQRCode::QRCode.new(params[:url])
     render('qr')
   rescue StandardError
