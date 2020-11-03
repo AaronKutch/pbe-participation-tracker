@@ -7,20 +7,22 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      # fixes problems with the defaults making it hard to cache
+      GEM_HOME: vendor/
+      BUNDLE_PATH: vendor/
+      PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
+      RAILS_ENV: test
+
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby 2.7
-      uses: actions/setup-ruby@v1
+    - uses: actions/cache@v2
       with:
-        ruby-version: 2.7
-    - name: Run Rubocop
-      run: |
-        gem install rubocop
-        rubocop --parallel
-    - name: Run Breakman
-      run: |
-        gem install brakeman
-        brakeman
+        path: |
+          vendor/
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
     - name: Setup Postgresql
       run: |
         sudo apt install postgresql
@@ -28,18 +30,25 @@ jobs:
         sudo -u postgres psql --command="CREATE ROLE pbe_participation_tracker WITH CREATEDB LOGIN PASSWORD 'postgres';"
         # needed for `pg` gem
         sudo apt-get -yqq install libpq-dev
-    - name: Setup Bundle
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Finish installation
       run: |
-        yarn install --check-files
-        gem install bundler
         bundle install --jobs 4 --retry 3
-        rails webpacker:install
-    - name: Run Rake Spec
-      env:
-        PBE_DEVELOPMENT_DATABASE_PASSWORD: postgres
-        RAILS_ENV: test
+        bundle exec rails webpacker:install
+    - name: Run Rubocop
       run: |
-        rails db:create db:schema:load
-        rake spec
+        bundle exec rubocop --parallel
+    - name: Run Brakeman
+      run: |
+        bundle exec brakeman
+    - name: Rails tests
+      run: |
+        # test plain database loading
+        bundle exec rails db:create db:schema:load
+        # note: do not run `seeds.rb` before this
+        bundle exec rake spec
         # test that the database can be reset with seeds.rb
-        rails db:reset
+        bundle exec rails db:reset

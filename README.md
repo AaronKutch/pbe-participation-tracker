@@ -4,10 +4,10 @@ A Texas A&M University CSCE 431 project by Scott Wilkins, Aaron Kutch, Cameron B
 and Sergio Rios
 
 # Ruby dependencies
-  - Ruby 2.7
-  - Rails 6.0
+  - Ruby 2.7.1
+  - Rails 6.0.3.4
   - PostgreSQL 11.7 or later
-  - Rubocop 0.x
+  - Rubocop 1.0
 
 # Configuration
 
@@ -51,6 +51,7 @@ The default rails test suite has been replaced by rspec under the `spec` folder.
  - use `rails db:seed` or `rails db:reset` if you want to manually test with premade accounts (see `db/seeds.rb`)
  - `rake spec` runs most of the tests
  - check for formatting with the `rubocop` gem
+ - `gem install brakeman` and run `brakeman` to check for security issues
 
 # Deployment instructions
 

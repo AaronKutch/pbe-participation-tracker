@@ -1,5 +1,10 @@
 AllCops:
   NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
 
 # The Rubocop default limits are ridiculously small for these settings, and should be
 # regulated manually
