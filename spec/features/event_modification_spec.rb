@@ -380,8 +380,6 @@ RSpec.describe 'Register for an event again.' do
     end_time = ['2020', 'December', '31', '11 PM', '59']
     create_custom_event('Event #1', 'Location #1', start_time, end_time)
 
-    expect(current_path).to eql('/events')
-
     # Log back in as a user.
     click_on('Logout')
     common_login(user_email, user_password)
@@ -444,8 +442,6 @@ RSpec.describe 'Revoke attendance for a user.' do
     start_time = ['2020', 'January', '1', '12 AM', '00'] 
     end_time = ['2020', 'December', '31', '11 PM', '59']
     create_custom_event('Event #1', 'Location #1', start_time, end_time)
-
-    expect(current_path).to eql('/events')
 
     # Log back in as a user.
     click_on('Logout')
