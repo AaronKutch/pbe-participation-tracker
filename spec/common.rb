@@ -68,3 +68,24 @@ def create_custom_event(title, location, start_time, end_time, mandatory = false
   click_on('Submit')
   expect(current_path).to eql('/events')
 end
+
+def create_test_event
+  Event.create(
+    title: 'TEST EVENT',
+    description: 'This is a test event.',
+    date: '2020-01-01 00:00:00',
+    location: 'TEST LOCATION',
+    mandatory: true,
+    end_time: '2021-02-01 00:00:00'
+  )
+end
+
+def create_test_user
+  Customer.create(
+    first_name: 'Jane',
+    last_name: 'Doe',
+    email: 'jd@tamu.edu',
+    role: 'user',
+    password: 'p'
+  )
+end
