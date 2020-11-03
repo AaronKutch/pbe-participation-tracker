@@ -33,7 +33,7 @@
           <td><%= event.mandatory %></td>
           <td>
             <%= link_to 'Details', event_path(event.id),  class: "btn btn-secondary" %>
-            <% if event.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= event.end_time.utc+@utc_offset %>
+            <% if event.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= event.end_time.utc+@utc_offset and not @user_events.include?(event) %>
               <%= link_to 'Sign In', events_mark_attendance_path(event: event.id), method: :post, class: "btn btn-secondary" %>
             <% end %>
             <%= link_to 'Edit', edit_event_path(event.id), class: "btn btn-secondary" %>
