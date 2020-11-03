@@ -1,9 +1,18 @@
-<%= render(:partial => '/global_partials/navbar') %>
+i<%= render(:partial => '/global_partials/navbar') %>
 <%= render(:partial => '/global_partials/flash_notices') %>
-<div class="container">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
+<div class="container" style="height:100%;">
   <br />
   <h1>PBE Members</h1><br />
   <%= link_to 'Export Attendance CSV', users_export_attendance_csv_path, class: "btn btn-secondary" %>
+  <div style="height:75%;overflow:auto;">
   <table class="table">
     <thead>
       <tr>
@@ -30,4 +39,5 @@
       <% end %>
     </tbody>
   </table>
+  </div>
 </div>

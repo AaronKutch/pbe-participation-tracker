@@ -464,12 +464,6 @@ RSpec.describe 'Revoke attendance for a user.' do
   end
 end
 
-# Attempt to revoke attendance for a user that does not exist.
-RSpec.describe 'Revoke attendance for a non-existant user.' do
-  it 'Returns the user to the /events path.' do
-  end
-end
-
 # Manually add attendance.
 RSpec.describe 'Manually add attendance.' do
   it 'Adds event to attendance list and redirects user.' do

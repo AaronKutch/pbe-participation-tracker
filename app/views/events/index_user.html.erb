@@ -1,8 +1,17 @@
 <%= render(:partial => '/global_partials/navbar') %>
 <%= render(:partial => '/global_partials/flash_notices') %>
-<div class="container">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
+<div class="container" style="height:100%;overflow:auto;">
   <h1>Upcoming Events</h1>
   <br />
+  <div style="height:75%;overflow:auto;">
   <table class="table">
     <thead>
       <tr>
@@ -28,4 +37,5 @@
       <% end %>
     </tbody>
   </table>
+  </div>
 </div>
