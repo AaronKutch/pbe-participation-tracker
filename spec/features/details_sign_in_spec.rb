@@ -41,6 +41,21 @@ RSpec.describe 'Sign in via details page.' do
     # refresh page
     visit(current_path)
 
+    # Log in as admin.
+    visit('/')
+    common_login(admin_email, password)
+    all('a', text: 'Details')[0].click
+    all('a', text: 'Revoke Sign In')[0].click
+    visit('/events')
+
+    # Log back in as user.
+    visit('/')
+    common_login(user_email, password)
+
+    # Go to events page.
+    visit('/events')
+    Customer.second.events << Event.first
+
     # check for handling attempts to sign into registered events
     click_on('Sign In')
     expect(page).to have_content('You have already registered for this event.')

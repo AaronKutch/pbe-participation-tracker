@@ -473,8 +473,8 @@ RSpec.describe 'Register for an event again.' do
     common_login(user_email, user_password)
 
     # Sign into Event #1.
-    all('a', text: 'Sign In')[0].click
     visit('/events')
+    Event.first.customers << Customer.second
 
     # Sign in again.
     all('a', text: 'Sign In')[0].click
