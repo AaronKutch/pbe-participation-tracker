@@ -126,6 +126,7 @@ class EventsController < ApplicationController
   def mark_attendance
     @user = Customer.where(id: session[:user_id]).first
     @user.events << Event.where(id: Integer(params[:event])).first
+    redirect_to(events_path)
   rescue StandardError
     flash[:notice] = 'You have already registered for this event.'
     redirect_to(events_path)
