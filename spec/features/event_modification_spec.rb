@@ -32,15 +32,8 @@ RSpec.describe 'Create a new event.' do
   it 'Displays a new event in the index.' do
     admin_create_and_login
 
-    # Create new event.
-    click_on('Add new event')
-    fill_in('event_title', with: 'TEST EVENT ONE')
-    fill_in('event_location', with: 'TEST LOCATION ONE')
-    click_on('Submit')
-
-    # Look for event in the index.
-    expect(current_path).to eql('/events')
-    expect(page).to have_content('TEST EVENT ONE')
+    # Create new event and look for event in the index
+    create_available_event('TEST EVENT ONE')
   end
 end
 
@@ -70,13 +63,7 @@ RSpec.describe 'Edit an event.' do
     admin_create_and_login
 
     # Setting up event:
-    click_on('Add new event')
-    fill_in('event_title', with: 'TEST EVENT ONE')
-    fill_in('event_location', with: 'TEST LOCATION ONE')
-    click_on('Submit')
-
-    expect(current_path).to eql('/events')
-    expect(page).to have_content('TEST EVENT ONE')
+    create_available_event('TEST EVENT ONE', 'TEST LOCATION ONE')
 
     # Editing:
     all('a', text: 'Edit')[0].click
@@ -149,13 +136,7 @@ RSpec.describe 'Edit an event to have a title that is too long.' do
     admin_create_and_login
 
     # Setting up event:
-    click_on('Add new event')
-    fill_in('event_title', with: 'TEST EVENT ONE')
-    fill_in('event_location', with: 'TEST LOCATION ONE')
-    click_on('Submit')
-
-    expect(current_path).to eql('/events')
-    expect(page).to have_content('TEST EVENT ONE')
+    create_available_event('TEST EVENT ONE', 'TEST LOCATION ONE')
 
     # Editing:
     all('a', text: 'Edit')[0].click
@@ -217,13 +198,7 @@ RSpec.describe 'Delete an event.' do
     admin_create_and_login
 
     # Create the event.
-    visit('/events/new')
-    fill_in('event_title', with: 'TEST EVENT ONE')
-    fill_in('event_location', with: 'TEST LOCATION ONE')
-    click_on('Submit')
-
-    expect(current_path).to eql('/events')
-    expect(page).to have_content('TEST EVENT ONE')
+    create_available_event('TEST EVENT ONE', 'TEST LOCATION ONE')
 
     # Delete the event.
     all('a', text: 'Delete')[0].click
@@ -242,13 +217,7 @@ RSpec.describe 'Delete an event that has already been deleted.' do
     admin_create_and_login
 
     # Create the event.
-    visit('/events/new')
-    fill_in('event_title', with: 'TEST EVENT ONE')
-    fill_in('event_location', with: 'TEST LOCATION ONE')
-    click_on('Submit')
-
-    expect(current_path).to eql('/events')
-    expect(page).to have_content('TEST EVENT ONE')
+    create_available_event('TEST EVENT ONE', 'TEST LOCATION ONE')
 
     # Delete the event.
     all('a', text: 'Delete')[0].click
@@ -281,11 +250,7 @@ RSpec.describe 'Details an event.' do
     admin_create_and_login
 
     # Create the event.
-    visit('/events/new')
-    fill_in('event_location', with: 'TEST LOCATION ONE')
-    fill_in('event_title', with: 'TEST EVENT ONE')
-    click_on('Submit')
-    expect(current_path).to eql('/events')
+    create_available_event('TEST EVENT ONE', 'TEST LOCATION ONE')
 
     # Details the event.
     all('a', text: 'Details')[0].click
@@ -381,25 +346,9 @@ RSpec.describe 'Register for a new event.' do
     )
 
     # Create an event.
-    click_on('Add new event')
-    expect(current_path).to eql('/events/new')
-    fill_in('event_title', with: 'Event #1')
-    fill_in('event_location', with: 'Location #1')
-
-    select 'January', from: 'event_date_2i'
-    select '1', from: 'event_date_3i'
-    select '2020', from: 'event_date_1i'
-    select '12 AM', from: 'event_date_4i'
-    select '00', from: 'event_date_5i'
-
-    select 'December', from: 'event_end_time_2i'
-    select '31', from: 'event_end_time_3i'
-    select '2020', from: 'event_end_time_1i'
-    select '11 PM', from: 'event_end_time_4i'
-    select '59', from: 'event_end_time_5i'
-
-    click_on('Submit')
-    expect(current_path).to eql('/events')
+    start_time = ['2020', 'January', '1', '12 AM', '00'] 
+    end_time = ['2020', 'December', '31', '11 PM', '59']
+    create_custom_event('Event #1', 'Location #1', start_time, end_time)
 
     # Log back in as a user.
     click_on('Logout')
@@ -427,24 +376,10 @@ RSpec.describe 'Register for an event again.' do
     )
 
     # Create an event.
-    click_on('Add new event')
-    expect(current_path).to eql('/events/new')
-    fill_in('event_title', with: 'Event #1')
-    fill_in('event_location', with: 'Location #1')
+    start_time = ['2020', 'January', '1', '12 AM', '00'] 
+    end_time = ['2020', 'December', '31', '11 PM', '59']
+    create_custom_event('Event #1', 'Location #1', start_time, end_time)
 
-    select 'January', from: 'event_date_2i'
-    select '1', from: 'event_date_3i'
-    select '2020', from: 'event_date_1i'
-    select '12 AM', from: 'event_date_4i'
-    select '00', from: 'event_date_5i'
-
-    select 'December', from: 'event_end_time_2i'
-    select '31', from: 'event_end_time_3i'
-    select '2020', from: 'event_end_time_1i'
-    select '11 PM', from: 'event_end_time_4i'
-    select '59', from: 'event_end_time_5i'
-
-    click_on('Submit')
     expect(current_path).to eql('/events')
 
     # Log back in as a user.
@@ -506,24 +441,10 @@ RSpec.describe 'Revoke attendance for a user.' do
     )
 
     # Create an event.
-    click_on('Add new event')
-    expect(current_path).to eql('/events/new')
-    fill_in('event_title', with: 'Event #1')
-    fill_in('event_location', with: 'Location #1')
+    start_time = ['2020', 'January', '1', '12 AM', '00'] 
+    end_time = ['2020', 'December', '31', '11 PM', '59']
+    create_custom_event('Event #1', 'Location #1', start_time, end_time)
 
-    select 'January', from: 'event_date_2i'
-    select '1', from: 'event_date_3i'
-    select '2020', from: 'event_date_1i'
-    select '12 AM', from: 'event_date_4i'
-    select '00', from: 'event_date_5i'
-
-    select 'December', from: 'event_end_time_2i'
-    select '31', from: 'event_end_time_3i'
-    select '2020', from: 'event_end_time_1i'
-    select '11 PM', from: 'event_end_time_4i'
-    select '59', from: 'event_end_time_5i'
-
-    click_on('Submit')
     expect(current_path).to eql('/events')
 
     # Log back in as a user.
