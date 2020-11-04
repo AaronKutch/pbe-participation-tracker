@@ -83,9 +83,14 @@ class EventsController < ApplicationController
     date_time = construct_time(DATE_TIME_FIELD)
     end_time = construct_time(END_TIME_FIELD)
 
-    Event.create(title: @event_info['title'], description: @event_info['description'], date: date_time,
-                 end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
-    redirect_to events_path
+    if date_time <= end_time
+      Event.create(title: @event_info['title'], description: @event_info['description'], date: date_time,
+                   end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
+      redirect_to events_path
+    elsif date_time > end_time
+      flash[:notice] = "\'Date'\ must be before \'End Time'\."
+      redirect_to('/events/new')
+    end
   rescue StandardError
     redirect_to new_event_path
   end
@@ -105,9 +110,14 @@ class EventsController < ApplicationController
     date_time = construct_time(DATE_TIME_FIELD)
     end_time = construct_time(END_TIME_FIELD)
 
-    @event.update(title: @event_info['title'], description: @event_info['description'], date: date_time,
-                  end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
-    redirect_to events_path
+    if date_time <= end_time
+      @event.update(title: @event_info['title'], description: @event_info['description'], date: date_time,
+                    end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
+      redirect_to events_path
+    elsif date_time > end_time
+      flash[:notice] = "\'Date'\ must be before \'End Time'\."
+      redirect_to("/events/#{params[:id]}/edit")
+    end
   rescue StandardError
     redirect_to events_path
   end
