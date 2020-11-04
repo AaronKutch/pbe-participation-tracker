@@ -1,0 +1,36 @@
+<%= render(:partial => '/global_partials/navbar') %>
+
+<div class="container">
+  <h1>Admin Docs</h1>
+  <br>
+  <h2>Create/Modify an event</h2>
+  <p>To create an event, go to the <%= link_to "events page", events_path %> and click on the <%= link_to "Add new event", new_event_path %> button.</p>
+  <p>From here, you have several fields to fill out:</p>
+  <ul>
+    <li><i>Title</i> - The title of your event <b>(required)</b></li>
+    <li><i>Description</i> - A short description of the event</li>
+    <li><i>Date</i> - The date/time the event starts <b>(required)</b></li>
+    <li><i>End Time</i> - The date/time the event ends <b>(required)</b></li>
+    <li><i>Location</i> - The location fo the event <b>(required)</b></li>
+    <li><i>Mandatory</i> - Whether the event is required for memebers <b>(required)</b></li>
+  </ul>
+  <p>Note: The sign in button for the event will only appear between the specified start/end times.</p>
+  <p>To modify an event, go to the <%= link_to "events page", events_path %> and click on the "Edit" button next to the event you wish to modify. You will be presented with the same options as above.</p>
+  <br>
+  <h2>Override Attendance</h2>
+  <p>To manually add or remove attendance for an event, go to the <%= link_to "events page", events_path %> and click on the "Details" button next to the event whose attendnace you wish to modify.</p>
+  <p>You can see a list of current attendees under the <b>Attendees</b> heading. To remove attendance, click the "Revoke Sign In" button next to the user whose attendance you want to revoke.</p>
+  <p>To manually add attendees, click on the "Manually Add Attendees" button. You'll be taken to a page with a list of all the users that have not attended the event. Then, simply click the "Add Sign In" button next to the desired user.</p>
+  <br>
+  <h2>Generate Event QR Code</h2>
+  <p>To generate a QR code, go to the <%= link_to "events page", events_path %> and click on the "Details" button next to the desired event.</p>
+  <p>Click on the "Generate QR Code" button. You'll be taken to a page with the QR code on display, and you can click the "Download QR code" button to download the QR code as a PNG file.</p>
+  <br>
+  <h2>Modify Members</h2>
+  <p>You can update and delete members from the <%= link_to "members page", users_path %>.
+  <p>You can delete a member's account by clicking the "Delete" button, and you can update their role by clicking the "Update Role" button.</p>
+  <br>
+  <h2>Export Attendance Data</h2>
+  <p>To export attendance data, go to the <%= link_to "members page", users_path %> and click the "Export Attendance CSV" button.</p>
+  <p>The resulting CSV file can be imported into another program, such as Microsoft Excel or Google Sheets. In the file, there is a row for each member and a column for each event. At the intersection of each member and event, the cell is filled with a "1" if the member attended the event. Otherwise, the cell is left empty.</p>
+</div>
