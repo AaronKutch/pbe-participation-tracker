@@ -32,8 +32,8 @@ class EventsController < ApplicationController
   def index
     @events = Event.order('date')
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
-    s = "SELECT events.id FROM events WHERE events.id IN"
-    s += "(SELECT customers_events.event_id FROM customers_events "
+    s = 'SELECT events.id FROM events WHERE events.id IN'
+    s += '(SELECT customers_events.event_id FROM customers_events '
     s += "WHERE customers_events.customer_id = #{session[:user_id]});"
     @user_events = ActiveRecord::Base.connection.execute(s).values
     Time.use_zone('Central Time (US & Canada)') do
