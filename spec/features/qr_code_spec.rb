@@ -26,3 +26,22 @@ RSpec.describe 'Attempt to generate a QR code for an event.' do
     expect(page).to have_content('Event QR Code')
   end
 end
+
+# Attempt to generate a QR code for an event that has already been deleted.
+RSpec.describe 'Attempt to generate a QR code for an event that has already been deleted.' do
+  it 'Redirects user back to /events path.' do
+    admin_create_and_login
+
+    # Create an event.
+    create_test_event
+
+    # Attempt to generate a QR code for event.
+    visit('/events')
+    all('a', text: 'Details')[0].click
+    @event_id = Event.first.id
+    expect(current_path).to eql("/events/#{@event_id}")
+    Event.first.destroy
+    click_on('Generate QR Code')
+    expect(current_path).to eql('/events')
+  end
+end

@@ -1,11 +1,19 @@
   <%= render(:partial => '/global_partials/navbar') %>
 
-  <div class="container">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+  </style>
+
+  <div class="container" style="height:100%;">
     <br />
     <%= render(:partial => 'event_details')%>
     <%= link_to 'Generate QR Code', events_generate_qr_code_path(url: request.url, event_title: @event_record.title, event_id: @event_record.id), method: :post, class: "btn btn-secondary" %>
     <br /><br /><br />
     <h2>Attendees</h2><br />
+    <div style="height:50%;overflow:auto;">
     <table class="table">
       <% @attendees.each do |a| %>
       <tr>
@@ -17,5 +25,6 @@
       </tr>
       <% end %>
     </table>
+    </div>
     <%= link_to 'Manually Add Attendees', events_add_user_path({id: @event_record.id}), method: :get, class: "btn btn-secondary" %>
   </div>

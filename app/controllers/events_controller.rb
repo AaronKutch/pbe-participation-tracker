@@ -32,6 +32,7 @@ class EventsController < ApplicationController
   def index
     @events = Event.order('date')
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
+    @user_events = Customer.find(session[:user_id]).events
     Time.use_zone('Central Time (US & Canada)') do
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
     end
@@ -77,6 +78,8 @@ class EventsController < ApplicationController
 
   def create
     @event_info = params['event']
+    raise 'error' if @event_info['title'].length > 50
+
     Event.create(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
                  end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
@@ -93,12 +96,14 @@ class EventsController < ApplicationController
 
   def update
     @event_info = params['event']
-    @event = Event.find(params[:id])
+    @event = Event.find_by(id: params[:id])
+    raise 'error' if @event.nil?
+
     @event.update(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
                   end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
   rescue StandardError
-    redirect_to edit_event_path
+    redirect_to events_path
   end
 
   def delete
@@ -121,6 +126,7 @@ class EventsController < ApplicationController
   def mark_attendance
     @user = Customer.where(id: session[:user_id]).first
     @user.events << Event.where(id: Integer(params[:event])).first
+    redirect_to(events_path)
   rescue StandardError
     flash[:notice] = 'You have already registered for this event.'
     redirect_to(events_path)
@@ -129,15 +135,20 @@ class EventsController < ApplicationController
   def revoke_attendence
     @user = Customer.find(params[:customer])
     @event = Event.find(params[:event])
+    raise 'error' if @user.nil? || @event.nil?
+
     @event.customers.delete(@user)
     redirect_to("/events/#{params[:event]}")
   rescue StandardError
     flash[:notice] = 'Student has not signed in yet.'
+    redirect_to(events_path)
   end
 
   def generate_qr_code
     @event_title = params[:event_title]
     @event_id = params[:event_id]
+    raise 'error' if Event.find_by(id: params[:event_id]).nil?
+
     @qr = RQRCode::QRCode.new(params[:url])
     render('qr')
   rescue StandardError

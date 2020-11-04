@@ -1,6 +1,13 @@
 <%= render(:partial => '/global_partials/navbar') %>
 <%= render(:partial => '/global_partials/flash_notices') %>
 
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
 <script>
 
 function btn_click(id, name) {
@@ -11,13 +18,14 @@ function btn_click(id, name) {
 
 </script>
 
-<div class="container">
+<div class="container" style="height:100%;">
   <br />
   <h1>Add users to event <b id="event_title"><%= @event_record.title %></b></h1><br />
 
   <%= link_to 'Back to event details', event_path(@event_record.id), class: "btn btn-secondary" %>
   <br/><br/>
 
+  <div style="height:100%;overflow:auto;">
   <table class="table">
     <% Customer.order('last_name').each do |c| %>
         <% unless @event_record.customers.include?(c) %>
@@ -32,4 +40,5 @@ function btn_click(id, name) {
     <% end %>
     </tbody>
   </table>
+  </div>
 </div>
