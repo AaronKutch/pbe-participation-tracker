@@ -80,8 +80,8 @@ class EventsController < ApplicationController
     @event_info = params['event']
     raise 'error' if @event_info['title'].length > 50
 
-    Event.create(title: @event_info['title'], description: @event_info['description'], date: construct_time('date'),
-                 end_time: construct_time('end_time'), location: @event_info['location'], mandatory: @event_info['mandatory'])
+    Event.create(title: @event_info['title'], description: @event_info['description'], date: construct_time(DATE_TIME_FIELD),
+                 end_time: construct_time(END_TIME_FIELD), location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
   rescue StandardError
     redirect_to new_event_path
@@ -99,8 +99,8 @@ class EventsController < ApplicationController
     @event = Event.find_by(id: params[:id])
     raise 'error' if @event.nil?
 
-    @event.update(title: @event_info['title'], description: @event_info['description'], date: construct_time('date'),
-                  end_time: construct_time('end_time'), location: @event_info['location'], mandatory: @event_info['mandatory'])
+    @event.update(title: @event_info['title'], description: @event_info['description'], date: construct_time(DATE_TIME_FIELD),
+                  end_time: construct_time(END_TIME_FIELD), location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
   rescue StandardError
     redirect_to events_path
@@ -157,6 +157,9 @@ class EventsController < ApplicationController
   end
 
   private
+
+  DATE_TIME_FIELD = 'date'
+  END_TIME_FIELD = 'end_time'
 
   def construct_time(field)
     s = "#{@event_info["#{field}(1i)"]}-#{@event_info["#{field}(2i)"]}-#{@event_info["#{field}(3i)"]}"
