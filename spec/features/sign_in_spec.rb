@@ -25,12 +25,6 @@ RSpec.describe 'Sign in to an event.' do
     all('a', text: 'Sign In')[0].click
     visit('/events')
 
-    # TODO
-    # Attempt to sign in to the same event twice.
-    # all('a', :text => 'Sign In')[0].click
-    # expect(current_path).to eql('/events')
-    # expect(page).to have_content('You have already registered for this event.')
-
     # Sign back in as an admin.
     click_on('Logout')
     common_login(admin_email, password)
