@@ -32,7 +32,9 @@ class EventsController < ApplicationController
   def index
     @events = Event.order('date')
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
-    @user_events = Customer.find(session[:user_id]).events
+    @user_events = ActiveRecord::Base.connection.execute(
+      "SELECT events.id FROM events WHERE events.id IN(SELECT customers_events.event_id FROM customers_events WHERE customers_events.customer_id = #{session[:user_id]});"
+    ).values
     Time.use_zone('Central Time (US & Canada)') do
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
     end
