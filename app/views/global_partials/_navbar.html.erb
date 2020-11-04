@@ -14,13 +14,9 @@
         <%= link_to "Members", users_path, class: "nav-link nav-text" %>
       </li>
       <li class="nav-item">
+        <!-- FIXME: Update with proper user routes once made -->
         <%= link_to "My Profile", user_path(session[:user_id]), class: "nav-link nav-text" %>
       </li>
-      <% if session[:user_id] && Customer.where(id: session[:user_id]).first.role == "admin" %>
-        <li class="nav-item">
-          <%= link_to "Help", help_admin_path, class: "nav-link nav-text" %>
-        </li>
-      <% end %>
       <li class="nav-item">
         <% if session[:user_id] %>
           <%= link_to "Logout", access_logout_path, class: "nav-link nav-text" %>
