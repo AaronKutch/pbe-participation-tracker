@@ -13,22 +13,20 @@ function btn_click(id, name) {
 
 <div class="container">
   <br />
-  <h1>Add users to event <b id="event_title"><%= @event_record.title %></b></h1><br />
+  <h1>Add users to event <b id="event_title"><%= @event.title %></b></h1><br />
 
-  <%= link_to 'Back to event details', event_path(@event_record.id), class: "btn btn-secondary" %>
+  <%= link_to 'Back to event details', event_path(@event.id), class: "btn btn-secondary" %>
   <br/><br/>
 
   <table class="table">
-    <% Customer.order('last_name').each do |c| %>
-        <% unless @event_record.customers.include?(c) %>
-        	<tr id=<%= "row#{c.id}" %>>
+    <% @query.each do |c| %>
+        	<tr id=<%= "row#{c['id']}" %>>
         	<th>Name</th>
-        	<td><%= "#{c.first_name} #{c.last_name}" %></td>
+        	<td><%= "#{c['first_name']} #{c['last_name']}" %></td>
         	<th>Email</th>
-        	<td><%= c.email %></td>
-        	<td><%= link_to 'Add Sign In', events_manual_add_path({user_id: c.id, event_id: @event_record.id}), method: :post, class: "btn btn-secondary", onclick: "btn_click('row#{c.id}', '#{c.first_name} #{c.last_name}')" %></td>
-        	</tr>  
-    	<% end %>
+        	<td><%= c['email'] %></td>
+        	<td><%= link_to 'Add Sign In', events_manual_add_path({user_id: c['id'], event_id: @event.id}), method: :post, class: "btn btn-secondary", onclick: "btn_click('row#{c['id']}', '#{c['first_name']} #{c['last_name']}')" %></td>
+        	</tr>
     <% end %>
     </tbody>
   </table>
