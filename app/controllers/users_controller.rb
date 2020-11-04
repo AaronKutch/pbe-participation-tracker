@@ -81,7 +81,7 @@ class UsersController < ApplicationController
     )
 
     # first row for the CSV, which contains event names
-    row0 = ['total users:', users.length.to_s, 'marginals corner', 'events =>']
+    row0 = ["users: #{users.length}", '', '', "events: #{events.length}"]
     # per event marginals for CSV
     marginal_event_attendance = []
     # this hashmap is for keeping track of which column corresponds to an event id,
@@ -123,7 +123,7 @@ class UsersController < ApplicationController
       corner_marginal += column_marginal
       row1.push(column_marginal)
     end
-    row1[3] = corner_marginal
+    row1[3] = "marginals total: #{corner_marginal}"
 
     # create csv string
     csv_string = CSV.generate do |csv|
