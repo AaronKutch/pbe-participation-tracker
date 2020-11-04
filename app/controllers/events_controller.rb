@@ -80,8 +80,11 @@ class EventsController < ApplicationController
     @event_info = params['event']
     raise 'error' if @event_info['title'].length > 50
 
-    Event.create(title: @event_info['title'], description: @event_info['description'], date: construct_time(DATE_TIME_FIELD),
-                 end_time: construct_time(END_TIME_FIELD), location: @event_info['location'], mandatory: @event_info['mandatory'])
+    date_time = construct_time(DATE_TIME_FIELD)
+    end_time = construct_time(END_TIME_FIELD)
+
+    Event.create(title: @event_info['title'], description: @event_info['description'], date: date_time,
+                 end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
   rescue StandardError
     redirect_to new_event_path
@@ -99,8 +102,11 @@ class EventsController < ApplicationController
     @event = Event.find_by(id: params[:id])
     raise 'error' if @event.nil?
 
-    @event.update(title: @event_info['title'], description: @event_info['description'], date: construct_time(DATE_TIME_FIELD),
-                  end_time: construct_time(END_TIME_FIELD), location: @event_info['location'], mandatory: @event_info['mandatory'])
+    date_time = construct_time(DATE_TIME_FIELD)
+    end_time = construct_time(END_TIME_FIELD)
+
+    @event.update(title: @event_info['title'], description: @event_info['description'], date: date_time,
+                  end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
     redirect_to events_path
   rescue StandardError
     redirect_to events_path
