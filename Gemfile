@@ -36,6 +36,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Used rqrcode to generate qr codes for event detail page
 gem 'rqrcode'
 
+# Used for admin Icons, can be expanded upon with added functionality
+gem 'material_icons'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

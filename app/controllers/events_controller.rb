@@ -36,7 +36,8 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.order('date')
+    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    @events = Event.order(order)
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
     s = 'SELECT events.id FROM events WHERE events.id IN'
     s += '(SELECT customers_events.event_id FROM customers_events '
@@ -70,7 +71,8 @@ class EventsController < ApplicationController
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
     end
 
-    @attendees = @user_role == 'admin' ? @event_record.customers.order('last_name') : []
+    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    @attendees = @user_role == 'admin' ? @event_record.customers.order(order) : []
 
     # conditionally renders admin or user index view
     case @user_role

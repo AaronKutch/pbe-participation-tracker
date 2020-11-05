@@ -24,12 +24,12 @@ RSpec.describe 'User CRUD features' do
       # Check for admin information.
       expect(page).to have_content('John Smith')
       expect(page).to have_content(admin_email)
-      expect(page).to have_content('admin')
+      expect(page).to have_css('i[title="admin"]')
 
       # Check for user information.
       expect(page).to have_content('Jane Doe')
       expect(page).to have_content(user_email)
-      expect(page).to have_content('user')
+      expect(page).to have_css('i[title="user"]')
     end
   end
 
@@ -87,8 +87,8 @@ RSpec.describe 'User CRUD features' do
       visit(users_path)
 
       # Expect to have both admins and users.
-      expect(page).to have_content('user')
-      expect(page).to have_content('admin')
+      expect(page).to have_css('i[title="user"]')
+      expect(page).to have_css('i[title="admin"]')
 
       # Update the user to an admin.
       all('a', text: 'Update Role')[0].click
@@ -200,8 +200,8 @@ RSpec.describe 'User CRUD features' do
       visit(users_path)
 
       # Expect to have both admins and users.
-      expect(page).to have_content('user')
-      expect(page).to have_content('admin')
+      expect(page).to have_css('i[title="user"]')
+      expect(page).to have_css('i[title="admin"]')
 
       # Delete the user.
       all('a', text: 'Delete')[0].click
