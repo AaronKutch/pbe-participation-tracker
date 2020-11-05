@@ -7,14 +7,7 @@
     <%= link_to 'Add new event', new_event_path, class: "btn btn-primary" %>
   </div>
   <table class="table">
-    <thead>
-      <tr>
-        <th><%= link_to "Event", :sort => 'title'%></th>
-        <th><%= link_to "Date", :sort => 'date'%></th>
-        <th><%= link_to "Mandatory", :sort => 'mandatory'%></th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+    <%= render(:partial => 'event_table_headers')%>
     <tbody>
       <% @events.each do |event| %>
         <tr>

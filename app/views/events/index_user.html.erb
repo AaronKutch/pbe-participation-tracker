@@ -4,14 +4,7 @@
   <h1>Upcoming Events</h1>
   <br />
   <table class="table">
-    <thead>
-      <tr>
-        <th>Event</th>
-        <th>Date</th>
-        <th>Mandatory</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+    <%= render(:partial => 'event_table_headers')%>
     <tbody>
       <% @events.each do |event| %>
         <tr>
