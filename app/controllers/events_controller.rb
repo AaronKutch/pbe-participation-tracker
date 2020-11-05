@@ -6,8 +6,14 @@ class EventsController < ApplicationController
   before_action :confirm_permissions, except: %i[index show mark_attendance]
 
   def add_user
-    @event_record = Event.find_by(id: params['id'])
-    redirect_to(events_path) if @event_record.nil?
+    @event = Event.find_by(id: params['id'])
+    redirect_to(events_path) if @event.nil?
+    # get every customer that is not already registered for this event
+    s = 'SELECT * FROM customers WHERE customers.id NOT IN('
+    s += 'SELECT customers_events.customer_id FROM customers_events '
+    s += "WHERE customers_events.event_id = #{@event.id}"
+    s += ') ORDER BY customers.last_name;'
+    @query = ActiveRecord::Base.connection.execute(s)
   end
 
   def manual_add
@@ -30,8 +36,13 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.order('date')
+    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    @events = Event.order(order)
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
+    s = 'SELECT events.id FROM events WHERE events.id IN'
+    s += '(SELECT customers_events.event_id FROM customers_events '
+    s += "WHERE customers_events.customer_id = #{session[:user_id].to_i});"
+    @user_events = ActiveRecord::Base.connection.execute(s).values
     Time.use_zone('Central Time (US & Canada)') do
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
     end
@@ -60,7 +71,8 @@ class EventsController < ApplicationController
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
     end
 
-    @attendees = @user_role == 'admin' ? @event_record.customers : []
+    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    @attendees = @user_role == 'admin' ? @event_record.customers.order(order) : []
 
     # conditionally renders admin or user index view
     case @user_role
@@ -77,9 +89,19 @@ class EventsController < ApplicationController
 
   def create
     @event_info = params['event']
-    Event.create(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
-                 end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
-    redirect_to events_path
+    raise 'error' if @event_info['title'].length > 50
+
+    date_time = construct_time(DATE_TIME_FIELD)
+    end_time = construct_time(END_TIME_FIELD)
+
+    if date_time <= end_time
+      Event.create(title: @event_info['title'], description: @event_info['description'], date: date_time,
+                   end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
+      redirect_to events_path
+    elsif date_time > end_time
+      flash[:notice] = "\'Date'\ must be before \'End Time'\."
+      redirect_to('/events/new')
+    end
   rescue StandardError
     redirect_to new_event_path
   end
@@ -93,12 +115,22 @@ class EventsController < ApplicationController
 
   def update
     @event_info = params['event']
-    @event = Event.find(params[:id])
-    @event.update(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
-                  end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
-    redirect_to events_path
+    @event = Event.find_by(id: params[:id])
+    raise 'error' if @event.nil?
+
+    date_time = construct_time(DATE_TIME_FIELD)
+    end_time = construct_time(END_TIME_FIELD)
+
+    if date_time <= end_time
+      @event.update(title: @event_info['title'], description: @event_info['description'], date: date_time,
+                    end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
+      redirect_to events_path
+    elsif date_time > end_time
+      flash[:notice] = "\'Date'\ must be before \'End Time'\."
+      redirect_to("/events/#{params[:id]}/edit")
+    end
   rescue StandardError
-    redirect_to edit_event_path
+    redirect_to events_path
   end
 
   def delete
@@ -121,6 +153,7 @@ class EventsController < ApplicationController
   def mark_attendance
     @user = Customer.where(id: session[:user_id]).first
     @user.events << Event.where(id: Integer(params[:event])).first
+    redirect_to(events_path)
   rescue StandardError
     flash[:notice] = 'You have already registered for this event.'
     redirect_to(events_path)
@@ -129,15 +162,20 @@ class EventsController < ApplicationController
   def revoke_attendence
     @user = Customer.find(params[:customer])
     @event = Event.find(params[:event])
+    raise 'error' if @user.nil? || @event.nil?
+
     @event.customers.delete(@user)
     redirect_to("/events/#{params[:event]}")
   rescue StandardError
     flash[:notice] = 'Student has not signed in yet.'
+    redirect_to(events_path)
   end
 
   def generate_qr_code
     @event_title = params[:event_title]
     @event_id = params[:event_id]
+    raise 'error' if Event.find_by(id: params[:event_id]).nil?
+
     @qr = RQRCode::QRCode.new(params[:url])
     render('qr')
   rescue StandardError
@@ -147,15 +185,12 @@ class EventsController < ApplicationController
 
   private
 
-  def construct_date_time
-    s = "#{@event_info['date(1i)']}-#{@event_info['date(2i)']}-#{@event_info['date(3i)']}"
-    s += "T#{@event_info['date(4i)']}:#{@event_info['date(5i)']}:00+00:00"
-    DateTime.parse(s)
-  end
+  DATE_TIME_FIELD = 'date'
+  END_TIME_FIELD = 'end_time'
 
-  def construct_end_time
-    s = "#{@event_info['end_time(1i)']}-#{@event_info['end_time(2i)']}-#{@event_info['end_time(3i)']}"
-    s += "T#{@event_info['end_time(4i)']}:#{@event_info['end_time(5i)']}:00+00:00"
+  def construct_time(field)
+    s = "#{@event_info["#{field}(1i)"]}-#{@event_info["#{field}(2i)"]}-#{@event_info["#{field}(3i)"]}"
+    s += "T#{@event_info["#{field}(4i)"]}:#{@event_info["#{field}(5i)"]}:00+00:00"
     DateTime.parse(s)
   end
 end

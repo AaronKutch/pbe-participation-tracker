@@ -17,6 +17,15 @@ RSpec.describe 'Attempt to generate a CSV of attendances' do
       end_time: '2021-02-01 00:00:00'
     )
 
+    Event.create(
+      title: 'NO ATTENDEES',
+      description: 'This is an example event.',
+      date: '2020-01-01 00:00:00',
+      location: 'TEST LOCATION',
+      mandatory: true,
+      end_time: '2021-02-01 00:00:00'
+    )
+
     Customer.first.events << Event.first
 
     # Attempt to generate a CSV file.

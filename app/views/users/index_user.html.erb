@@ -1,14 +1,23 @@
 <%= render(:partial => '/global_partials/navbar') %>
 <%= render(:partial => '/global_partials/flash_notices') %>
-<div class="container">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
+<div class="container" style="height:100%;">
   <br />
   <h1>PBE Members</h1><br />
+  <div style="height:75%;overflow:auto;">
   <table class="table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
+        <th><%= link_to "Name", :sort => 'last_name'%></th>
+        <th><%= link_to "Email", :sort => 'email'%></th>
+        <th><%= link_to "Role", :sort => 'role'%></th>
       </tr>
     </thead>
     <tbody>
@@ -16,9 +25,14 @@
       <tr>
         <td><%= user.first_name + ' ' + user.last_name %></td>
         <td><%= user.email %></td>
-        <td><%= user.role %></td>
+        <% if user.role == 'admin' %>
+          <td><i id='admin' class="material-icons" title="admin">account_box</i></td>
+        <% else %>
+          <td><i id='user' class="material-icons md-dark" title="user">account_box</i></td>
+        <% end %>
       </tr>
       <% end %>
     </tbody>
   </table>
+  </div>
 </div>
