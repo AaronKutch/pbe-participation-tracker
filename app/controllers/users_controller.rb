@@ -8,7 +8,8 @@ class UsersController < ApplicationController
   before_action :confirm_permissions, except: %i[index show]
 
   def index
-    @users = Customer.order(params[:sort])
+    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    @users = Customer.order(order)
     @user_role = Customer.where(id: session[:user_id]).first.role
 
     # conditionally renders admin or user index view
@@ -24,7 +25,8 @@ class UsersController < ApplicationController
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
 
-    @user_events = @user.events.order(params[:sort])
+    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    @user_events = @user.events.order(order)
   rescue StandardError
     on_user_not_found
   end
