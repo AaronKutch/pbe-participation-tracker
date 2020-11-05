@@ -30,7 +30,8 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.order(params[:sort])
+    datetime = DateTime.now.beginning_of_day.utc
+    @events = Event.order(params[:sort]).where("date > ?", datetime)
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
     Time.use_zone('Central Time (US & Canada)') do
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
