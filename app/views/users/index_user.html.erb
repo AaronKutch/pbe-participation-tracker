@@ -6,9 +6,9 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
+        <th><%= link_to "Name", :sort => 'last_name'%></th>
+        <th><%= link_to "Email", :sort => 'email'%></th>
+        <th><%= link_to "Role", :sort => 'role'%></th>
       </tr>
     </thead>
     <tbody>

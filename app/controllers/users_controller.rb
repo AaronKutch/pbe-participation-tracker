@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   before_action :confirm_permissions, except: %i[index show]
 
   def index
-    @users = Customer.order('last_name')
+    @users = Customer.order(params[:sort])
     @user_role = Customer.where(id: session[:user_id]).first.role
 
     # conditionally renders admin or user index view
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
 
-    @user_events = @user.events.order('date')
+    @user_events = @user.events.order(params[:sort])
   rescue StandardError
     flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)

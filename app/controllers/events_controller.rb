@@ -60,7 +60,7 @@ class EventsController < ApplicationController
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
     end
 
-    @attendees = @user_role == 'admin' ? @event_record.customers : []
+    @attendees = @user_role == 'admin' ? @event_record.customers.order(params[:sort]) : []
 
     # conditionally renders admin or user index view
     case @user_role
