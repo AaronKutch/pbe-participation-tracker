@@ -170,7 +170,7 @@ RSpec.describe 'User CRUD features' do
       visit(users_path)
 
       # Attempt to update user.
-      all('a', text: 'Update Role')[0].click
+      all('a', text: 'Update Role')[1].click
 
       @c.destroy
       click_on('Submit')
