@@ -61,7 +61,7 @@ c1.events << e1
 
   c = Customer.new
   c.first_name = "User-#{x}"
-  c.last_name = "lastname-#{x.chr}.chr"
+  c.last_name = "lastname-#{x.chr}"
   c.email = "user-#{x}@tamu.edu"
   c.role = 'user'
   c.password = 'p'

@@ -13,21 +13,8 @@ RSpec.describe 'Sign in to an event.' do
   it 'Registers the user for an event and displays it on the event page.' do
     admin_create_and_login
 
-    # Create an event.
-    click_on('Add new event')
-    fill_in('event_title', with: 'TEST EVENT')
-    fill_in('event_location', with: 'TEST LOCATION')
-    select 'January', from: 'event_date_2i'
-    select Date.today.day, from: 'event_date_3i'
-    select '12 AM', from: 'event_date_4i'
-    select '00', from: 'event_date_5i'
-    select Date.today.year + 1, from: 'event_end_time_1i'
-    select '11 PM', from: 'event_end_time_4i'
-    select '59', from: 'event_end_time_5i'
-
-    click_on('Submit')
-    expect(current_path).to eql('/events')
-    expect(page).to have_content('TEST EVENT')
+    # Create button and test redirection and button display
+    create_available_event('TEST EVENT', 'EVENT LOCATION')
 
     # Log in as user.
     click_on('Logout')
@@ -37,12 +24,6 @@ RSpec.describe 'Sign in to an event.' do
     # Sign up for an event.
     all('a', text: 'Sign In')[0].click
     visit('/events')
-
-    # TODO
-    # Attempt to sign in to the same event twice.
-    # all('a', :text => 'Sign In')[0].click
-    # expect(current_path).to eql('/events')
-    # expect(page).to have_content('You have already registered for this event.')
 
     # Sign back in as an admin.
     click_on('Logout')
@@ -63,14 +44,7 @@ RSpec.describe 'View list of users registered when no users have registered yet.
     admin_create_and_login
 
     # Create an event.
-    click_on('Add new event')
-    fill_in('event_title', with: 'TEST EVENT')
-    fill_in('event_location', with: 'TEST LOCATION')
-    select '12 AM', from: 'event_date_4i'
-    select '00', from: 'event_date_5i'
-    select '11 PM', from: 'event_end_time_4i'
-    select '59', from: 'event_end_time_5i'
-    click_on('Submit')
+    create_available_event('TEST EVENT', 'EVENT LOCATION')
     expect(current_path).to eql('/events')
 
     # View list of attendees.
@@ -90,24 +64,9 @@ RSpec.describe 'Ensures users are not able to sign in after end_time or before d
     admin_create_and_login
 
     # Create an event.
-    click_on('Add new event')
-    fill_in('event_title', with: 'TEST EVENT')
-    fill_in('event_location', with: 'TEST LOCATION')
-
-    # fill in date (start time)
-    select '2020', from: 'event_date_1i'
-    select 'October', from: 'event_date_2i'
-    select '7', from: 'event_date_3i'
-    select '8 PM', from: 'event_date_4i'
-    select '12', from: 'event_date_5i'
-
-    # fill in end_time
-    select '2020', from: 'event_end_time_1i'
-    select 'October', from: 'event_end_time_2i'
-    select '7', from: 'event_end_time_3i'
-    select '8 PM', from: 'event_end_time_4i'
-    select '13', from: 'event_end_time_5i'
-    click_on('Submit')
+    start_time = ['2020', 'October', '7', '8 PM', '12']
+    end_time = ['2020', 'October', '7', '8 PM', '13']
+    create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
     expect(current_path).to eql('/events')
 
     # sign in as user
@@ -136,19 +95,9 @@ RSpec.describe 'Ensures users are able to sign in within date to end_time time f
     travel_to Time.zone.local(2020, 10, 7, 20, 14)
 
     # Create an event.
-    click_on('Add new event')
-    fill_in('event_title', with: 'TEST EVENT')
-    fill_in('event_location', with: 'TEST LOCATION')
-
-    # fill in date (start time)
-    select '12 AM', from: 'event_date_4i'
-    select '00', from: 'event_date_5i'
-
-    # fill in end_time
-    select Date.current.year + 1, from: 'event_end_time_1i'
-    select '11 PM', from: 'event_end_time_4i'
-    select '59', from: 'event_end_time_5i'
-    click_on('Submit')
+    start_time = ['2020', 'October', '7', '12 AM', '00']
+    end_time = [Date.current.year + 1, 'December', '31', '11 PM', '59']
+    create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
     expect(current_path).to eql('/events')
 
     # sign in as user

@@ -1,5 +1,13 @@
 <%= render(:partial => '/global_partials/navbar') %>
-<div class="container">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
+<div class="container" style="height:100%;">
   <h1>Member Info</h2>
   <table class="table">
     <tr>
@@ -19,6 +27,7 @@
 
   <h2>Events Attended</h2>
 
+  <div style="height:50%;overflow:auto;">
   <table class="table">
     <thead>
       <tr>
@@ -37,5 +46,6 @@
       <% end %>
     </tbody>
   </table>
+  </div>
 </div>
 

@@ -1,11 +1,21 @@
 <%= render(:partial => '/global_partials/navbar') %>
 <%= render(:partial => '/global_partials/flash_notices') %>
-<div class="container">
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+</style>
+
+<div class="container" style="height:100%;">
   <h1>Upcoming Events</h1>
   <br />
   <div class="float-right">
     <%= link_to 'Add new event', new_event_path, class: "btn btn-primary" %>
   </div>
+  <br/><br/>
+  <div style="height:75%;overflow:auto;">
   <table class="table">
     <%= render(:partial => 'event_table_headers')%>
     <tbody>
@@ -16,7 +26,7 @@
           <td><%= event.mandatory %></td>
           <td>
             <%= link_to 'Details', event_path(event.id),  class: "btn btn-secondary" %>
-            <% if event.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= event.end_time.utc+@utc_offset %>
+            <% if event.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= event.end_time.utc+@utc_offset and not @user_events.include?([event.id]) %>
               <%= link_to 'Sign In', events_mark_attendance_path(event: event.id), method: :post, class: "btn btn-secondary" %>
             <% end %>
             <%= link_to 'Edit', edit_event_path(event.id), class: "btn btn-secondary" %>
@@ -26,4 +36,5 @@
       <% end %>
     </tbody>
   </table>
+  </div>
 </div>
