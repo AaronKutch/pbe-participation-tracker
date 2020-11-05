@@ -19,9 +19,9 @@
         <td><%= user.first_name + ' ' + user.last_name %></td>
         <td><%= user.email %></td>
         <% if user.role == 'admin' %>
-          <td><i class="material-icons" title="admin">account_box</i></td>
+          <td><i id='admin' class="material-icons" title="admin">account_box</i></td>
         <% else %>
-          <td><i class="material-icons md-dark" title="user">account_box</i></td>
+          <td><i id='user' class="material-icons md-dark" title="user">account_box</i></td>
         <% end %>
         <td>
           <%= link_to 'Details', user_path(user.id),  class: "btn btn-secondary" %>
