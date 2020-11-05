@@ -57,6 +57,55 @@ RSpec.describe 'Create a new event with a title that is too long.' do
   end
 end
 
+RSpec.describe 'Users attempts to create an event with invalid end/start times.' do
+  it 'Flashes an error and redirects them to the current page.' do
+    include ActiveSupport::Testing::TimeHelpers
+    # Log in as an admin.
+    admin_create_and_login
+
+    # Attempt to create event with invalid time.
+    start_time = ['2020', 'October', '7', '8 PM', '13']
+    end_time = ['2020', 'October', '7', '8 PM', '00']
+    create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
+    expect(page).to have_content("\'Date'\ must be before \'End Time'\.")
+    expect(current_path).to eql('/events/new')
+
+    # Attempt to create event with invalid date.
+    start_time = ['2021', 'October', '7', '8 PM', '11']
+    end_time = ['2020', 'October', '6', '8 PM', '12']
+    create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
+    expect(page).to have_content("\'Date'\ must be before \'End Time'\.")
+    expect(current_path).to eql('/events/new')
+  end
+end
+
+RSpec.describe 'Users attempts to update an event using invalid end/start times.' do
+  it 'Flashes an error and redirects them to the current page.' do
+    include ActiveSupport::Testing::TimeHelpers
+    # Log in as an admin.
+    admin_create_and_login
+
+    start_time = ['2020', 'October', '7', '8 PM', '10']
+
+    # create event and visit edit page
+    create_test_event
+    event_id = Event.first.id
+    visit("/events/#{event_id}/edit")
+
+    # attempt to update event with invalid time.
+    end_time = ['2020', 'October', '7', '6 PM', '08']
+    create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
+    expect(page).to have_content("\'Date'\ must be before \'End Time'\.")
+    expect(current_path).to eql("/events/#{event_id}/edit")
+
+    # attempt to update event with invalid date.
+    end_time = ['2020', 'January', '7', '8 PM', '10']
+    create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
+    expect(page).to have_content("\'Date'\ must be before \'End Time'\.")
+    expect(current_path).to eql("/events/#{event_id}/edit")
+  end
+end
+
 # Successfully edit event.
 RSpec.describe 'Edit an event.' do
   it 'Changes the name of the created event.' do
@@ -349,6 +398,7 @@ RSpec.describe 'Register for a new event.' do
     start_time = ['2020', 'January', '1', '12 AM', '00']
     end_time = ['2020', 'December', '31', '11 PM', '59']
     create_custom_event('Event #1', 'Location #1', start_time, end_time)
+    expect(current_path).to eql('/events')
 
     # Log back in as a user.
     click_on('Logout')
@@ -379,6 +429,7 @@ RSpec.describe 'Register for an event again.' do
     start_time = ['2020', 'January', '1', '12 AM', '00']
     end_time = ['2020', 'December', '31', '11 PM', '59']
     create_custom_event('Event #1', 'Location #1', start_time, end_time)
+    expect(current_path).to eql('/events')
 
     # Log back in as a user.
     click_on('Logout')
@@ -442,6 +493,7 @@ RSpec.describe 'Revoke attendance for a user.' do
     start_time = ['2020', 'January', '1', '12 AM', '00']
     end_time = ['2020', 'December', '31', '11 PM', '59']
     create_custom_event('Event #1', 'Location #1', start_time, end_time)
+    expect(current_path).to eql('/events')
 
     # Log back in as a user.
     click_on('Logout')

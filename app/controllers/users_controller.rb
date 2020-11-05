@@ -26,16 +26,14 @@ class UsersController < ApplicationController
 
     @user_events = @user.events.order('date')
   rescue StandardError
-    flash[:notice] = "No user found with ID #{params[:id]}."
-    redirect_to(users_path)
+    on_user_not_found
   end
 
   def edit
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
   rescue StandardError
-    flash[:notice] = "No user found with ID #{params[:id]}."
-    redirect_to(users_path)
+    on_user_not_found
   end
 
   def update
@@ -46,16 +44,14 @@ class UsersController < ApplicationController
     @user.update_attribute(:role, @user_info['role'])
     redirect_to(users_path)
   rescue StandardError
-    flash[:notice] = "No user found with ID #{params[:id]}."
-    redirect_to(users_path)
+    on_user_not_found
   end
 
   def delete
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
   rescue StandardError
-    flash[:notice] = "No user found with ID #{params[:id]}."
-    redirect_to(users_path)
+    on_user_not_found
   end
 
   def destroy
@@ -65,6 +61,10 @@ class UsersController < ApplicationController
     @user.destroy
     redirect_to(users_path)
   rescue StandardError
+    on_user_not_found
+  end
+
+  def on_user_not_found
     flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)
   end

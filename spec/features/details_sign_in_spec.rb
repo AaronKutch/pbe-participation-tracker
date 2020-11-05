@@ -69,6 +69,7 @@ RSpec.describe 'Ensures users are not able to sign in after end_time or before d
     start_time = ['2020', 'October', '7', '8 PM', '12']
     end_time = ['2020', 'October', '7', '8 PM', '13']
     create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
+    expect(current_path).to eql('/events')
 
     # sign in as user and navigate to details page
     click_on('Logout')
@@ -100,6 +101,7 @@ RSpec.describe 'Ensures users are able to sign in within date to end_time time f
     start_time = ['2020', 'October', '7', '12 AM', '00']
     end_time = [Date.current.year + 1, 'December', '31', '11 PM', '59']
     create_custom_event('TEST EVENT', 'TEST LOCATION', start_time, end_time)
+    expect(current_path).to eql('/events')
 
     # sign in as user and register for event via details page
     click_on('Logout')

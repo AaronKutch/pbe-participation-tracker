@@ -80,9 +80,17 @@ class EventsController < ApplicationController
     @event_info = params['event']
     raise 'error' if @event_info['title'].length > 50
 
-    Event.create(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
-                 end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
-    redirect_to events_path
+    date_time = construct_time(DATE_TIME_FIELD)
+    end_time = construct_time(END_TIME_FIELD)
+
+    if date_time <= end_time
+      Event.create(title: @event_info['title'], description: @event_info['description'], date: date_time,
+                   end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
+      redirect_to events_path
+    elsif date_time > end_time
+      flash[:notice] = "\'Date'\ must be before \'End Time'\."
+      redirect_to('/events/new')
+    end
   rescue StandardError
     redirect_to new_event_path
   end
@@ -99,9 +107,17 @@ class EventsController < ApplicationController
     @event = Event.find_by(id: params[:id])
     raise 'error' if @event.nil?
 
-    @event.update(title: @event_info['title'], description: @event_info['description'], date: construct_date_time,
-                  end_time: construct_end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
-    redirect_to events_path
+    date_time = construct_time(DATE_TIME_FIELD)
+    end_time = construct_time(END_TIME_FIELD)
+
+    if date_time <= end_time
+      @event.update(title: @event_info['title'], description: @event_info['description'], date: date_time,
+                    end_time: end_time, location: @event_info['location'], mandatory: @event_info['mandatory'])
+      redirect_to events_path
+    elsif date_time > end_time
+      flash[:notice] = "\'Date'\ must be before \'End Time'\."
+      redirect_to("/events/#{params[:id]}/edit")
+    end
   rescue StandardError
     redirect_to events_path
   end
@@ -158,15 +174,12 @@ class EventsController < ApplicationController
 
   private
 
-  def construct_date_time
-    s = "#{@event_info['date(1i)']}-#{@event_info['date(2i)']}-#{@event_info['date(3i)']}"
-    s += "T#{@event_info['date(4i)']}:#{@event_info['date(5i)']}:00+00:00"
-    DateTime.parse(s)
-  end
+  DATE_TIME_FIELD = 'date'
+  END_TIME_FIELD = 'end_time'
 
-  def construct_end_time
-    s = "#{@event_info['end_time(1i)']}-#{@event_info['end_time(2i)']}-#{@event_info['end_time(3i)']}"
-    s += "T#{@event_info['end_time(4i)']}:#{@event_info['end_time(5i)']}:00+00:00"
+  def construct_time(field)
+    s = "#{@event_info["#{field}(1i)"]}-#{@event_info["#{field}(2i)"]}-#{@event_info["#{field}(3i)"]}"
+    s += "T#{@event_info["#{field}(4i)"]}:#{@event_info["#{field}(5i)"]}:00+00:00"
     DateTime.parse(s)
   end
 end

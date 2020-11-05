@@ -39,9 +39,12 @@ end
 
 # creates event (via create page) based on specific parameters
 def create_custom_event(title, location, start_time, end_time, description = '')
+  if current_path == '/events'
+    click_on('Add new event')
+    expect(current_path).to eql('/events/new')
+  end
+
   mandatory = false
-  click_on('Add new event')
-  expect(current_path).to eql('/events/new')
   fill_in('event_title', with: title)
   fill_in('event_location', with: location)
   fill_in('event_description', with: description)
@@ -63,9 +66,8 @@ def create_custom_event(title, location, start_time, end_time, description = '')
   # mark as not mandatory
   uncheck('event_mandatory') if mandatory == false
 
-  # create event and check for correct routing
+  # create event
   click_on('Submit')
-  expect(current_path).to eql('/events')
 end
 
 def create_test_event
