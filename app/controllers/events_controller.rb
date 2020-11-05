@@ -6,8 +6,14 @@ class EventsController < ApplicationController
   before_action :confirm_permissions, except: %i[index show mark_attendance]
 
   def add_user
-    @event_record = Event.find_by(id: params['id'])
-    redirect_to(events_path) if @event_record.nil?
+    @event = Event.find_by(id: params['id'])
+    redirect_to(events_path) if @event.nil?
+    # get every customer that is not already registered for this event
+    s = 'SELECT * FROM customers WHERE customers.id NOT IN('
+    s += 'SELECT customers_events.customer_id FROM customers_events '
+    s += "WHERE customers_events.event_id = #{@event.id}"
+    s += ') ORDER BY customers.last_name;'
+    @query = ActiveRecord::Base.connection.execute(s)
   end
 
   def manual_add
@@ -64,7 +70,7 @@ class EventsController < ApplicationController
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
     end
 
-    @attendees = @user_role == 'admin' ? @event_record.customers : []
+    @attendees = @user_role == 'admin' ? @event_record.customers.order('last_name') : []
 
     # conditionally renders admin or user index view
     case @user_role
