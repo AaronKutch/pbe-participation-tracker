@@ -73,6 +73,7 @@ class EventsController < ApplicationController
 
     order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
     @attendees = @user_role == 'admin' ? @event_record.customers.order(order) : []
+    @attended = Customer.where(id: session[:user_id]).first.events.exists?(id: params[:id])
 
     # conditionally renders admin or user index view
     case @user_role
