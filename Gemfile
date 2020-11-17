@@ -73,4 +73,4 @@ gem 'simplecov', require: false, group: :test
 gem 'csv', '~> 3.1.7'
 
 gem 'brakeman', '>= 4.10'
-gem 'rubocop', '~> 1.0'
+gem 'rubocop', '~> 1.3.1'

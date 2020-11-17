@@ -8,7 +8,11 @@ class UsersController < ApplicationController
   before_action :confirm_permissions, except: %i[index show]
 
   def index
-    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    order = if params[:sort].nil?
+              'last_name'
+            else
+              ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+            end
     @users = Customer.order(order)
     @user_role = Customer.where(id: session[:user_id]).first.role
 
@@ -25,7 +29,11 @@ class UsersController < ApplicationController
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
 
-    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    order = if params[:sort].nil?
+              'date'
+            else
+              ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+            end
     @user_events = @user.events.order(order)
   rescue StandardError
     on_user_not_found
@@ -72,7 +80,7 @@ class UsersController < ApplicationController
   end
 
   def export_attendance_csv
-    # NOTE csv files are a bad idea for big data larger than this anyway, if the scale of this
+    # NOTE: csv files are a bad idea for big data larger than this anyway, if the scale of this
     # program is ever increased beyond this point, there needs to be some kind of filtering
     events = Event.order('date').take(10_000)
     users = Customer.order('last_name').take(10_000)

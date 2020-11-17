@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# NOTE this seeding is only for manual testing purposes for development.
+# NOTE: this seeding is only for manual testing purposes for development.
 # Can be reproduced with `rake db:reset`.
 puts 'Running seeds.rb'
 unless Rails.env.development? || Rails.env.test?
