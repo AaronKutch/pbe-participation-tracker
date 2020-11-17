@@ -8,11 +8,11 @@ class UsersController < ApplicationController
   before_action :confirm_permissions, except: %i[index show]
 
   def index
-    if params[:sort].nil?
-      order = 'last_name'
-    else
-      order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
-    end
+    order = if params[:sort].nil?
+              'last_name'
+            else
+              ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+            end
     @users = Customer.order(order)
     @user_role = Customer.where(id: session[:user_id]).first.role
 
@@ -29,11 +29,11 @@ class UsersController < ApplicationController
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
 
-    if params[:sort].nil?
-      order = 'date'
-    else
-      order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
-    end
+    order = if params[:sort].nil?
+              'date'
+            else
+              ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+            end
     @user_events = @user.events.order(order)
   rescue StandardError
     on_user_not_found
