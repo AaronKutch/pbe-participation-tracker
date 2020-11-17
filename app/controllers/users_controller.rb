@@ -72,7 +72,7 @@ class UsersController < ApplicationController
   end
 
   def export_attendance_csv
-    # NOTE csv files are a bad idea for big data larger than this anyway, if the scale of this
+    # NOTE: csv files are a bad idea for big data larger than this anyway, if the scale of this
     # program is ever increased beyond this point, there needs to be some kind of filtering
     events = Event.order('date').take(10_000)
     users = Customer.order('last_name').take(10_000)
