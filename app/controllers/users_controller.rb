@@ -85,6 +85,7 @@ class UsersController < ApplicationController
 
   def change_password
     @session_user = Customer.find_by(id: session[:user_id])
+    raise 'error' if @session_user.nil?
 
     # Make sure that the user exists.
     @found_user = Customer.find_by(id: params[:user_id])
@@ -110,6 +111,9 @@ class UsersController < ApplicationController
     # Reload user page.
     flash[:notice] = 'Password successfully updated.'
     redirect_to(user_path(@found_user.id))
+  rescue StandardError
+    flash[:notice] = 'An error has occured.'
+    redirect_to(root_path)
   end
 
   def export_attendance_csv
