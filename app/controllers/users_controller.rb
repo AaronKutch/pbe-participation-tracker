@@ -5,7 +5,7 @@ require 'csv'
 # Users CRUD controller
 class UsersController < ApplicationController
   before_action :confirm_logged_in
-  before_action :confirm_permissions, except: %i[index show]
+  before_action :confirm_permissions, except: %i[index show change_password]
 
   def index
     order = if params[:sort].nil?
@@ -28,6 +28,10 @@ class UsersController < ApplicationController
   def show
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
+
+    @password_change = PasswordChange.new
+    @session_user = Customer.find_by(id: session[:user_id])
+    raise 'error' if @session_user.nil?
 
     order = if params[:sort].nil?
               'date'
@@ -77,6 +81,35 @@ class UsersController < ApplicationController
   def on_user_not_found
     flash[:notice] = "No user found with ID #{params[:id]}."
     redirect_to(users_path)
+  end
+
+  def change_password
+    @session_user = Customer.find_by(id: session[:user_id])
+
+    # Make sure that the user exists.
+    @found_user = Customer.find_by(id: params[:user_id])
+    unless @found_user
+      flash[:notice] = 'Could not find user with given ID.'
+      redirect_to(users_path)
+    end
+
+    # If the user is a non-admin, authenticate their old password.
+    unless @session_user.role == 'admin'
+      @authorized_user = @found_user.authenticate(params[:password_change][:old_password])
+      unless @authorized_user
+        flash[:notice] = 'Invalid password.'
+        return redirect_to(user_path(@found_user.id))
+      end
+    end
+
+    # Save the new password.
+    @found_user.password = params[:password_change][:new_password]
+    @found_user.password_confirmation = params[:password_change][:new_password]
+    @found_user.save
+
+    # Reload user page.
+    flash[:notice] = 'Password successfully updated.'
+    redirect_to(user_path(@found_user.id))
   end
 
   def export_attendance_csv
