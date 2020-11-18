@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     @found_user = Customer.find_by(id: params[:user_id])
     unless @found_user
       flash[:notice] = 'Could not find user with given ID.'
-      redirect_to(users_path)
+      return redirect_to(users_path)
     end
 
     # If the user is a non-admin, authenticate their old password.
