@@ -58,7 +58,7 @@ admin = Customer.create(first_name: "first", last_name: "last", email: "email@ex
 admin.save
 ```
 
-## Transferring Ownership of Heroku App
+# Transferring Ownership of Heroku App
 1. Log in to Heroku and click on the app in your dashboard.
 2. Go to the Access tab.
 3. Add the new owner as a collaborator, using the same email as their Heroku account.
@@ -67,7 +67,7 @@ admin.save
 
 For the most detailed and up-to-date information, please visit [Heroku's documentation](https://devcenter.heroku.com/articles/transferring-apps#initiate-transfer).
 
-## Backing Up and Restoring Your Data
+# Backing Up and Restoring Your Data
 The app provides an option to export via CSV, which gives you enough information to manually recreate the state, if need be. Heroku also provides a way to backup the app's database. To proceed, **you will need to install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)**.
 
 You can create a backup by running `heroku pg:backups:capture --app <your-app-name>`. It will name the backup with a name like `b123`. **NOTE:** This will affect the load on the database, so only perform backups during periods of low activity.
