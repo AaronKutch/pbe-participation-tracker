@@ -89,31 +89,29 @@ class UsersController < ApplicationController
 
     # Make sure that the user exists.
     @found_user = Customer.find_by(id: params[:user_id])
-    unless @found_user
-      flash[:notice] = 'Could not find user with given ID.'
-      return redirect_to(users_path)
-    end
+    return redirect_to(users_path, notice: 'Could not find user with given ID.') unless @found_user
 
     # If the user is a non-admin, authenticate their old password.
     unless @session_user.role == 'admin'
       @authorized_user = @found_user.authenticate(params[:password_change][:old_password])
-      unless @authorized_user
-        flash[:notice] = 'Invalid password.'
-        return redirect_to(user_path(@found_user.id))
-      end
+
+      return redirect_to(user_path(@found_user.id), notice: 'Invalid password.') unless @authorized_user
+    end
+
+    # Verify that the new password and confirmation password are the same.
+    unless params[:password_change][:new_password] == params[:password_change][:new_password_confirmation]
+      return redirect_to(user_path(@found_user.id), notice: 'The two new passwords are not the same.')
     end
 
     # Save the new password.
     @found_user.password = params[:password_change][:new_password]
-    @found_user.password_confirmation = params[:password_change][:new_password]
+    @found_user.password_confirmation = params[:password_change][:new_password_confirmation]
     @found_user.save
 
     # Reload user page.
-    flash[:notice] = 'Password successfully updated.'
-    redirect_to(user_path(@found_user.id))
+    redirect_to(user_path(@found_user.id), notice: 'Password successfully updated.')
   rescue StandardError
-    flash[:notice] = 'An error has occured.'
-    redirect_to(root_path)
+    redirect_to(root_path, notice: 'An error has occured.')
   end
 
   def export_attendance_csv
