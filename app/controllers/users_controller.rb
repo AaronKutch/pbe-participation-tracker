@@ -5,10 +5,14 @@ require 'csv'
 # Users CRUD controller
 class UsersController < ApplicationController
   before_action :confirm_logged_in
-  before_action :confirm_permissions, except: %i[index show]
+  before_action :confirm_permissions, except: %i[index show change_password]
 
   def index
-    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    order = if params[:sort].nil?
+              'last_name'
+            else
+              ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+            end
     @users = Customer.order(order)
     @user_role = Customer.where(id: session[:user_id]).first.role
 
@@ -25,7 +29,15 @@ class UsersController < ApplicationController
     @user = Customer.find_by(id: params[:id])
     raise 'error' if @user.nil?
 
-    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    @password_change = PasswordChange.new
+    @session_user = Customer.find_by(id: session[:user_id])
+    raise 'error' if @session_user.nil?
+
+    order = if params[:sort].nil?
+              'date'
+            else
+              ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+            end
     @user_events = @user.events.order(order)
   rescue StandardError
     on_user_not_found
@@ -71,8 +83,39 @@ class UsersController < ApplicationController
     redirect_to(users_path)
   end
 
+  def change_password
+    @session_user = Customer.find_by(id: session[:user_id])
+    raise 'error' if @session_user.nil?
+
+    # Make sure that the user exists.
+    @found_user = Customer.find_by(id: params[:user_id])
+    return redirect_to(users_path, notice: 'Could not find user with given ID.') unless @found_user
+
+    # If the user is a non-admin, authenticate their old password.
+    unless @session_user.role == 'admin'
+      @authorized_user = @found_user.authenticate(params[:password_change][:old_password])
+
+      return redirect_to(user_path(@found_user.id), notice: 'Invalid password.') unless @authorized_user
+    end
+
+    # Verify that the new password and confirmation password are the same.
+    unless params[:password_change][:new_password] == params[:password_change][:new_password_confirmation]
+      return redirect_to(user_path(@found_user.id), notice: 'The two new passwords are not the same.')
+    end
+
+    # Save the new password.
+    @found_user.password = params[:password_change][:new_password]
+    @found_user.password_confirmation = params[:password_change][:new_password_confirmation]
+    @found_user.save
+
+    # Reload user page.
+    redirect_to(user_path(@found_user.id), notice: 'Password successfully updated.')
+  rescue StandardError
+    redirect_to(root_path, notice: 'An error has occured.')
+  end
+
   def export_attendance_csv
-    # NOTE csv files are a bad idea for big data larger than this anyway, if the scale of this
+    # NOTE: csv files are a bad idea for big data larger than this anyway, if the scale of this
     # program is ever increased beyond this point, there needs to be some kind of filtering
     events = Event.order('date').take(10_000)
     users = Customer.order('last_name').take(10_000)

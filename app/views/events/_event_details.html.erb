@@ -26,8 +26,10 @@
   </tr>
   <tr>
     <th>Sign In</th>
-    <% if @event_record.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= @event_record.end_time.utc+@utc_offset %>
+    <% if @event_record.date.utc+@utc_offset <= Time.now.utc && Time.now.utc <= @event_record.end_time.utc+@utc_offset and not @attended %>
       <td><%= link_to 'Sign In', events_mark_attendance_path(event: @event_record.id), method: :post, class: "btn btn-secondary" %></td>
+    <%elsif @attended %>
+      <td>Signed In</td>
     <% else %>
       <td>Unavailable</td>
     <%end%>

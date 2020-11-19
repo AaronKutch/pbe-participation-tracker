@@ -36,12 +36,17 @@ class EventsController < ApplicationController
   end
 
   def index
-    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    order = if params[:sort].nil?
+              'date'
+            else
+              ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+            end
     @events = Event.order(order)
     @user_role = session[:user_id] ? Customer.where(id: session[:user_id]).first.role : 'not_logged_in'
-    s = 'SELECT events.id FROM events WHERE events.id IN'
-    s += '(SELECT customers_events.event_id FROM customers_events '
-    s += "WHERE customers_events.customer_id = #{session[:user_id].to_i});"
+    s = 'SELECT events.id FROM events WHERE events.id IN('
+    s += 'SELECT customers_events.event_id FROM customers_events '
+    s += "WHERE customers_events.customer_id = #{session[:user_id].to_i}"
+    s += ') ORDER BY events.date;'
     @user_events = ActiveRecord::Base.connection.execute(s).values
     Time.use_zone('Central Time (US & Canada)') do
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
@@ -71,8 +76,13 @@ class EventsController < ApplicationController
       @utc_offset = Time.zone.parse(Date.current.to_s).dst? ? 5.hours : 6.hours
     end
 
-    order = ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+    order = if params[:sort].nil?
+              'last_name'
+            else
+              ActiveRecord::Base.sanitize_sql_for_order(params[:sort])
+            end
     @attendees = @user_role == 'admin' ? @event_record.customers.order(order) : []
+    @attended = Customer.where(id: session[:user_id]).first.events.exists?(id: params[:id])
 
     # conditionally renders admin or user index view
     case @user_role

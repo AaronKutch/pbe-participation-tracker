@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get 'events/:id/add_user' => 'events#add_user', as: 'events_add_user'
   post 'events/:event_id/manual_add/:user_id' => 'events#manual_add', as: 'events_manual_add'
 
+  post 'users/:user_id/change_password' => 'users#change_password', as: 'users_change_password'
+
   get 'help/admin'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

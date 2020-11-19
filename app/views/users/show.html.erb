@@ -1,4 +1,5 @@
 <%= render(:partial => '/global_partials/navbar') %>
+<%= render(:partial => '/global_partials/flash_notices') %>
 
 <style>
   html, body {
@@ -24,6 +25,35 @@
     </tr>
   </table>
 
+  <% if @user.id == @session_user.id or @session_user.role == 'admin' %>
+    <button class="btn btn-secondary" data-toggle="collapse" data-target="#password-change">Change Password</button>
+    <div id="password-change" class="collapse">
+      <%= form_for @password_change, url: users_change_password_path(user_id: @user.id), method: :post do |f| %>
+        <table class="table">
+          <colgroup>
+            <col span="1" style="width: 29%;">
+            <col span="1" style="width: 71%;">
+          </colgroup>
+          <% unless @session_user.role == 'admin' %>
+          <tr>
+            <th><%= f.label :old_password %></th>
+            <td><%= f.password_field :old_password, required: true %></td>
+          </tr>
+          <% end %>
+          <tr>
+            <th><%= f.label :new_password %></th>
+            <td><%= f.password_field :new_password, required: true %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :new_password_confirmation, 'Confirm new password' %></th>
+            <td><%= f.password_field :new_password_confirmation, required: true %></td>
+          </tr>
+        </table>
+        <%= f.submit("Submit", class: "btn btn-secondary") %>
+      <% end %>
+    </div>
+    <br/><br/>
+  <% end %>
 
   <h2>Events Attended</h2>
 

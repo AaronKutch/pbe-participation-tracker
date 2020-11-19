@@ -43,6 +43,7 @@ ALTER DATABASE pbe_participation_tracker_test OWNER TO pbe_participation_tracker
 4. From the root of the project, run `brakeman` for security checks
 
 # Deploying to Heroku
+
 Heroku has a fantastic guide to deploying apps.
 Start by following the steps under the [Local setup](https://devcenter.heroku.com/articles/getting-started-with-rails6#local-setup) section.
 Then follow the steps under [Deploy your application to Heroku](https://devcenter.heroku.com/articles/getting-started-with-rails6#deploy-your-application-to-heroku).
@@ -56,6 +57,28 @@ heroku run rails console
 admin = Customer.create(first_name: "first", last_name: "last", email: "email@example.com", password: "password", role: "admin")
 admin.save
 ```
+
+# Transferring Ownership of Heroku App
+1. Log in to Heroku and click on the app in your dashboard.
+2. Go to the Access tab.
+3. Add the new owner as a collaborator, using the same email as their Heroku account.
+4. After the new owner accepts the collaborator role, go the the Settings tab.
+5. Scroll down to Transfer Ownership, and select a new owner for the app.
+
+For the most detailed and up-to-date information, please visit [Heroku's documentation](https://devcenter.heroku.com/articles/transferring-apps#initiate-transfer).
+
+# Backing Up and Restoring Your Data
+The app provides an option to export via CSV, which gives you enough information to manually recreate the state, if need be. Heroku also provides a way to backup the app's database. To proceed, **you will need to install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)**.
+
+You can create a backup by running `heroku pg:backups:capture --app <your-app-name>`. It will name the backup with a name like `b123`. **NOTE:** This will affect the load on the database, so only perform backups during periods of low activity.
+
+You can download backups by running `heroku pg:backups:url b123 --app <your-app-name>` (replace `b123` with the backup name) and opening the URL. You can also download it via the command line with `heroku pg:backups:download b123`.
+
+Backups can be restored with `heroku pg:backups:restore b123 --app <your-app-name>`. If you would like to restore the latest backup, then you can simply run `heroku pg:backups:restore --app <your-app-name>`.
+
+For the most detailed and up-to-date information on backing up and restoring your data, please refer to [Heroku's documentation](https://devcenter.heroku.com/articles/heroku-postgres-backups).
+
+Restoring your backups from a local copy is more involved, and as such, we recommend following the steps above. However, if you would like to proceed with restoring from a local backup, please refer to [Heroku's documentation](https://devcenter.heroku.com/articles/heroku-postgres-import-export#import).
 
 ## Other Notes
 ### Database
