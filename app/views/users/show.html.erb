@@ -30,6 +30,10 @@
     <div id="password-change" class="collapse">
       <%= form_for @password_change, url: users_change_password_path(user_id: @user.id), method: :post do |f| %>
         <table class="table">
+          <colgroup>
+            <col span="1" style="width: 29%;">
+            <col span="1" style="width: 71%;">
+          </colgroup>
           <% unless @session_user.role == 'admin' %>
           <tr>
             <th><%= f.label :old_password %></th>

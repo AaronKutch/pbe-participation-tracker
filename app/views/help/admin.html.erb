@@ -33,4 +33,26 @@
   <h2>Export Attendance Data</h2>
   <p>To export attendance data, go to the <%= link_to "members page", users_path %> and click the "Export Attendance CSV" button.</p>
   <p>The resulting CSV file can be imported into another program, such as Microsoft Excel or Google Sheets. In the file, there is a row for each member and a column for each event. At the intersection of each member and event, the cell is filled with a "1" if the member attended the event. Otherwise, the cell is left empty.</p>
+  <br>
+  <h2>Heroku Maintenance</h2>
+  <p>The app can be run without paying much attention to Heroku. However, Heroku's free plan has limits on data storage, so you may need to backup and delete old data form the app at some point in time (ex. the end of a semsester).</p>
+  <p>You may need to transfer ownership of the app to another user, or you may want to perform a more thorough backup of the app's database than a CSV can provide. These processes are briefly detailed here, but we recommend reading Heroku's official documentation.</p>
+  <h3>Transferring Ownerhip of the Heroku App</h3>
+  <ol>
+    <li>Log in to Heroku and click on the app in your dashboard.</li>
+    <li>Go to the Access tab.</li>
+    <li>Add the new owner as a collaborator, using the same email as their Heroku account.</li>
+    <li>After the new owner accepts the collaborator role, go the the Settings tab.</li>
+    <li>Scroll down to Transfer Ownership, and select a new owner for the app.</li>
+  </ol>
+  <p>For the most detailed and up-to-date information, please visit <a href="https://devcenter.heroku.com/articles/transferring-apps#initiate-transfer">Heroku's documentation</a>.</p>
+  <h3>Backup and Restore</h3>
+  <p>The app's built-in CSV export provides enough information to manually recreate the state if need be, but you may want to perform a more thorough backup of the app's database. To proceed, you will need to install the <a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku CLI</a>.</p>
+  <ul>
+    <li>You can create a backup by running "<samp>heroku pg:backups:capture --app your-app-name</samp>". It will give the backup a name like "<samp>b123</samp>". <b>NOTE:</b> This will affect the load on the database, so only perform backups during periods of low activity.</li>
+    <li>You can download backups by running "<samp>heroku pg:backups:url b123 --app your-app-name</samp>" (replace "<samp>b123</samp>" with the backup name) and opening the URL. You can also download it via the command line with "<samp>heroku pg:backups:download b123</samp>".</li>
+    <li>Backups can be restored with "<samp>heroku pg:backups:restore b123 --app your-app-name</samp>". If you would like to restore the latest backup, then you can simply run "<samp>heroku pg:backups:restore --app your-app-name</samp>".</li>
+  </ul>
+  <p>For the most detailed and up-to-date information on backing up and restoring your data, please refer to <a href="https://devcenter.heroku.com/articles/heroku-postgres-backups">Heroku's documentation</a>.</p>
+  <p>Restoring your backups from a local copy is more involved, and as such, we recommend following the steps above. However, if you would like to proceed with restoring from a local backup, please refer to <a href="https://devcenter.heroku.com/articles/heroku-postgres-import-export#import">Heroku's documentation</a>.</p>
 </div>
