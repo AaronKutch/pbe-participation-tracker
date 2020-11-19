@@ -59,14 +59,14 @@ admin.save
 ```
 
 Heroku has a backup system for postgres databases. Note that certain Heroku details change over time,
-see [https://devcenter.heroku.com/articles/heroku-postgres-backups](up-to-date details).
+see [up-to-date details](https://devcenter.heroku.com/articles/heroku-postgres-backups).
 You can create a backup by running `heroku pg:backups:capture`. It will name the backup
 with something like `b123`.
 Currently, you can download backups by running `heroku pg:backups:url b123` (replace
 `b123` with the backup name) and opening the URL. Or, it can be done by command line
 `heroku pg:backups:download b123`.
 Backups can be restored with `heroku pg:backups:restore b123`.
-More advanced import and export information can be found [https://devcenter.heroku.com/articles/heroku-postgres-import-export](here).
+More advanced import and export information can be found [here](https://devcenter.heroku.com/articles/heroku-postgres-import-export).
 
 ## Other Notes
 ### Database
