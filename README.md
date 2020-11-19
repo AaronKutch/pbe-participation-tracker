@@ -43,6 +43,7 @@ ALTER DATABASE pbe_participation_tracker_test OWNER TO pbe_participation_tracker
 4. From the root of the project, run `brakeman` for security checks
 
 # Deploying to Heroku
+
 Heroku has a fantastic guide to deploying apps.
 Start by following the steps under the [Local setup](https://devcenter.heroku.com/articles/getting-started-with-rails6#local-setup) section.
 Then follow the steps under [Deploy your application to Heroku](https://devcenter.heroku.com/articles/getting-started-with-rails6#deploy-your-application-to-heroku).
@@ -56,6 +57,16 @@ heroku run rails console
 admin = Customer.create(first_name: "first", last_name: "last", email: "email@example.com", password: "password", role: "admin")
 admin.save
 ```
+
+Heroku has a backup system for postgres databases. Note that certain Heroku details change over time,
+see [up-to-date details](https://devcenter.heroku.com/articles/heroku-postgres-backups).
+You can create a backup by running `heroku pg:backups:capture`. It will name the backup
+with something like `b123`.
+Currently, you can download backups by running `heroku pg:backups:url b123` (replace
+`b123` with the backup name) and opening the URL. Or, it can be done by command line
+`heroku pg:backups:download b123`.
+Backups can be restored with `heroku pg:backups:restore b123`.
+More advanced import and export information can be found [here](https://devcenter.heroku.com/articles/heroku-postgres-import-export).
 
 ## Other Notes
 ### Database
