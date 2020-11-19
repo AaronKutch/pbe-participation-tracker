@@ -13,6 +13,7 @@
     <%= link_to 'Generate QR Code', events_generate_qr_code_path(url: request.url, event_title: @event_record.title, event_id: @event_record.id), method: :post, class: "btn btn-secondary" %>
     <br /><br /><br />
     <h2>Attendees</h2><br />
+    <%= link_to 'Manually Add Attendees', events_add_user_path({id: @event_record.id}), method: :get, class: "btn btn-secondary" %>
     <div style="height:50%;overflow:auto;">
     <table class="table">
       <thead>
@@ -33,5 +34,4 @@
       </tbody>
     </table>
     </div>
-    <%= link_to 'Manually Add Attendees', events_add_user_path({id: @event_record.id}), method: :get, class: "btn btn-secondary" %>
   </div>
