@@ -42,6 +42,9 @@ ALTER DATABASE pbe_participation_tracker_test OWNER TO pbe_participation_tracker
 3. Run `rubocop` from the root of the project for style checking. NOTE: The first time you migrate, `schema.rb` will fail rubocop tests because it uses double quotes instead of single quotes upon migrating
 4. From the root of the project, run `brakeman` for security checks
 
+# Continuous Integration
+Our CI was performed with GitHub Actions. It runs Rubocop to ensure compliance with the code style. It also runs Brakeman to check for security holes, and finally, it runs our test suite to ensure that no new bugs are introduced in the existing code. All CI related code can be found in the  `.github/workflows/` directory.
+
 # Deploying to Heroku
 
 Heroku has a fantastic guide to deploying apps.
